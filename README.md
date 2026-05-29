@@ -4,7 +4,7 @@
 
 Månadsro är en varm, lugn och modern hushållsekonomiapp för familjebudgetering. Appen är designad för att vara lokal-först – all data stannar på din enhet.
 
-![Build](https://img.shields.io/badge/Build-12-teal)
+![Build](https://img.shields.io/badge/Build-13-teal)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -53,7 +53,14 @@ npm run preview
 
 ---
 
-## 📋 Build 12 – Innehåll
+## 📋 Build 13 – Innehåll
+
+### ✅ Implementerat i Build 13
+- Transaktionscenter med detaljerad sökning (fritext, belopp m.m.).
+- Filtrering av transaktioner på datum, konto, kategori, profil och typ.
+- Funktion för manuell saldojustering från Transaktioner- och Konton-sidorna.
+- Saldojusteringar hanteras som separata transaktioner utan att ändra startsaldot.
+- Bakåtkompatibilitet för localStorage och backups upprätthålls.
 
 ### ✅ Implementerat i Build 12
 - Ny månad-vy för att skapa en lugn plan för månadens inkomster och räkningar.
@@ -61,7 +68,6 @@ npm run preview
 - Skapar och spårar förväntade inkomster från återkommande inkomster automatiskt när en månad förbereds.
 - Visar återkommande räkningar som en plan för månaden utan att duplicera data.
 - Bekräftelse av månadsplan och inbyggt skydd mot dubbletter.
-- Bakåtkompatibilitet för localStorage och backups upprätthålls.
 
 ### ✅ Implementerat i Build 11
 - Återkommande inkomster och förväntade inkomster.
@@ -130,8 +136,8 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 13
-- Transaktionsfiltrering, sökning och saldojustering, eller insikter och rapporter beroende på nästa beslut.
+### Build 14
+- Insikter och rapporter (statistik och grafer).
 
 ### Framtid
 - Tauri-integration och SQLite-databas.

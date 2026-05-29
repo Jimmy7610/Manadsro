@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { AppData, Transaction, Account, Bill, Category, Budget, RecurringIncome, ExpectedIncome, MonthPlan } from '../../types/models';
+import { calculateAccountBalance } from '../../shared/utils/calculations';
 import { createOrUpdateMonthPlan, confirmMonthPlan as confirmMonthPlanService, getMonthPlan as getMonthPlanService } from '../../features/monthPlanning/monthPlanningService';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
@@ -11,6 +12,7 @@ interface AppDataContextValue {
   updateTransaction: (transactionId: string, updates: Partial<Transaction>) => void;
   deleteTransaction: (transactionId: string) => void;
   restoreTransaction: (tx: Transaction) => void;
+  createBalanceAdjustment: (accountId: string, realBalance: number, date: string, note?: string) => void;
   payBill: (billId: string, paymentInput: { amount: number; accountId: string; date: string; categoryId: string; comment: string }) => void;
   resetLocalData: () => void;
   exportBackup: () => void;
@@ -154,6 +156,35 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     // For simplicity, just append to the beginning and sort later if needed.
     // Or we can just insert it. Let's prepend it for now.
     const newTransactions = [tx, ...data.transactions];
+    const newData = { ...data, transactions: newTransactions };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const createBalanceAdjustment = (accountId: string, realBalance: number, date: string, note?: string) => {
+    if (!data) return;
+    const currentCalculatedBalance = calculateAccountBalance(accountId, data.accounts, data.transactions);
+    const diff = realBalance - currentCalculatedBalance;
+    
+    if (diff === 0) return; // No adjustment needed
+
+    const newTx: Transaction = {
+      id: `tx-adj-${Date.now()}`,
+      householdId: data.household.id,
+      accountId,
+      profileId: data.settings.activeProfileId, // Adjustments might not be tied to a specific profile, but this is a safe default
+      type: 'balanceAdjustment',
+      categoryId: data.categories.find(c => c.name.toLowerCase() === 'övrigt')?.id || data.categories[0]?.id || '',
+      amount: diff,
+      description: 'Saldojustering',
+      date,
+      isRecurring: false,
+      tags: [],
+      comment: note,
+      createdAt: new Date().toISOString()
+    };
+
+    const newTransactions = [newTx, ...data.transactions];
     const newData = { ...data, transactions: newTransactions };
     setData(newData);
     adapter.saveData(newData);
@@ -651,7 +682,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppDataContext.Provider value={{ 
-      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings, completeOnboarding,
+      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, createBalanceAdjustment, payBill, resetLocalData, exportBackup, importBackup, updateSettings, completeOnboarding,
       addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive, createBudgetForCategory, ensureBudgetForCategory, updateBudgetForCategory,
       addCategory, updateCategory, deactivateCategory, reactivateCategory,
       addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,

@@ -1,6 +1,5 @@
 import Card from '../../shared/components/Card';
-import { getRecentTransactions } from '../../features/transactions/transactionService';
-import { getCategoryDisplay, getCategoryById } from '../../features/categories/categoryService';
+import { getRecentTransactions, getTransactionDisplay } from '../../features/transactions/transactionService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { getRelativeDateText } from '../../shared/utils/date';
 import { useAppData } from '../../storage/services/AppDataContext';
@@ -32,27 +31,28 @@ export default function RecentTransactionsCard() {
       ) : (
         <ul className="recent-transactions__list">
           {transactions.map((tx) => {
+            const display = getTransactionDisplay(tx, data);
             const isTransfer = tx.type === 'transfer';
-            const isPositive = !isTransfer && tx.amount > 0;
-            const amountClass = isTransfer ? 'neutral' : isPositive ? 'positive' : 'negative';
+            const isAdjustment = tx.type === 'balanceAdjustment';
+            const amountClass = isTransfer ? 'neutral' : (tx.amount > 0 && !isTransfer) ? 'positive' : 'negative';
 
             return (
               <li key={tx.id} className="recent-transactions__item">
                 <div className="recent-transactions__emoji">
-                  {isTransfer ? '🔄' : getCategoryDisplay(getCategoryById(data.categories, tx.categoryId)).icon}
+                  {isTransfer ? '🔄' : isAdjustment ? '⚖️' : display.categoryEmoji || '💰'}
                 </div>
                 <div className="recent-transactions__info">
                   <div className="recent-transactions__description">
                     {tx.description}
                   </div>
                   <div className="recent-transactions__date">
-                    {getRelativeDateText(tx.date)} • {isTransfer ? 'Överföring' : (tx.type === 'bill' ? 'Räkning' : 'Köp')}
+                    {getRelativeDateText(tx.date)} • {display.typeLabel}
                   </div>
                 </div>
                 <div
                   className={`recent-transactions__amount recent-transactions__amount--${amountClass}`}
                 >
-                  {isPositive ? '+' : ''}{formatCurrency(Math.abs(tx.amount))}
+                  {display.sign}{formatCurrency(Math.abs(tx.amount))}
                 </div>
               </li>
             );

@@ -4,6 +4,7 @@ import { getAllAccountsWithBalances } from '../../features/accounts/accountServi
 import { formatCurrency } from '../../shared/utils/currency';
 import { useAppData } from '../../storage/services/AppDataContext';
 import AccountModal from '../../features/accounts/AccountModal';
+import BalanceAdjustmentModal from '../../features/transactions/BalanceAdjustmentModal';
 import type { Account } from '../../types/models';
 import './AccountsPage.css';
 
@@ -17,6 +18,7 @@ export default function AccountsPage() {
   const [showArchived, setShowArchived] = useState(false);
   const [editingAccount, setEditingAccount] = useState<Account | undefined>(undefined);
   const [showModal, setShowModal] = useState(false);
+  const [adjustmentAccountId, setAdjustmentAccountId] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
   const typeLabels: Record<string, { label: string; icon: string }> = {
@@ -105,9 +107,14 @@ export default function AccountsPage() {
                     Återställ
                   </button>
                 ) : (
-                  <button className="accounts-page__btn" onClick={() => handleArchive(account)}>
-                    Arkivera
-                  </button>
+                  <>
+                    <button className="accounts-page__btn" onClick={() => handleArchive(account)}>
+                      Arkivera
+                    </button>
+                    <button className="accounts-page__btn" onClick={() => setAdjustmentAccountId(account.id)}>
+                      Justera saldo
+                    </button>
+                  </>
                 )}
                 <button className="accounts-page__btn" disabled title="Visa historik (kommer senare)">
                   Historik
@@ -133,6 +140,13 @@ export default function AccountsPage() {
         <AccountModal 
           accountToEdit={editingAccount} 
           onClose={closeAndShowToast} 
+        />
+      )}
+
+      {adjustmentAccountId !== null && (
+        <BalanceAdjustmentModal 
+          initialAccountId={adjustmentAccountId}
+          onClose={() => setAdjustmentAccountId(null)} 
         />
       )}
     </div>

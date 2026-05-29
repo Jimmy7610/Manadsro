@@ -2,6 +2,10 @@ import type { Account, Transaction, Bill, Budget } from '../../types/models';
 
 /**
  * Beräkna kontosaldo: startsaldo + summan av alla transaktioner för kontot.
+ * 
+ * INSTÄLLNING - balanceAdjustment is treated as a direct account correction.
+ * Since balanceAdjustment transactions contain the difference amount (positive or negative),
+ * adding them along with other transactions correctly updates the balance.
  */
 export function calculateAccountBalance(
   accountId: string,
