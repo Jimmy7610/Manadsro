@@ -14,6 +14,10 @@ interface AppDataContextValue {
   resetLocalData: () => void;
   exportBackup: () => void;
   importBackup: (file: File) => Promise<void>;
+  updateSettings: (updates: Partial<AppData['settings']>) => void;
+  isLocked: boolean;
+  unlockApp: () => void;
+  lockApp: () => void;
   isLoaded: boolean;
 }
 
@@ -22,11 +26,27 @@ const adapter = new LocalStorageAdapter();
 
 export function AppDataProvider({ children }: { children: ReactNode }) {
   const [data, setData] = useState<AppData | null>(null);
+  const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
     // Load from local storage
-    const loadedData = adapter.loadData();
-    setData(loadedData);
+    let loadedData = adapter.loadData();
+    
+    // Migration / default values for Build 6
+    if (loadedData) {
+      if (loadedData.settings.onboardingCompleted === undefined) {
+        loadedData.settings.onboardingCompleted = false;
+      }
+      if (loadedData.settings.dataMode === undefined) {
+        loadedData.settings.dataMode = 'local';
+      }
+      
+      // If PIN is enabled, lock on start
+      if (loadedData.settings.pinEnabled) {
+        setIsLocked(true);
+      }
+      setData(loadedData);
+    }
   }, []);
 
   const addTransaction = (tx: Transaction) => {
@@ -139,8 +159,32 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   const resetLocalData = () => {
     adapter.clearData();
     const defaultData = adapter.getDefaultData();
+    defaultData.settings.onboardingCompleted = false;
+    defaultData.settings.pinEnabled = false;
     setData(defaultData);
     adapter.saveData(defaultData);
+    setIsLocked(false);
+  };
+
+  const updateSettings = (updates: Partial<AppData['settings']>) => {
+    if (!data) return;
+    const newData = {
+      ...data,
+      settings: { ...data.settings, ...updates, updatedAt: new Date().toISOString() }
+    };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const unlockApp = () => {
+    setIsLocked(false);
+    updateSettings({ lastUnlockedAt: new Date().toISOString() });
+  };
+
+  const lockApp = () => {
+    if (data?.settings.pinEnabled) {
+      setIsLocked(true);
+    }
   };
 
   if (!data) {
@@ -149,7 +193,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppDataContext.Provider value={{ 
-      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, isLoaded: true 
+      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings, isLocked, unlockApp, lockApp, isLoaded: true 
     }}>
       {children}
     </AppDataContext.Provider>

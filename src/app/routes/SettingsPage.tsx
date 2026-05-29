@@ -5,18 +5,24 @@ import { useAppData } from '../../storage/services/AppDataContext';
 import { formatDate } from '../../shared/utils/date';
 import type { BackupPayload } from '../../features/backup/backupService';
 import { parseBackupFile } from '../../features/backup/backupService';
+import { createPinSalt, hashPin } from '../../features/security/pinUtils';
 import './SettingsPage.css';
 
 /**
  * Månadsro – Inställningssida (Build 5)
  */
 export default function SettingsPage() {
-  const { data, resetLocalData, exportBackup, importBackup } = useAppData();
+  const { data, resetLocalData, exportBackup, importBackup, updateSettings, lockApp } = useAppData();
   const [showConfirm, setShowConfirm] = useState(false);
   const [message, setMessage] = useState('');
   
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [pendingImport, setPendingImport] = useState<{ file: File, payload: BackupPayload } | null>(null);
+
+  const [showPinModal, setShowPinModal] = useState(false);
+  const [pin, setPin] = useState('');
+  const [pinRepeat, setPinRepeat] = useState('');
+  const [pinError, setPinError] = useState('');
 
   const showMessage = (msg: string) => {
     setMessage(msg);
@@ -62,6 +68,35 @@ export default function SettingsPage() {
     }
   };
 
+  const savePin = async () => {
+    if (pin.length < 4 || pin.length > 8) {
+      setPinError('PIN-koden måste vara 4-8 siffror.');
+      return;
+    }
+    if (pin !== pinRepeat) {
+      setPinError('PIN-koderna matchar inte.');
+      return;
+    }
+    const salt = createPinSalt();
+    const hash = await hashPin(pin, salt);
+    updateSettings({ pinEnabled: true, pinSalt: salt, pinHash: hash });
+    setShowPinModal(false);
+    setPin('');
+    setPinRepeat('');
+    showMessage('PIN-koden uppdaterades.');
+  };
+
+  const disablePin = () => {
+    if (window.confirm('Vill du verkligen stänga av PIN-koden?')) {
+      updateSettings({ pinEnabled: false, pinHash: '', pinSalt: '' });
+      showMessage('PIN-koden stängdes av.');
+    }
+  };
+
+  const restartOnboarding = () => {
+    updateSettings({ onboardingCompleted: false });
+  };
+
 
   return (
     <div className="page-container animate-fade-in">
@@ -91,6 +126,24 @@ export default function SettingsPage() {
         </div>
       )}
 
+      {showPinModal && (
+        <div className="modal-overlay">
+          <div className="modal-content settings-page__import-modal">
+            <h2>Ändra PIN</h2>
+            <p>Ange en ny PIN-kod (4-8 siffror).</p>
+            {pinError && <div className="settings-page__warning-text" style={{marginBottom: '1rem'}}>{pinError}</div>}
+            <div style={{display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '16px'}}>
+              <input type="password" inputMode="numeric" value={pin} onChange={e => setPin(e.target.value)} placeholder="Ny PIN-kod" maxLength={8} className="settings-page__input" />
+              <input type="password" inputMode="numeric" value={pinRepeat} onChange={e => setPinRepeat(e.target.value)} placeholder="Upprepa PIN-kod" maxLength={8} className="settings-page__input" />
+            </div>
+            <div className="modal-actions">
+              <button className="btn-cancel" onClick={() => setShowPinModal(false)}>Avbryt</button>
+              <button className="btn-save" onClick={savePin}>Spara</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Card className="settings-page__section" style={{ animationDelay: '0.0s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">🎨</span>
@@ -108,10 +161,53 @@ export default function SettingsPage() {
       <Card className="settings-page__section" style={{ animationDelay: '0.1s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">🛡️</span>
-          <h3 className="settings-page__section-title">Säkerhet & integritet</h3>
+          <h3 className="settings-page__section-title">Säkerhet & PIN</h3>
         </div>
         <p className="settings-page__text">
-          Månadsro använder ingen bankkoppling. Ingen data skickas till molnet. Data sparas lokalt i denna webbläsare. Backupfiler skapas bara när du själv exporterar dem. Den som har tillgång till webbläsaren/enheten kan se lokal data om appen inte är låst. PIN/låsskärm planeras för en senare build.
+          PIN-koden skyddar appvyn lokalt i den här webbläsaren. Den ersätter inte kryptering eller bankinloggning.
+        </p>
+        <div className="settings-page__backup-status">
+          <div><strong>PIN-status:</strong> {data.settings.pinEnabled ? 'Aktiv' : 'Inte aktiv'}</div>
+        </div>
+        <div className="settings-page__backup-actions" style={{ flexWrap: 'wrap' }}>
+          <button className="settings-page__btn" onClick={() => setShowPinModal(true)}>
+            {data.settings.pinEnabled ? 'Ändra PIN' : 'Skapa PIN'}
+          </button>
+          {data.settings.pinEnabled && (
+            <>
+              <button className="settings-page__btn" onClick={() => lockApp()}>
+                Lås appen nu
+              </button>
+              <button className="settings-page__btn settings-page__btn--danger" onClick={disablePin} style={{ color: '#c62828' }}>
+                Stäng av PIN
+              </button>
+            </>
+          )}
+        </div>
+      </Card>
+
+      <Card className="settings-page__section" style={{ animationDelay: '0.15s' }}>
+        <div className="settings-page__section-header">
+          <span className="settings-page__icon">🚀</span>
+          <h3 className="settings-page__section-title">Start och data</h3>
+        </div>
+        <div className="settings-page__backup-status">
+          <div><strong>Hushåll:</strong> {data.settings.householdName}</div>
+          <div><strong>Data-läge:</strong> {data.settings.dataMode === 'demo' ? 'Demo' : 'Lokal ekonomi'}</div>
+          <div><strong>Startguide:</strong> {data.settings.onboardingCompleted ? 'Slutförd' : 'Ej slutförd'}</div>
+        </div>
+        <p className="settings-page__text" style={{ marginTop: '0.5rem' }}>
+          {data.settings.dataMode === 'demo' 
+            ? 'Du använder demoläge. Uppgifter kan testas utan att vara din riktiga ekonomi.' 
+            : 'Du använder lokal ekonomi. Datan sparas i den här webbläsaren.'}
+        </p>
+        <div className="settings-page__backup-actions">
+          <button className="settings-page__btn" onClick={restartOnboarding}>
+            Visa startguiden igen
+          </button>
+        </div>
+        <p className="settings-page__text settings-page__text--warning" style={{marginTop: '0.5rem', color: 'var(--text-secondary)'}}>
+          Detta raderar inte din data.
         </p>
       </Card>
 

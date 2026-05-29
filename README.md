@@ -53,19 +53,18 @@ npm run preview
 
 ---
 
-## 📋 Build 5 – Innehåll
+## 📋 Build 6 – Innehåll
 
 ### ✅ Implementerat
-- Exportera lokal data som en JSON-backup.
-- Importera backupfil med validering och bekräftelse.
-- Förbättrad återställningsfunktion med extra bekräftelse.
-- Tydlig kommunikation om säkerhet & integritet.
-- Uppdaterad versionsbricka till Build 5.
+- First-start onboarding med val mellan demo och lokal ekonomi.
+- Lokal PIN/låsskärm för att skydda appvyn lokalt i webbläsaren.
+- Ärlig säkerhetskommunikation angående lokal låsning.
+- Uppdaterad versionsbricka till Build 6.
 
-### ❌ Inte implementerat i Build 5
+### ❌ Inte implementerat i Build 6
 - Riktig databas (IndexedDB kommer senare)
 - Hantera konton/budget (redigera flöden)
-- Bankkoppling
+- Bankkoppling eller riktig kryptering
 
 ---
 
@@ -125,12 +124,11 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 6
-- PIN-inloggning eller onboarding.
+### Build 7
+- Hantera konton och budget (redigerbara flöden).
 - Riktig lokal datalagring (IndexedDB).
-- Hantera konton/budget.
 
-### Build 7+
+### Build 8+
 - Tauri-integration och SQLite-databas.
 - Statistik och grafer
 

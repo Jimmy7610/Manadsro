@@ -1,0 +1,151 @@
+/* Månadsro – OnboardingFlow */
+
+.onboarding-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: var(--space-md);
+}
+
+.onboarding-card {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 400px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.onboarding-step h2 {
+  font-size: var(--text-xl);
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+  font-weight: 600;
+}
+
+.onboarding-step p {
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-md);
+  line-height: 1.5;
+}
+
+.onboarding-note {
+  font-size: var(--text-sm);
+  background: var(--bg-hero);
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.onboarding-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.onboarding-option {
+  background: var(--bg-secondary);
+  border: 2px solid transparent;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.onboarding-option:hover {
+  background: var(--border-medium);
+}
+
+.onboarding-option.active {
+  border-color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.onboarding-option h3 {
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  margin-bottom: 4px;
+}
+
+.onboarding-option p {
+  font-size: var(--text-sm);
+  margin: 0;
+}
+
+.onboarding-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+  margin-bottom: var(--space-lg);
+}
+
+.onboarding-pin-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.onboarding-error {
+  color: #c62828;
+  font-size: var(--text-sm);
+  background: #ffebee;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-md);
+}
+
+.onboarding-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.onboarding-actions--split {
+  flex-direction: row;
+}
+
+.onboarding-actions--split .onboarding-btn {
+  flex: 1;
+}
+
+.onboarding-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.onboarding-btn:hover {
+  opacity: 0.9;
+}
+
+.onboarding-btn--secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+}
+
+.onboarding-btn--secondary:hover {
+  background: var(--bg-secondary);
+  opacity: 1;
+}

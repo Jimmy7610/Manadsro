@@ -1,0 +1,84 @@
+/* Månadsro – LockScreen */
+
+.lockscreen-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--bg-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: var(--space-md);
+}
+
+.lockscreen-content {
+  background: var(--bg-card);
+  width: 100%;
+  max-width: 320px;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.lockscreen-logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-lg);
+  letter-spacing: -0.5px;
+}
+
+.lockscreen-content h2 {
+  font-size: var(--text-lg);
+  color: var(--text-primary);
+  margin-bottom: var(--space-xs);
+  font-weight: 600;
+}
+
+.lockscreen-note {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-lg);
+  line-height: 1.4;
+}
+
+.lockscreen-input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 8px;
+  margin-bottom: var(--space-lg);
+}
+
+.lockscreen-error {
+  color: #c62828;
+  font-size: var(--text-sm);
+  background: #ffebee;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-md);
+}
+
+.lockscreen-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--text-base);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.lockscreen-btn:hover {
+  opacity: 0.9;
+}

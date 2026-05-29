@@ -7,11 +7,39 @@ import BillsPage from './routes/BillsPage';
 import BudgetPage from './routes/BudgetPage';
 import AccountsPage from './routes/AccountsPage';
 import SettingsPage from './routes/SettingsPage';
-import { AppDataProvider } from '../storage/services/AppDataContext';
-/**
- * Månadsro – Huvudapp med routing.
- * Build 1: Alla sidor finns, men bara Dashboard har riktigt innehåll.
- */
+import { AppDataProvider, useAppData } from '../storage/services/AppDataContext';
+import OnboardingFlow from '../features/onboarding/OnboardingFlow';
+import LockScreen from '../features/security/LockScreen';
+
+function AppInner() {
+  const { data, isLoaded, isLocked } = useAppData();
+
+  if (!isLoaded) return null;
+
+  if (!data.settings.onboardingCompleted) {
+    return <OnboardingFlow />;
+  }
+
+  if (isLocked) {
+    return <LockScreen />;
+  }
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppShell />}>
+          <Route index element={<DashboardPage />} />
+          <Route path="transactions" element={<TransactionsPage />} />
+          <Route path="bills" element={<BillsPage />} />
+          <Route path="budget" element={<BudgetPage />} />
+          <Route path="accounts" element={<AccountsPage />} />
+          <Route path="settings" element={<SettingsPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
 export default function App() {
   // Sätt tema vid start
   useEffect(() => {
@@ -25,18 +53,7 @@ export default function App() {
 
   return (
     <AppDataProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<AppShell />}>
-            <Route index element={<DashboardPage />} />
-            <Route path="transactions" element={<TransactionsPage />} />
-            <Route path="bills" element={<BillsPage />} />
-            <Route path="budget" element={<BudgetPage />} />
-            <Route path="accounts" element={<AccountsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+      <AppInner />
     </AppDataProvider>
   );
 }

@@ -96,6 +96,14 @@ export interface AppSettings {
   dataMode?: 'demo' | 'local'; // INSTÄLLNING - Datakälla
   latestBackupAt?: string;
   updatedAt?: string;
+  onboardingCompleted?: boolean;
+  householdName?: string;
+  pinEnabled?: boolean;
+  pinHash?: string;
+  pinSalt?: string;
+  lockedOnStart?: boolean;
+  autoLockMinutes?: number;
+  lastUnlockedAt?: string;
 }
 
 export interface AppData {
