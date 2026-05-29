@@ -1,17 +1,18 @@
 import { useState, useMemo } from 'react';
 import Card from '../../shared/components/Card';
-import { getBills } from '../../storage/services/appDataService';
 import { getCategoryEmoji } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { formatDate, daysUntil } from '../../shared/utils/date';
 import type { Bill } from '../../types/models';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './BillsPage.css';
 
 /**
  * Månadsro – Räkningssida (Build 2)
  */
 export default function BillsPage() {
-  const bills = getBills();
+  const { data } = useAppData();
+  const bills = data.bills;
   const [activeTab, setActiveTab] = useState<'alla' | 'obetalda' | 'betalda'>('alla');
 
   // Gruppera räkningar

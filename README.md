@@ -53,22 +53,21 @@ npm run preview
 
 ---
 
-## 📋 Build 2 – Innehåll
+## 📋 Build 3 – Innehåll
 
 ### ✅ Implementerat
-- Skarpa, demo-databasbaserade sidor för Transaktioner, Räkningar, Budget, Konton och Inställningar.
-- Förbättrad beräkning för "Fritt utrymme".
-- Relativ datumformatering (idag, imorgon, 1 dag sedan).
-- Neutral styling för interna överföringar.
-- Komplett filstruktur och arkitektur (från Build 1).
-- Datamodeller och Demodata (från Build 1).
-- Dashboard med 7 kort (från Build 1).
-- Responsiv layout med bottenmeny och sidofält (från Build 1).
-- Temaväxlare för ljust/mörkt läge (från Build 1).
+- Lokal lagring via `localStorage` i webbläsaren.
+- Form för att lägga till köp/utgift.
+- Form för att lägga till inkomst.
+- Globalt state (`AppDataContext`) som uppdaterar alla vyer live.
+- Reset/återställningsfunktion för att rensa lokala ändringar.
+- Uppdaterad versionsbricka till Build 3.
 
-### ❌ Inte implementerat i Build 2
-- Riktig databas (IndexedDB/SQLite)
-- CRUD-formulär (skapa/redigera/ta bort)
+### ❌ Inte implementerat i Build 3
+- Riktig databas (IndexedDB kommer i Build 4)
+- Redigera/ta bort transaktioner
+- Lägg till/betala räkning
+- Hantera konton/budget
 - Import/export av data
 - Bankkoppling
 
@@ -130,16 +129,17 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 3
-- Riktig lokal datalagring (IndexedDB)
-- Första CRUD-formulär (Lägg till transaktion/räkning)
-
 ### Build 4
-- Tauri-integration
-- SQLite-databas
-- PIN-inloggning
+- Lägg till, redigera och ta bort transaktioner (full CRUD).
+- Räkningsflöde (markera som betald m.m.).
+- Säkrare reset/backup-grund.
+- Riktig lokal datalagring (IndexedDB).
 
-### Build 5+
+### Build 5
+- Tauri-integration och SQLite-databas.
+- PIN-inloggning.
+
+### Build 6+
 - Import/export
 - Statistik och grafer
 

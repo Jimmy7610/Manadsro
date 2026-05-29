@@ -23,9 +23,6 @@
   .bottom-nav {
     display: none;
   }
-  .fab {
-    display: none !important;
-  }
 }
 
 .bottom-nav__link {

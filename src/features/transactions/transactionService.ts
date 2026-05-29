@@ -1,12 +1,11 @@
-import { getTransactions } from '../../storage/services/appDataService';
 import type { Transaction } from '../../types/models';
 
-export function getRecentTransactions(limit: number = 10): Transaction[] {
-  return [...getTransactions()]
+export function getRecentTransactions(transactions: Transaction[], limit: number = 10): Transaction[] {
+  return [...transactions]
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, limit);
 }
 
-export function getTransactionsByAccount(accountId: string): Transaction[] {
-  return getTransactions().filter(tx => tx.accountId === accountId);
+export function getTransactionsByAccount(transactions: Transaction[], accountId: string): Transaction[] {
+  return transactions.filter(tx => tx.accountId === accountId);
 }

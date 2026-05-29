@@ -1,14 +1,16 @@
 import Card from '../../shared/components/Card';
-import { getProfiles, getTransactions } from '../../storage/services/appDataService';
+
 import { formatCurrency } from '../../shared/utils/currency';
-import type { Profile, Transaction } from '../../types/models';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './ProfileSplitCard.css';
 
 /**
- * Månadsro – Visar inkomstfördelning per profil i hushållet.
+ * Månadsro – Visar fördelning mellan profiler (t.ex. vad Jimmy vs Malin har på sina respektive transaktionskonton, plus det gemensamma).
  *
- * Beräknar total inkomst per profil och visar procentuell andel.
+ * INSTÄLLNING - Visuella färger för staplarna sätts i CSS eller via styles.
  */
+
+import type { Profile, Transaction } from '../../types/models';
 
 interface ProfileIncome {
   profile: Profile;
@@ -38,8 +40,9 @@ function calculateProfileIncomes(
 }
 
 export default function ProfileSplitCard() {
-  const profiles = getProfiles();
-  const transactions = getTransactions();
+  const { data } = useAppData();
+  const profiles = data.profiles;
+  const transactions = data.transactions;
   const profileIncomes = calculateProfileIncomes(profiles, transactions);
   const totalIncome = profileIncomes.reduce((sum, p) => sum + p.income, 0);
 

@@ -2,6 +2,7 @@ import Card from '../../shared/components/Card';
 import { getCurrentBudgetUsage } from '../../features/budget/budgetService';
 import { getCategoryName, getCategoryEmoji } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './BudgetStatusCard.css';
 
 /**
@@ -21,7 +22,8 @@ function getBarStatus(percentage: number): 'ok' | 'warning' | 'over' {
 }
 
 export default function BudgetStatusCard() {
-  const budgetUsage = getCurrentBudgetUsage();
+  const { data } = useAppData();
+  const budgetUsage = getCurrentBudgetUsage(data.budgets, data.transactions);
 
   return (
     <Card className="budget-status">

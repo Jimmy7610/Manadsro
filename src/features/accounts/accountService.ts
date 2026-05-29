@@ -1,18 +1,14 @@
-import { getAccounts, getTransactions } from '../../storage/services/appDataService';
 import { calculateAccountBalance } from '../../shared/utils/calculations';
-import type { Account } from '../../types/models';
+import type { Account, Transaction } from '../../types/models';
 
-export function getAccountWithBalance(accountId: string): { account: Account; balance: number } | null {
-  const accounts = getAccounts();
+export function getAccountWithBalance(accountId: string, accounts: Account[], transactions: Transaction[]): { account: Account; balance: number } | null {
   const account = accounts.find(a => a.id === accountId);
   if (!account) return null;
-  const balance = calculateAccountBalance(accountId, accounts, getTransactions());
+  const balance = calculateAccountBalance(accountId, accounts, transactions);
   return { account, balance };
 }
 
-export function getAllAccountsWithBalances(): Array<{ account: Account; balance: number }> {
-  const accounts = getAccounts();
-  const transactions = getTransactions();
+export function getAllAccountsWithBalances(accounts: Account[], transactions: Transaction[]): Array<{ account: Account; balance: number }> {
   return accounts
     .filter(a => a.isActive)
     .map(account => ({

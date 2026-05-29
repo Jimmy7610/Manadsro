@@ -7,7 +7,7 @@ import BillsPage from './routes/BillsPage';
 import BudgetPage from './routes/BudgetPage';
 import AccountsPage from './routes/AccountsPage';
 import SettingsPage from './routes/SettingsPage';
-
+import { AppDataProvider } from '../storage/services/AppDataContext';
 /**
  * Månadsro – Huvudapp med routing.
  * Build 1: Alla sidor finns, men bara Dashboard har riktigt innehåll.
@@ -24,17 +24,19 @@ export default function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AppShell />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="transactions" element={<TransactionsPage />} />
-          <Route path="bills" element={<BillsPage />} />
-          <Route path="budget" element={<BudgetPage />} />
-          <Route path="accounts" element={<AccountsPage />} />
-          <Route path="settings" element={<SettingsPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <AppDataProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AppShell />}>
+            <Route index element={<DashboardPage />} />
+            <Route path="transactions" element={<TransactionsPage />} />
+            <Route path="bills" element={<BillsPage />} />
+            <Route path="budget" element={<BudgetPage />} />
+            <Route path="accounts" element={<AccountsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </AppDataProvider>
   );
 }

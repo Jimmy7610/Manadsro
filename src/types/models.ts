@@ -46,6 +46,9 @@ export interface Transaction {
   linkedTransferId?: string; // Kopplad transaktion vid överföring
   isRecurring: boolean;
   tags: string[];
+  comment?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Bill {
@@ -88,4 +91,16 @@ export interface AppSettings {
   householdId: string;
   activeProfileId: string;
   buildNumber: number; // INSTÄLLNING - Aktuellt buildnummer
+  dataMode?: 'demo' | 'local'; // INSTÄLLNING - Datakälla
+}
+
+export interface AppData {
+  household: Household;
+  profiles: Profile[];
+  accounts: Account[];
+  transactions: Transaction[];
+  bills: Bill[];
+  categories: Category[];
+  budgets: Budget[];
+  settings: AppSettings;
 }

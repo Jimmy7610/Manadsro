@@ -1,11 +1,26 @@
+import { useState } from 'react';
 import Card from '../../shared/components/Card';
 import ThemeToggle from '../../shared/components/ThemeToggle';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './SettingsPage.css';
 
 /**
- * Månadsro – Inställningssida (Build 2)
+ * Månadsro – Inställningssida (Build 3)
  */
 export default function SettingsPage() {
+  const { resetLocalData } = useAppData();
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const handleReset = () => {
+    if (showConfirm) {
+      resetLocalData();
+      setShowConfirm(false);
+      alert('Lokal data har återställts till demodata.');
+    } else {
+      setShowConfirm(true);
+    }
+  };
+
   return (
     <div className="page-container animate-fade-in">
       <h1 className="page-container__title">Inställningar</h1>
@@ -34,7 +49,7 @@ export default function SettingsPage() {
             <div className="settings-page__label">PIN-inloggning</div>
             <div className="settings-page__desc">Skydda appen med en kod</div>
           </div>
-          <span className="settings-page__badge">Build 3</span>
+          <span className="settings-page__badge">Build 4</span>
         </div>
       </Card>
 
@@ -55,17 +70,32 @@ export default function SettingsPage() {
       <Card className="settings-page__section settings-page__demo-card" style={{ animationDelay: '0.3s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">🧪</span>
-          <h3 className="settings-page__section-title">Demo-läge (Build 2)</h3>
+          <h3 className="settings-page__section-title">Lokal Lagring (Build 3)</h3>
         </div>
         <p className="settings-page__text">
-          Denna version (Build 2) visar Månadsro i ett rent demo-läge. 
-          All data du ser är fiktiv demodata för att visa hur gränssnittet fungerar.
+          Denna version (Build 3) använder lokal lagring (localStorage) i din webbläsare.
+          Din data stannar på denna enhet. Appen initialiseras med fiktiv demodata.
         </p>
         <ul className="settings-page__list">
-          <li>Ingen riktig lagring ännu (kommer i Build 3)</li>
-          <li>Ingen inloggning krävs</li>
-          <li>Inga riktiga bankkopplingar finns (eller är planerade, appen är lokal)</li>
+          <li>Transaktioner sparas lokalt i webbläsaren.</li>
+          <li>Ingen inloggning krävs.</li>
+          <li>Inga riktiga bankkopplingar finns (appen är lokal).</li>
+          <li>Riktig databas (IndexedDB) kommer i nästa build.</li>
         </ul>
+        
+        <div className="settings-page__reset-area">
+          <button 
+            className={`settings-page__btn-reset ${showConfirm ? 'confirm' : ''}`}
+            onClick={handleReset}
+          >
+            {showConfirm ? 'Är du säker? Bekräfta' : 'Återställ lokal data'}
+          </button>
+          {showConfirm && (
+            <p className="settings-page__warning-text">
+              Detta tar bort lokala ändringar i den här webbläsaren.
+            </p>
+          )}
+        </div>
       </Card>
 
       <Card className="settings-page__section" style={{ animationDelay: '0.4s' }}>

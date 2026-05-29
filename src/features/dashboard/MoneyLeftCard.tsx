@@ -1,7 +1,7 @@
 import Card from '../../shared/components/Card';
-import { getAccounts, getTransactions, getBills, getBudgets } from '../../storage/services/appDataService';
 import { calculateFreeSpace } from '../../shared/utils/calculations';
 import { formatCurrency } from '../../shared/utils/currency';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './MoneyLeftCard.css';
 
 /**
@@ -15,10 +15,8 @@ const WARNING_THRESHOLD = 5000;
 const DANGER_THRESHOLD = 0;
 
 export default function MoneyLeftCard() {
-  const accounts = getAccounts();
-  const transactions = getTransactions();
-  const bills = getBills();
-  const budgets = getBudgets();
+  const { data } = useAppData();
+  const { accounts, transactions, bills, budgets } = data;
 
   const freeSpace = calculateFreeSpace(accounts, transactions, bills, budgets);
 

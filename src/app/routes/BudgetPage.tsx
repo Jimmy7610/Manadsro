@@ -1,17 +1,16 @@
 import Card from '../../shared/components/Card';
-import { getBudgets, getTransactions } from '../../storage/services/appDataService';
-import { calculateBudgetUsage } from '../../shared/utils/calculations';
+import { getCurrentBudgetUsage } from '../../features/budget/budgetService';
 import { getCategoryEmoji, getCategoryName } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './BudgetPage.css';
 
 /**
  * Månadsro – Budgetsida (Build 2)
  */
 export default function BudgetPage() {
-  const budgets = getBudgets();
-  const transactions = getTransactions();
-  const usage = calculateBudgetUsage(budgets, transactions);
+  const { data } = useAppData();
+  const usage = getCurrentBudgetUsage(data.budgets, data.transactions);
 
   return (
     <div className="page-container animate-fade-in">

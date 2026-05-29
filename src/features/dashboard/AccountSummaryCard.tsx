@@ -2,6 +2,7 @@ import Card from '../../shared/components/Card';
 import { getAllAccountsWithBalances } from '../../features/accounts/accountService';
 import { formatCurrency } from '../../shared/utils/currency';
 import type { AccountType } from '../../types/models';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './AccountSummaryCard.css';
 
 /**
@@ -27,7 +28,8 @@ const accountTypeLabels: Record<AccountType, string> = {
 };
 
 export default function AccountSummaryCard() {
-  const accountsWithBalances = getAllAccountsWithBalances();
+  const { data } = useAppData();
+  const accountsWithBalances = getAllAccountsWithBalances(data.accounts, data.transactions);
   const totalBalance = accountsWithBalances.reduce((sum, { balance }) => sum + balance, 0);
 
   return (

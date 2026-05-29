@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Card from '../../shared/components/Card';
-import { getTransactions } from '../../storage/services/appDataService';
 import { getCategoryEmoji } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { getRelativeDateText } from '../../shared/utils/date';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './TransactionsPage.css';
 
 /**
@@ -12,7 +12,8 @@ import './TransactionsPage.css';
  * INSTÄLLNING - Sök- och filtreringslogik är visuell/basic i denna version.
  */
 export default function TransactionsPage() {
-  const transactions = getTransactions();
+  const { data } = useAppData();
+  const transactions = data.transactions;
   const [activeFilter, setActiveFilter] = useState('Alla');
 
   const filters = ['Alla', 'Inkomst', 'Köp/utgift', 'Räkning', 'Överföring', 'Saldojustering'];

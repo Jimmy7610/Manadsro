@@ -1,13 +1,15 @@
 import Card from '../../shared/components/Card';
 import { getAllAccountsWithBalances } from '../../features/accounts/accountService';
 import { formatCurrency } from '../../shared/utils/currency';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './AccountsPage.css';
 
 /**
  * Månadsro – Kontosida (Build 2)
  */
 export default function AccountsPage() {
-  const accountsData = getAllAccountsWithBalances();
+  const { data } = useAppData();
+  const accountsData = getAllAccountsWithBalances(data.accounts, data.transactions);
 
   const typeLabels: Record<string, { label: string; icon: string }> = {
     checking: { label: 'Transaktionskonto', icon: '💳' },

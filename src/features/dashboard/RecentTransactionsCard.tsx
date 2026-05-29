@@ -3,6 +3,7 @@ import { getRecentTransactions } from '../../features/transactions/transactionSe
 import { getCategoryEmoji } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { getRelativeDateText } from '../../shared/utils/date';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './RecentTransactionsCard.css';
 
 /**
@@ -15,7 +16,8 @@ import './RecentTransactionsCard.css';
 const TRANSACTION_COUNT = 5;
 
 export default function RecentTransactionsCard() {
-  const transactions = getRecentTransactions(TRANSACTION_COUNT);
+  const { data } = useAppData();
+  const transactions = getRecentTransactions(data.transactions, TRANSACTION_COUNT);
 
   return (
     <Card className="recent-transactions">

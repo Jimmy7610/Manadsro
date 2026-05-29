@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import AddTransactionModal from '../../features/transactions/AddTransactionModal';
 import './BottomNav.css';
 
 /**
@@ -17,14 +18,15 @@ const navItems = [
 
 // INSTÄLLNING - Snabbmenyval för plus-knappen
 const quickActions = [
-  { label: 'Lägg till köp', emoji: '🛒' },
-  { label: 'Lägg till inkomst', emoji: '💰' },
-  { label: 'Lägg till räkning', emoji: '📄' },
-  { label: 'Justera saldo', emoji: '⚖️' },
+  { id: 'expense', label: 'Lägg till köp', emoji: '🛒', disabled: false },
+  { id: 'income', label: 'Lägg till inkomst', emoji: '💰', disabled: false },
+  { id: 'bill', label: 'Lägg till räkning', emoji: '📄', disabled: true },
+  { id: 'adjust', label: 'Justera saldo', emoji: '⚖️', disabled: true },
 ];
 
 export default function BottomNav() {
   const [showQuickMenu, setShowQuickMenu] = useState(false);
+  const [modalType, setModalType] = useState<'expense' | 'income' | null>(null);
 
   return (
     <>
@@ -45,20 +47,30 @@ export default function BottomNav() {
             <div className="quick-menu__actions">
               {quickActions.map(action => (
                 <button
-                  key={action.label}
+                  key={action.id}
                   className="quick-menu__action"
-                  onClick={() => setShowQuickMenu(false)}
+                  onClick={() => {
+                    setShowQuickMenu(false);
+                    if (action.id === 'expense' || action.id === 'income') {
+                      setModalType(action.id as 'expense' | 'income');
+                    }
+                  }}
                 >
                   <span className="quick-menu__action-emoji">{action.emoji}</span>
                   <span className="quick-menu__action-label">{action.label}</span>
+                  {action.disabled && <span style={{fontSize:'0.6rem', color:'gray'}}><br/>Kommer senare</span>}
                 </button>
               ))}
             </div>
             <p className="quick-menu__note">
-              Funktionalitet kommer i framtida builds.
+              Fler val kommer i framtida builds.
             </p>
           </div>
         </div>
+      )}
+
+      {modalType && (
+        <AddTransactionModal type={modalType} onClose={() => setModalType(null)} />
       )}
 
       {/* Flytande plus-knapp */}
