@@ -79,6 +79,10 @@
   color: var(--text-primary);
 }
 
+.recent-transactions__amount--neutral {
+  color: var(--text-tertiary);
+}
+
 .recent-transactions__empty {
   text-align: center;
   padding: var(--space-2xl);

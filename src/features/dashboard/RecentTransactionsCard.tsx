@@ -2,7 +2,7 @@ import Card from '../../shared/components/Card';
 import { getRecentTransactions } from '../../features/transactions/transactionService';
 import { getCategoryEmoji } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
-import { formatDate } from '../../shared/utils/date';
+import { getRelativeDateText } from '../../shared/utils/date';
 import './RecentTransactionsCard.css';
 
 /**
@@ -30,27 +30,27 @@ export default function RecentTransactionsCard() {
       ) : (
         <ul className="recent-transactions__list">
           {transactions.map((tx) => {
-            const isPositive = tx.amount > 0;
+            const isTransfer = tx.type === 'transfer';
+            const isPositive = !isTransfer && tx.amount > 0;
+            const amountClass = isTransfer ? 'neutral' : isPositive ? 'positive' : 'negative';
 
             return (
               <li key={tx.id} className="recent-transactions__item">
                 <div className="recent-transactions__emoji">
-                  {getCategoryEmoji(tx.categoryId)}
+                  {isTransfer ? '🔄' : getCategoryEmoji(tx.categoryId)}
                 </div>
                 <div className="recent-transactions__info">
                   <div className="recent-transactions__description">
                     {tx.description}
                   </div>
                   <div className="recent-transactions__date">
-                    {formatDate(tx.date)}
+                    {getRelativeDateText(tx.date)}
                   </div>
                 </div>
                 <div
-                  className={`recent-transactions__amount recent-transactions__amount--${
-                    isPositive ? 'positive' : 'negative'
-                  }`}
+                  className={`recent-transactions__amount recent-transactions__amount--${amountClass}`}
                 >
-                  {isPositive ? '+' : ''}{formatCurrency(tx.amount)}
+                  {isPositive ? '+' : ''}{formatCurrency(Math.abs(tx.amount))}
                 </div>
               </li>
             );

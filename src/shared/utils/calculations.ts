@@ -84,7 +84,9 @@ export function calculateFreeSpace(
   bills: Bill[],
   budgets: Budget[]
 ): number {
-  const totalBalance = calculateTotalBalance(accounts, transactions);
+  // INSTÄLLNING - Endast transaktions- och gemensamma konton räknas med i "fritt utrymme"
+  const operationalAccounts = accounts.filter(a => a.type === 'checking' || a.type === 'shared');
+  const totalBalance = calculateTotalBalance(operationalAccounts, transactions);
 
   // Summa av obetalda/planerade räkningar
   const upcomingBillsTotal = calculateUpcomingBills(bills)

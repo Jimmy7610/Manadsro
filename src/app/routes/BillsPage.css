@@ -1,4 +1,136 @@
 /* Månadsro – BillsPage */
 
-/* Delar .page-container stilar via TransactionsPage.css som importeras globalt */
-/* Inga extra stilar behövs utöver de delade sidstilarna */
+.bills-page__tabs {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xl);
+  background: var(--bg-card);
+  padding: var(--space-xs);
+  border-radius: var(--radius-lg);
+}
+
+.bills-page__tab {
+  flex: 1;
+  padding: var(--space-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.bills-page__tab.active {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.bills-page__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.bills-page__group-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--divider);
+}
+
+.bills-page__empty {
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  padding: var(--space-md) 0;
+}
+
+.bills-page__group-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.bills-page__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.bills-page__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bills-page__card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.bills-page__emoji {
+  font-size: var(--text-lg);
+}
+
+.bills-page__name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bills-page__amount {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.bills-page__card-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.bills-page__days-left {
+  color: var(--color-warning);
+  font-weight: 500;
+}
+
+.bills-page__recurring {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bills-page__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--divider);
+}
+
+.bills-page__btn {
+  flex: 1;
+  padding: var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.bills-page__btn--primary {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.bills-page__btn--danger {
+  color: var(--color-danger);
+  border-color: var(--color-danger);
+}

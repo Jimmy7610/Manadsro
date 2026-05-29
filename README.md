@@ -53,40 +53,24 @@ npm run preview
 
 ---
 
-## 📋 Build 1 – Innehåll
+## 📋 Build 2 – Innehåll
 
 ### ✅ Implementerat
-- Komplett filstruktur och arkitektur
-- Datamodeller (TypeScript-typer)
-- Demodata (hushåll, profiler, konton, transaktioner, räkningar, budgetar)
-- Dashboard med 7 kort:
-  - Hero-kort med statusmeddelande
-  - Fritt utrymme (kvar att röra sig med)
-  - Kontosaldo-översikt
-  - Kommande räkningar
-  - Budgetstatus med framstegsindikatorer
-  - Senaste transaktioner
-  - Profilfördelning
-- Responsiv layout (mobil + desktop)
-- Ljust/mörkt tema med växlare
-- Versionsbricka ("Månadsro • Build 1")
-- Sidofält (desktop) med navigation
-- Bottenmeny (mobil) med navigation
-- Flytande plus-knapp med snabbmeny
-- Platshållarsidor för alla sektioner
-- Beräkningshjälpare (saldo, fritt utrymme, budgetanvändning)
-- Lagringsadapter (förberedd för framtida IndexedDB/SQLite)
+- Skarpa, demo-databasbaserade sidor för Transaktioner, Räkningar, Budget, Konton och Inställningar.
+- Förbättrad beräkning för "Fritt utrymme".
+- Relativ datumformatering (idag, imorgon, 1 dag sedan).
+- Neutral styling för interna överföringar.
+- Komplett filstruktur och arkitektur (från Build 1).
+- Datamodeller och Demodata (från Build 1).
+- Dashboard med 7 kort (från Build 1).
+- Responsiv layout med bottenmeny och sidofält (från Build 1).
+- Temaväxlare för ljust/mörkt läge (från Build 1).
 
-### ❌ Inte implementerat i Build 1
-- PIN-inloggning
+### ❌ Inte implementerat i Build 2
 - Riktig databas (IndexedDB/SQLite)
 - CRUD-formulär (skapa/redigera/ta bort)
 - Import/export av data
-- Kvittobilder
 - Bankkoppling
-- Molnsynk
-- Autentisering
-- Tauri-integration
 
 ---
 
@@ -103,11 +87,11 @@ src/
 │   │   └── VersionBadge.tsx       # Versionsbricka
 │   └── routes/
 │       ├── DashboardPage.tsx      # Dashboard
-│       ├── TransactionsPage.tsx   # Transaktioner (platshållare)
-│       ├── BillsPage.tsx          # Räkningar (platshållare)
-│       ├── BudgetPage.tsx         # Budget (platshållare)
-│       ├── AccountsPage.tsx       # Konton (platshållare)
-│       └── SettingsPage.tsx       # Inställningar (platshållare)
+│       ├── TransactionsPage.tsx   # Transaktioner
+│       ├── BillsPage.tsx          # Räkningar
+│       ├── BudgetPage.tsx         # Budget
+│       ├── AccountsPage.tsx       # Konton
+│       └── SettingsPage.tsx       # Inställningar
 ├── features/
 │   ├── dashboard/                 # Dashboard-kort
 │   ├── accounts/                  # Kontotjänster
@@ -146,21 +130,18 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 2
-- CRUD-formulär för transaktioner
-- IndexedDB-lagring
-- Filtrering och sökning
-
 ### Build 3
+- Riktig lokal datalagring (IndexedDB)
+- Första CRUD-formulär (Lägg till transaktion/räkning)
+
+### Build 4
 - Tauri-integration
 - SQLite-databas
 - PIN-inloggning
 
-### Build 4+
+### Build 5+
 - Import/export
-- Kvittobilder
 - Statistik och grafer
-- Budgethistorik
 
 ---
 

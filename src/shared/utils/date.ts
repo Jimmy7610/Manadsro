@@ -47,3 +47,23 @@ export function daysUntil(dateStr: string): number {
   const diffTime = date.getTime() - now.getTime();
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 }
+
+export function getRelativeDateText(dateStr: string): string {
+  const date = new Date(dateStr);
+  const now = new Date();
+  
+  // Nollställ tidpunkter för att bara jämföra datum
+  const dateOnly = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const nowOnly = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  
+  const diffTime = dateOnly.getTime() - nowOnly.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays === 0) return 'Idag';
+  if (diffDays === 1) return 'Imorgon';
+  if (diffDays === -1) return 'Igår';
+  if (diffDays > 1) return `Om ${diffDays} dagar`;
+  
+  const absDays = Math.abs(diffDays);
+  return `För ${absDays} dag${absDays === 1 ? '' : 'ar'} sedan`;
+}

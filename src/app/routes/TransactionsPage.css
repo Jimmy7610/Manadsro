@@ -1,52 +1,118 @@
 /* Månadsro – TransactionsPage */
 
-.page-container {
-  padding: var(--space-xl) var(--space-base);
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-  width: 100%;
-}
-
-.page-container__title {
-  font-size: var(--text-2xl);
-  font-weight: 700;
-  color: var(--text-primary);
+.transactions-page__controls {
   margin-bottom: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
 }
 
-.page-container__placeholder-icon {
-  font-size: var(--text-3xl);
-  margin-bottom: var(--space-base);
-  display: block;
-}
-
-.page-container__placeholder-text {
+.transactions-page__search {
+  width: 100%;
+  padding: var(--space-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-family: inherit;
   font-size: var(--text-base);
-  color: var(--text-secondary);
-  line-height: var(--leading-relaxed);
 }
 
-.page-container__coming-soon {
-  display: inline-block;
-  margin-top: var(--space-lg);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  background: var(--accent-lighter);
+.transactions-page__filters {
+  display: flex;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  padding-bottom: var(--space-xs);
+  scrollbar-width: none; /* Firefox */
+}
+
+.transactions-page__filters::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.transactions-page__filter {
   padding: var(--space-xs) var(--space-md);
+  border: 1px solid var(--border);
   border-radius: var(--radius-full);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition-fast);
 }
 
-@media (min-width: 768px) {
-  .page-container {
-    padding: var(--space-2xl);
-  }
+.transactions-page__filter.active {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border-color: var(--text-primary);
 }
 
-@media (min-width: 1200px) {
-  .page-container {
-    padding: var(--space-3xl) var(--space-2xl);
-  }
+.transactions-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.transactions-page__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-md);
+}
+
+.transactions-page__item-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  min-width: 0;
+}
+
+.transactions-page__emoji {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-lg);
+  flex-shrink: 0;
+}
+
+.transactions-page__info {
+  min-width: 0;
+}
+
+.transactions-page__desc {
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.transactions-page__meta {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.transactions-page__amount {
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: var(--space-md);
+}
+
+.transactions-page__amount--positive {
+  color: var(--color-positive);
+}
+
+.transactions-page__amount--negative {
+  color: var(--text-primary);
+}
+
+.transactions-page__amount--neutral {
+  color: var(--text-tertiary);
 }

@@ -1,3 +1,80 @@
 /* Månadsro – AccountsPage */
 
-/* Delar .page-container stilar via TransactionsPage.css */
+.accounts-page__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.accounts-page__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.accounts-page__card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.accounts-page__title-area {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.accounts-page__icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xl);
+}
+
+.accounts-page__name-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.accounts-page__name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.accounts-page__type {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.accounts-page__balance {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.accounts-page__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--divider);
+}
+
+.accounts-page__btn {
+  flex: 1;
+  padding: var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: not-allowed;
+  opacity: 0.6;
+  white-space: nowrap;
+}

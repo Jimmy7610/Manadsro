@@ -43,7 +43,7 @@ export default function MoneyLeftCard() {
         {formatCurrency(freeSpace)}
       </div>
       <p className="money-left__description">
-        Kvar att röra sig med efter räkningar &amp; budget
+        Efter kommande räkningar och kvarvarande budget.
       </p>
       <span className={`money-left__indicator money-left__indicator--${status}`}>
         {statusLabels[status]}
