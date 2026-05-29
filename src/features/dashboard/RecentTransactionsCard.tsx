@@ -1,6 +1,6 @@
 import Card from '../../shared/components/Card';
 import { getRecentTransactions } from '../../features/transactions/transactionService';
-import { getCategoryEmoji } from '../../features/categories/categoryService';
+import { getCategoryDisplay, getCategoryById } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { getRelativeDateText } from '../../shared/utils/date';
 import { useAppData } from '../../storage/services/AppDataContext';
@@ -39,7 +39,7 @@ export default function RecentTransactionsCard() {
             return (
               <li key={tx.id} className="recent-transactions__item">
                 <div className="recent-transactions__emoji">
-                  {isTransfer ? '🔄' : getCategoryEmoji(tx.categoryId)}
+                  {isTransfer ? '🔄' : getCategoryDisplay(getCategoryById(data.categories, tx.categoryId)).icon}
                 </div>
                 <div className="recent-transactions__info">
                   <div className="recent-transactions__description">

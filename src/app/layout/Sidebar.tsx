@@ -15,6 +15,7 @@ const navItems = [
   { to: '/bills', label: 'Räkningar', emoji: '📄' },
   { to: '/budget', label: 'Budget', emoji: '📋' },
   { to: '/accounts', label: 'Konton', emoji: '🏦' },
+  { to: '/categories', label: 'Kategorier', emoji: '🏷️' },
   { to: '/settings', label: 'Inställningar', emoji: '⚙️' },
 ];
 

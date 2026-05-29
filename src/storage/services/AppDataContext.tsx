@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { AppData, Transaction, Account, Bill } from '../../types/models';
+import type { AppData, Transaction, Account, Bill, Category, Budget } from '../../types/models';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
 
@@ -21,10 +21,18 @@ interface AppDataContextValue {
   addAccount: (account: Account) => void;
   updateAccount: (accountId: string, updates: Partial<Account>) => void;
   archiveAccount: (accountId: string) => void;
+  // Categories
+  addCategory: (category: Category) => void;
+  updateCategory: (categoryId: string, updates: Partial<Category>) => void;
+  deactivateCategory: (categoryId: string) => void;
+  reactivateCategory: (categoryId: string) => void;
   
   // Budgets
   updateBudgetLimit: (budgetId: string, newLimit: number) => void;
   toggleBudgetActive: (budgetId: string, active: boolean) => void;
+  createBudgetForCategory: (categoryId: string, monthlyLimit: number) => void;
+  ensureBudgetForCategory: (categoryId: string) => void;
+  updateBudgetForCategory: (categoryId: string, updates: Partial<Budget>) => void;
   
   // Bills
   addBill: (bill: Bill) => void;
@@ -302,6 +310,80 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const addCategory = (category: Category) => {
+    if (!data) return;
+    const newCategories = [...data.categories, { ...category, createdAt: new Date().toISOString() }];
+    const newData = { ...data, categories: newCategories };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const updateCategory = (categoryId: string, updates: Partial<Category>) => {
+    if (!data) return;
+    const newCategories = data.categories.map(c => 
+      c.id === categoryId ? { ...c, ...updates, updatedAt: new Date().toISOString() } : c
+    );
+    const newData = { ...data, categories: newCategories };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const deactivateCategory = (categoryId: string) => {
+    if (!data) return;
+    const newCategories = data.categories.map(c => 
+      c.id === categoryId ? { ...c, active: false, updatedAt: new Date().toISOString() } : c
+    );
+    const newData = { ...data, categories: newCategories };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const reactivateCategory = (categoryId: string) => {
+    if (!data) return;
+    const newCategories = data.categories.map(c => 
+      c.id === categoryId ? { ...c, active: true, updatedAt: new Date().toISOString() } : c
+    );
+    const newData = { ...data, categories: newCategories };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const createBudgetForCategory = (categoryId: string, monthlyLimit: number) => {
+    if (!data) return;
+    const newBudget: Budget = {
+      id: `bud-${Date.now()}`,
+      householdId: data.household.id,
+      categoryId,
+      profileId: data.settings.activeProfileId,
+      monthlyLimit,
+      month: new Date().toISOString().substring(0, 7),
+      active: true,
+      createdAt: new Date().toISOString()
+    };
+    const newBudgets = [...data.budgets, newBudget];
+    const newData = { ...data, budgets: newBudgets };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const ensureBudgetForCategory = (categoryId: string) => {
+    if (!data) return;
+    const exists = data.budgets.find(b => b.categoryId === categoryId);
+    if (!exists) {
+      createBudgetForCategory(categoryId, 0);
+    }
+  };
+
+  const updateBudgetForCategory = (categoryId: string, updates: Partial<Budget>) => {
+    if (!data) return;
+    const newBudgets = data.budgets.map(b => 
+      b.categoryId === categoryId ? { ...b, ...updates, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, budgets: newBudgets };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const addBill = (bill: Bill) => {
     if (!data) return;
     const newBills = [...data.bills, bill];
@@ -368,7 +450,8 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   return (
     <AppDataContext.Provider value={{ 
       data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings, completeOnboarding,
-      addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive,
+      addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive, createBudgetForCategory, ensureBudgetForCategory, updateBudgetForCategory,
+      addCategory, updateCategory, deactivateCategory, reactivateCategory,
       addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,
       isLocked, unlockApp, lockApp, isLoaded: true 
     }}>

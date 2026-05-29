@@ -83,9 +83,14 @@ export interface Category {
   householdId: string;
   name: string;
   emoji: string;
+  icon?: string;
   color: string;
   sortOrder: number;
   isDefault: boolean;
+  active?: boolean;
+  system?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface Budget {

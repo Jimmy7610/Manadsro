@@ -7,6 +7,7 @@ import BillsPage from './routes/BillsPage';
 import BudgetPage from './routes/BudgetPage';
 import AccountsPage from './routes/AccountsPage';
 import SettingsPage from './routes/SettingsPage';
+import CategoriesPage from './routes/CategoriesPage';
 import { AppDataProvider, useAppData } from '../storage/services/AppDataContext';
 import OnboardingFlow from '../features/onboarding/OnboardingFlow';
 import LockScreen from '../features/security/LockScreen';
@@ -33,6 +34,7 @@ function AppInner() {
           <Route path="bills" element={<BillsPage />} />
           <Route path="budget" element={<BudgetPage />} />
           <Route path="accounts" element={<AccountsPage />} />
+          <Route path="categories" element={<CategoriesPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Routes>

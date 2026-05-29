@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import Card from '../../shared/components/Card';
-import { getCategoryEmoji, getCategoryName } from '../../features/categories/categoryService';
+import { getCategoryDisplay, getCategoryById } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { formatDate, daysUntil } from '../../shared/utils/date';
 import type { Bill } from '../../types/models';
@@ -95,15 +95,16 @@ export default function BillsPage() {
     const isOverdue = days < 0 && bill.status !== 'paid' && bill.status !== 'skipped' && bill.skippedForMonth !== currentMonthKey;
     const isSkipped = bill.status === 'skipped' || bill.skippedForMonth === currentMonthKey;
     const isRecurring = bill.recurring || bill.isRecurring;
+    const categoryDisplay = getCategoryDisplay(getCategoryById(data.categories, bill.categoryId));
 
     return (
       <Card key={bill.id} className={`bills-page__card ${isSkipped ? 'bills-page__card--skipped' : ''}`}>
         <div className="bills-page__card-header">
           <div className="bills-page__card-title">
-            <span className="bills-page__emoji">{getCategoryEmoji(bill.categoryId)}</span>
+            <span className="bills-page__emoji">{categoryDisplay.icon}</span>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span className="bills-page__name">{bill.name}</span>
-              <span className="bills-page__category-name">{getCategoryName(bill.categoryId)}</span>
+              <span className="bills-page__category-name">{categoryDisplay.name}</span>
             </div>
           </div>
           <div className="bills-page__amount">{formatCurrency(bill.amount)}</div>

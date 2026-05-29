@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card';
 import ThemeToggle from '../../shared/components/ThemeToggle';
 import { useAppData } from '../../storage/services/AppDataContext';
@@ -13,6 +14,7 @@ import './SettingsPage.css';
  */
 export default function SettingsPage() {
   const { data, resetLocalData, exportBackup, importBackup, updateSettings, lockApp } = useAppData();
+  const navigate = useNavigate();
   const [showConfirm, setShowConfirm] = useState(false);
   const [message, setMessage] = useState('');
   
@@ -211,6 +213,21 @@ export default function SettingsPage() {
         </p>
       </Card>
 
+      <Card className="settings-page__section" style={{ animationDelay: '0.18s' }}>
+        <div className="settings-page__section-header">
+          <span className="settings-page__icon">🏷️</span>
+          <h3 className="settings-page__section-title">Kategorier</h3>
+        </div>
+        <p className="settings-page__text">
+          Hantera dina kategorier, sätt färger, ikoner och koppla dem till din budget.
+        </p>
+        <div className="settings-page__backup-actions">
+          <button className="settings-page__btn" onClick={() => navigate('/categories')}>
+            Hantera kategorier
+          </button>
+        </div>
+      </Card>
+
       <Card className="settings-page__section" style={{ animationDelay: '0.2s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">💾</span>
@@ -280,7 +297,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 9-uppdatering: Förbättrad startguide för att enklare sätta upp sin första lokala ekonomi med profiler, konton, budgetar och räkningar.
+          Build 10-uppdatering: Kategorihantering! Kategorier kan nu skapas, redigeras och inaktiveras med bibehållen historik. Budgetar kopplas nu tydligare till kategorier.
         </p>
       </Card>
     </div>

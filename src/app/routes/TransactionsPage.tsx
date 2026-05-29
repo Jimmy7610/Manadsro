@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Card from '../../shared/components/Card';
-import { getCategoryEmoji } from '../../features/categories/categoryService';
+import { getCategoryDisplay, getCategoryById } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { getRelativeDateText } from '../../shared/utils/date';
 import { useAppData } from '../../storage/services/AppDataContext';
@@ -79,8 +79,8 @@ export default function TransactionsPage() {
           return (
             <Card key={tx.id} className="transactions-page__item" style={{ animationDelay: `${idx * 0.05}s` }}>
               <div className="transactions-page__item-left">
-                <div className="transactions-page__emoji">
-                  {isTransfer ? '🔄' : getCategoryEmoji(tx.categoryId)}
+                <div className="transactions-page__item-icon">
+                  {isTransfer ? '🔄' : getCategoryDisplay(getCategoryById(data.categories, tx.categoryId)).icon}
                 </div>
                 <div className="transactions-page__info">
                   <div className="transactions-page__desc">{tx.description}</div>

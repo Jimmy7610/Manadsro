@@ -4,7 +4,7 @@
 
 Månadsro är en varm, lugn och modern hushållsekonomiapp för familjebudgetering. Appen är designad för att vara lokal-först – all data stannar på din enhet.
 
-![Build](https://img.shields.io/badge/Build-9-teal)
+![Build](https://img.shields.io/badge/Build-10-teal)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -53,14 +53,14 @@ npm run preview
 
 ---
 
-## 📋 Build 9 – Innehåll
+## 📋 Build 10 – Innehåll
 
-### ✅ Implementerat i Build 9
-- Förbättrad onboarding flow.
-- Skapande av profiler direkt i onboarding.
-- Enkel setup av första konton, budgetar och räkningar.
-- Tydligare åtskillnad mellan demo och lokal ekonomi.
-- Säker initiering av lokala hushållsdata (localStorage).
+### ✅ Implementerat i Build 10
+- Fullständig kategorihantering (lägg till, redigera, inaktivera).
+- Val av ikon (emoji) och färg per kategori.
+- Koppling mellan kategori och budget.
+- Inaktiverade kategorier döljs från urval men bevarar historik.
+- Smidigt "Skapa budget från kategori"-flöde.
 
 ### ❌ Aktuella begränsningar
 - Riktig databas (IndexedDB/SQLite kommer senare).
@@ -125,8 +125,8 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 10
-- Kategorihantering eller mer avancerade inkomstflöden.
+### Build 11
+- Återkommande inkomster eller ny-månad-guide.
 
 ### Framtid
 - Tauri-integration och SQLite-databas.

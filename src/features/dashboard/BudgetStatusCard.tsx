@@ -1,6 +1,6 @@
 import Card from '../../shared/components/Card';
 import { getCurrentBudgetUsage } from '../../features/budget/budgetService';
-import { getCategoryName, getCategoryEmoji } from '../../features/categories/categoryService';
+import { getCategoryDisplay, getCategoryById } from '../../features/categories/categoryService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { useAppData } from '../../storage/services/AppDataContext';
 import './BudgetStatusCard.css';
@@ -40,15 +40,16 @@ export default function BudgetStatusCard() {
           {budgetUsage.map(({ budget, spent, percentage }) => {
             const status = getBarStatus(percentage);
             const cappedWidth = Math.min(percentage, 100);
+            const categoryDisplay = getCategoryDisplay(getCategoryById(data.categories, budget.categoryId));
 
             return (
               <div key={budget.id} className="budget-status__item">
                 <div className="budget-status__item-header">
-                  <div className="budget-status__category">
-                    <span className="budget-status__category-emoji">
-                      {getCategoryEmoji(budget.categoryId)}
+                  <div className="dashboard-page__budget-meta">
+                    <span className="dashboard-page__budget-emoji" style={{ backgroundColor: `${categoryDisplay.color}33`, color: categoryDisplay.color, borderRadius: '4px', padding: '2px 4px', display: 'inline-flex' }}>
+                      {categoryDisplay.icon}
                     </span>
-                    <span>{getCategoryName(budget.categoryId)}</span>
+                    <span>{categoryDisplay.name}</span>
                   </div>
                   <div className="budget-status__amounts">
                     <span>{formatCurrency(spent)}</span> / {formatCurrency(budget.monthlyLimit)}

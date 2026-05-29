@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAppData } from '../../storage/services/AppDataContext';
+import { getCategoryDisplay } from '../categories/categoryService';
 import './AddTransactionModal.css';
 
 import type { Transaction } from '../../types/models';
@@ -114,9 +115,12 @@ export default function AddTransactionModal({ type, initialData, onClose }: AddT
                 <label>Kategori</label>
                 <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
                   <option value="">Välj kategori...</option>
-                  {data.categories.map(c => (
-                    <option key={c.id} value={c.id}>{c.emoji} {c.name}</option>
-                  ))}
+                  {data.categories
+                    .filter(c => c.active !== false || c.id === initialData?.categoryId)
+                    .map(c => {
+                      const display = getCategoryDisplay(c);
+                      return <option key={c.id} value={c.id}>{display.icon} {display.name}</option>;
+                    })}
                 </select>
               </div>
             )}

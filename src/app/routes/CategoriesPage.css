@@ -1,0 +1,126 @@
+/* Månadsro - Categories Page */
+
+.categories-page {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.categories-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+}
+
+.categories-page__title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.categories-page__btn-add {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+}
+
+.categories-page__btn-add:hover {
+  opacity: 0.9;
+}
+
+.categories-page__section-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-md);
+  margin-top: var(--space-xl);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-sm);
+}
+
+.categories-page__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+
+.categories-page__card {
+  display: flex;
+  flex-direction: column;
+}
+
+.categories-page__card.inactive {
+  opacity: 0.6;
+}
+
+.categories-page__card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.categories-page__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.categories-page__name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.categories-page__info {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-md);
+}
+
+.categories-page__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: auto;
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--space-sm);
+}
+
+.categories-page__btn {
+  flex: 1;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.categories-page__btn:hover {
+  background: var(--border-medium);
+}
+
+.categories-page__btn--danger {
+  color: #c62828;
+}
+
+.categories-page__btn--danger:hover {
+  background: #ffebee;
+  border-color: #ef9a9a;
+}

@@ -1,0 +1,97 @@
+/* Månadsro - Category Modal */
+
+.category-modal__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.category-modal__label {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.category-modal__input, .category-modal__select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+}
+
+.category-modal__icon-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--space-sm);
+}
+
+.category-modal__icon-btn {
+  background: var(--bg-secondary);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  padding: var(--space-sm);
+  font-size: var(--text-xl);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.category-modal__icon-btn:hover {
+  background: var(--border-medium);
+}
+
+.category-modal__icon-btn.selected {
+  border-color: var(--text-primary);
+  background: var(--bg-card);
+}
+
+.category-modal__color-grid {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.category-modal__color-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.category-modal__color-btn:hover {
+  transform: scale(1.1);
+}
+
+.category-modal__color-btn.selected {
+  border-color: var(--text-primary);
+  box-shadow: 0 0 0 2px var(--bg-card), 0 0 0 4px var(--text-primary);
+}
+
+.category-modal__checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  margin-top: var(--space-sm);
+}
+
+.category-modal__checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.category-modal__warning {
+  background: #fff3e0;
+  color: #e65100;
+  padding: var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  margin-top: var(--space-sm);
+}

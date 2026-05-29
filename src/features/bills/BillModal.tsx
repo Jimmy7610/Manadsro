@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import type { Bill } from '../../types/models';
 import { useAppData } from '../../storage/services/AppDataContext';
+import { getCategoryDisplay } from '../categories/categoryService';
 import './BillModal.css';
 
 interface BillModalProps {
@@ -116,9 +117,12 @@ export default function BillModal({ onClose, billToEdit }: BillModalProps) {
         <div className="bill-modal__field">
           <label>Kategori *</label>
           <select value={categoryId} onChange={e => setCategoryId(e.target.value)}>
-            {data.categories.map(c => (
-              <option key={c.id} value={c.id}>{c.emoji} {c.name}</option>
-            ))}
+            {data.categories
+              .filter(c => c.active !== false || c.id === billToEdit?.categoryId)
+              .map(c => {
+                const display = getCategoryDisplay(c);
+                return <option key={c.id} value={c.id}>{display.icon} {display.name}</option>;
+              })}
           </select>
         </div>
 
