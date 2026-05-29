@@ -1,5 +1,6 @@
 import Card from '../../shared/components/Card';
-import { calculateFreeSpace } from '../../shared/utils/calculations';
+
+import { getMonthlyStatus } from '../../shared/utils/monthlyStatus';
 import { formatCurrency } from '../../shared/utils/currency';
 import { useAppData } from '../../storage/services/AppDataContext';
 import './MoneyLeftCard.css';
@@ -16,9 +17,9 @@ const DANGER_THRESHOLD = 0;
 
 export default function MoneyLeftCard() {
   const { data } = useAppData();
-  const { accounts, transactions, bills, budgets } = data;
 
-  const freeSpace = calculateFreeSpace(accounts, transactions, bills, budgets);
+  const statusObj = getMonthlyStatus(data);
+  const freeSpace = statusObj.freeSpace;
 
   const getStatus = (amount: number): 'positive' | 'warning' | 'danger' => {
     if (amount <= DANGER_THRESHOLD) return 'danger';
@@ -43,6 +44,11 @@ export default function MoneyLeftCard() {
       <p className="money-left__description">
         Efter kommande räkningar och kvarvarande budget.
       </p>
+      {statusObj.missingExpectedIncomeAmount > 0 && (
+        <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: 'var(--bg-color)', borderRadius: 'var(--radius-sm)', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+          + {formatCurrency(statusObj.missingExpectedIncomeAmount)} förväntas i inkomst
+        </div>
+      )}
       <span className={`money-left__indicator money-left__indicator--${status}`}>
         {statusLabels[status]}
       </span>

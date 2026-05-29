@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import AddTransactionModal from '../../features/transactions/AddTransactionModal';
 import BillModal from '../../features/bills/BillModal';
 import './BottomNav.css';
@@ -22,10 +22,11 @@ const quickActions = [
   { id: 'expense', label: 'Lägg till köp', emoji: '🛒', disabled: false },
   { id: 'income', label: 'Lägg till inkomst', emoji: '💰', disabled: false },
   { id: 'bill', label: 'Lägg till räkning', emoji: '📄', disabled: false },
-  { id: 'adjust', label: 'Justera saldo', emoji: '⚖️', disabled: true },
+  { id: 'recurring', label: 'Återkommande inkomst', emoji: '🔁', disabled: false },
 ];
 
 export default function BottomNav() {
+  const navigate = useNavigate(); // we need to import useNavigate at top
   const [showQuickMenu, setShowQuickMenu] = useState(false);
   const [modalType, setModalType] = useState<'expense' | 'income' | 'bill' | null>(null);
 
@@ -56,6 +57,8 @@ export default function BottomNav() {
                       setModalType(action.id as 'expense' | 'income');
                     } else if (action.id === 'bill') {
                       setModalType('bill');
+                    } else if (action.id === 'recurring') {
+                      navigate('/incomes');
                     }
                   }}
                 >

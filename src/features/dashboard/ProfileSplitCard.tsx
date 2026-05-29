@@ -10,7 +10,7 @@ import './ProfileSplitCard.css';
  * INSTÄLLNING - Visuella färger för staplarna sätts i CSS eller via styles.
  */
 
-import type { Profile, Transaction } from '../../types/models';
+import type { Profile, Transaction, ExpectedIncome } from '../../types/models';
 
 interface ProfileIncome {
   profile: Profile;
@@ -20,14 +20,25 @@ interface ProfileIncome {
 
 function calculateProfileIncomes(
   profiles: Profile[],
-  transactions: Transaction[]
+  transactions: Transaction[],
+  expectedIncomes: ExpectedIncome[]
 ): ProfileIncome[] {
+  const currentMonthKey = new Date().toISOString().substring(0, 7);
+
   const incomeByProfile: ProfileIncome[] = profiles
     .filter((p) => !p.isShared)
     .map((profile) => {
-      const income = transactions
-        .filter((tx) => tx.profileId === profile.id && tx.type === 'income')
+      // Find actual received incomes this month
+      const received = transactions
+        .filter((tx) => tx.profileId === profile.id && tx.type === 'income' && tx.date.startsWith(currentMonthKey))
         .reduce((sum, tx) => sum + tx.amount, 0);
+
+      // Find expected but not yet received
+      const missingExpected = expectedIncomes
+        .filter(ei => ei.profileId === profile.id && ei.status === 'expected' && ei.expectedDate.startsWith(currentMonthKey))
+        .reduce((sum, ei) => sum + ei.amount, 0);
+
+      const income = received + missingExpected;
       return { profile, income, percentage: 0 };
     });
 
@@ -43,13 +54,14 @@ export default function ProfileSplitCard() {
   const { data } = useAppData();
   const profiles = data.profiles;
   const transactions = data.transactions;
-  const profileIncomes = calculateProfileIncomes(profiles, transactions);
+  const expectedIncomes = data.expectedIncomes || [];
+  const profileIncomes = calculateProfileIncomes(profiles, transactions, expectedIncomes);
   const totalIncome = profileIncomes.reduce((sum, p) => sum + p.income, 0);
 
   return (
     <Card className="profile-split">
       <div className="profile-split__header">
-        <h3 className="profile-split__title">Inkomstfördelning</h3>
+        <h3 className="profile-split__title">Inkomstfördelning (inkl. förväntat)</h3>
       </div>
 
       {profileIncomes.length === 0 ? (

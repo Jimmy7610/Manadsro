@@ -228,6 +228,21 @@ export default function SettingsPage() {
         </div>
       </Card>
 
+      <Card className="settings-page__section" style={{ animationDelay: '0.19s' }}>
+        <div className="settings-page__section-header">
+          <span className="settings-page__icon">💰</span>
+          <h3 className="settings-page__section-title">Inkomster</h3>
+        </div>
+        <p className="settings-page__text">
+          Hantera dina återkommande inkomster och planera din månadsinkomst.
+        </p>
+        <div className="settings-page__backup-actions">
+          <button className="settings-page__btn" onClick={() => navigate('/incomes')}>
+            Gå till Inkomster
+          </button>
+        </div>
+      </Card>
+
       <Card className="settings-page__section" style={{ animationDelay: '0.2s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">💾</span>
@@ -297,7 +312,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 10-uppdatering: Kategorihantering! Kategorier kan nu skapas, redigeras och inaktiveras med bibehållen historik. Budgetar kopplas nu tydligare till kategorier.
+          Build 11-uppdatering: Återkommande inkomster kan nu skapas. Förväntade inkomster kan markeras som mottagna. Faktiskt saldo påverkas först när inkomsten markeras som mottagen. Backup rekommenderas innan stora ändringar.
         </p>
       </Card>
     </div>

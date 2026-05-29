@@ -13,6 +13,7 @@ const navItems = [
   { to: '/', label: 'Dashboard', emoji: '📊' },
   { to: '/transactions', label: 'Transaktioner', emoji: '💳' },
   { to: '/bills', label: 'Räkningar', emoji: '📄' },
+  { to: '/incomes', label: 'Inkomster', emoji: '💰' },
   { to: '/budget', label: 'Budget', emoji: '📋' },
   { to: '/accounts', label: 'Konton', emoji: '🏦' },
   { to: '/categories', label: 'Kategorier', emoji: '🏷️' },

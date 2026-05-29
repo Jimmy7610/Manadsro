@@ -105,6 +105,35 @@ export interface Budget {
   updatedAt?: string;
 }
 
+export interface RecurringIncome {
+  id: string;
+  name: string;
+  amount: number;
+  expectedDay: number;
+  accountId: string;
+  profileId: string;
+  categoryId?: string;
+  recurrence: 'monthly' | 'quarterly' | 'yearly';
+  active: boolean;
+  note?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface ExpectedIncome {
+  id: string;
+  recurringIncomeId: string;
+  name: string;
+  amount: number;
+  expectedDate: string; // ISO date
+  accountId: string;
+  profileId: string;
+  status: 'expected' | 'received' | 'skipped';
+  transactionId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface AppSettings {
   theme: ThemeMode;
   currency: string; // INSTÄLLNING - Standardvaluta
@@ -133,5 +162,7 @@ export interface AppData {
   bills: Bill[];
   categories: Category[];
   budgets: Budget[];
+  recurringIncomes?: RecurringIncome[];
+  expectedIncomes?: ExpectedIncome[];
   settings: AppSettings;
 }

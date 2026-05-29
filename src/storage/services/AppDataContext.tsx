@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { AppData, Transaction, Account, Bill, Category, Budget } from '../../types/models';
+import type { AppData, Transaction, Account, Bill, Category, Budget, RecurringIncome, ExpectedIncome } from '../../types/models';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
 
@@ -41,6 +41,15 @@ interface AppDataContextValue {
   changeBillDueDate: (billId: string, newDueDate: string) => void;
   restoreSkippedBill: (billId: string) => void;
   
+  // Incomes
+  addRecurringIncome: (income: RecurringIncome) => void;
+  updateRecurringIncome: (incomeId: string, updates: Partial<RecurringIncome>) => void;
+  deactivateRecurringIncome: (incomeId: string) => void;
+  reactivateRecurringIncome: (incomeId: string) => void;
+  markIncomeAsReceived: (expectedIncomeId: string, paymentInput: { amount: number; accountId: string; date: string; categoryId?: string; comment: string }) => void;
+  skipExpectedIncome: (expectedIncomeId: string) => void;
+  ensureExpectedIncomesForMonth: (monthKey: string) => void;
+
   isLocked: boolean;
   unlockApp: () => void;
   lockApp: () => void;
@@ -71,6 +80,15 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       if (loadedData.settings.pinEnabled) {
         setIsLocked(true);
       }
+      
+      // Normalize Build 11 fields
+      if (!loadedData.recurringIncomes) {
+        loadedData.recurringIncomes = [];
+      }
+      if (!loadedData.expectedIncomes) {
+        loadedData.expectedIncomes = [];
+      }
+
       setData(loadedData);
     }
   }, []);
@@ -245,6 +263,8 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       budgets: newBudgets,
       bills: newBills,
       transactions: newTransactions,
+      recurringIncomes: setupData.recurringIncomes || [],
+      expectedIncomes: setupData.expectedIncomes || [],
       settings: {
         ...data.settings,
         onboardingCompleted: true,
@@ -432,6 +452,130 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const addRecurringIncome = (income: RecurringIncome) => {
+    if (!data) return;
+    const newIncomes = [...(data.recurringIncomes || []), income];
+    const newData = { ...data, recurringIncomes: newIncomes };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const updateRecurringIncome = (incomeId: string, updates: Partial<RecurringIncome>) => {
+    if (!data) return;
+    const newIncomes = (data.recurringIncomes || []).map(inc => 
+      inc.id === incomeId ? { ...inc, ...updates, updatedAt: new Date().toISOString() } : inc
+    );
+    const newData = { ...data, recurringIncomes: newIncomes };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const deactivateRecurringIncome = (incomeId: string) => {
+    if (!data) return;
+    const newIncomes = (data.recurringIncomes || []).map(inc => 
+      inc.id === incomeId ? { ...inc, active: false, updatedAt: new Date().toISOString() } : inc
+    );
+    const newData = { ...data, recurringIncomes: newIncomes };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const reactivateRecurringIncome = (incomeId: string) => {
+    if (!data) return;
+    const newIncomes = (data.recurringIncomes || []).map(inc => 
+      inc.id === incomeId ? { ...inc, active: true, updatedAt: new Date().toISOString() } : inc
+    );
+    const newData = { ...data, recurringIncomes: newIncomes };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const ensureExpectedIncomesForMonth = (monthKey: string) => {
+    if (!data) return;
+    const recurringIncomes = data.recurringIncomes || [];
+    let currentExpected = data.expectedIncomes || [];
+    let added = false;
+
+    recurringIncomes.forEach(inc => {
+      if (!inc.active) return;
+
+      const expectedDatePrefix = `${monthKey}-`;
+      const alreadyExists = currentExpected.find(ei => ei.recurringIncomeId === inc.id && ei.expectedDate.startsWith(expectedDatePrefix));
+      
+      if (!alreadyExists) {
+        // Create expected income for this month
+        // Just pad expectedDay to 2 digits
+        const dayStr = inc.expectedDay.toString().padStart(2, '0');
+        const expectedDate = `${monthKey}-${dayStr}`;
+        const newExpected: ExpectedIncome = {
+          id: `ei-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`,
+          recurringIncomeId: inc.id,
+          name: inc.name,
+          amount: inc.amount,
+          expectedDate,
+          accountId: inc.accountId,
+          profileId: inc.profileId,
+          status: 'expected',
+          createdAt: new Date().toISOString()
+        };
+        currentExpected = [...currentExpected, newExpected];
+        added = true;
+      }
+    });
+
+    if (added) {
+      const newData = { ...data, expectedIncomes: currentExpected };
+      setData(newData);
+      adapter.saveData(newData);
+    }
+  };
+
+  const skipExpectedIncome = (expectedIncomeId: string) => {
+    if (!data) return;
+    const newExpected = (data.expectedIncomes || []).map(ei => 
+      ei.id === expectedIncomeId ? { ...ei, status: 'skipped' as const, updatedAt: new Date().toISOString() } : ei
+    );
+    const newData = { ...data, expectedIncomes: newExpected };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const markIncomeAsReceived = (expectedIncomeId: string, paymentInput: { amount: number; accountId: string; date: string; categoryId?: string; comment: string }) => {
+    if (!data) return;
+    
+    const expected = (data.expectedIncomes || []).find(e => e.id === expectedIncomeId);
+    if (!expected) return;
+    if (expected.status === 'received') return; // Do not duplicate
+
+    // 1. Create real transaction
+    const newTx: Transaction = {
+      id: `tx-inc-${Date.now()}`,
+      householdId: data.household.id,
+      accountId: paymentInput.accountId,
+      profileId: expected.profileId || data.settings.activeProfileId,
+      type: 'income',
+      categoryId: paymentInput.categoryId || data.categories.find(c => c.name.toLowerCase().includes('lön') || c.name.toLowerCase().includes('inkomst'))?.id || data.categories[0]?.id || '',
+      amount: Math.abs(paymentInput.amount),
+      description: expected.name,
+      date: paymentInput.date,
+      isRecurring: true, // Mark it came from recurring
+      tags: [],
+      comment: paymentInput.comment,
+      createdAt: new Date().toISOString()
+    };
+
+    const newTransactions = [newTx, ...data.transactions];
+
+    // 2. Mark expected income as received
+    const newExpected = (data.expectedIncomes || []).map(ei => 
+      ei.id === expectedIncomeId ? { ...ei, status: 'received' as const, transactionId: newTx.id, updatedAt: new Date().toISOString() } : ei
+    );
+
+    const newData = { ...data, transactions: newTransactions, expectedIncomes: newExpected };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const unlockApp = () => {
     setIsLocked(false);
     updateSettings({ lastUnlockedAt: new Date().toISOString() });
@@ -453,6 +597,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive, createBudgetForCategory, ensureBudgetForCategory, updateBudgetForCategory,
       addCategory, updateCategory, deactivateCategory, reactivateCategory,
       addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,
+      addRecurringIncome, updateRecurringIncome, deactivateRecurringIncome, reactivateRecurringIncome, markIncomeAsReceived, skipExpectedIncome, ensureExpectedIncomesForMonth,
       isLocked, unlockApp, lockApp, isLoaded: true 
     }}>
       {children}
