@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { AppData, Transaction, Account, Bill, Category, Budget, RecurringIncome, ExpectedIncome } from '../../types/models';
+import type { AppData, Transaction, Account, Bill, Category, Budget, RecurringIncome, ExpectedIncome, MonthPlan } from '../../types/models';
+import { createOrUpdateMonthPlan, confirmMonthPlan as confirmMonthPlanService, getMonthPlan as getMonthPlanService } from '../../features/monthPlanning/monthPlanningService';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
 
@@ -50,6 +51,12 @@ interface AppDataContextValue {
   skipExpectedIncome: (expectedIncomeId: string) => void;
   ensureExpectedIncomesForMonth: (monthKey: string) => void;
 
+  // Month Plans
+  prepareMonthPlan: (monthKey: string) => void;
+  confirmMonthPlan: (monthKey: string) => void;
+  resetMonthPlanDraft: (monthKey: string) => void;
+  getMonthPlanByKey: (monthKey: string) => MonthPlan | undefined;
+
   isLocked: boolean;
   unlockApp: () => void;
   lockApp: () => void;
@@ -87,6 +94,9 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       }
       if (!loadedData.expectedIncomes) {
         loadedData.expectedIncomes = [];
+      }
+      if (!loadedData.monthPlans) {
+        loadedData.monthPlans = [];
       }
 
       setData(loadedData);
@@ -265,6 +275,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       transactions: newTransactions,
       recurringIncomes: setupData.recurringIncomes || [],
       expectedIncomes: setupData.expectedIncomes || [],
+      monthPlans: setupData.monthPlans || [],
       settings: {
         ...data.settings,
         onboardingCompleted: true,
@@ -576,6 +587,53 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const prepareMonthPlan = (monthKey: string) => {
+    if (!data) return;
+    const { newPlan, updatedExpectedIncomes } = createOrUpdateMonthPlan(data, monthKey);
+    
+    let newPlans = [...(data.monthPlans || [])];
+    const existingIdx = newPlans.findIndex(p => p.monthKey === monthKey);
+    if (existingIdx >= 0) {
+      newPlans[existingIdx] = newPlan;
+    } else {
+      newPlans.push(newPlan);
+    }
+
+    const newData = { ...data, monthPlans: newPlans, expectedIncomes: updatedExpectedIncomes };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const confirmMonthPlan = (monthKey: string) => {
+    if (!data) return;
+    const confirmedPlan = confirmMonthPlanService(data, monthKey);
+    if (!confirmedPlan) return;
+
+    let newPlans = [...(data.monthPlans || [])];
+    const existingIdx = newPlans.findIndex(p => p.monthKey === monthKey);
+    if (existingIdx >= 0) {
+      newPlans[existingIdx] = confirmedPlan;
+    }
+
+    const newData = { ...data, monthPlans: newPlans };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const resetMonthPlanDraft = (monthKey: string) => {
+    if (!data) return;
+    // Just remove it from monthPlans
+    const newPlans = (data.monthPlans || []).filter(p => p.monthKey !== monthKey);
+    const newData = { ...data, monthPlans: newPlans };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const getMonthPlanByKey = (monthKey: string) => {
+    if (!data) return undefined;
+    return getMonthPlanService(data, monthKey);
+  };
+
   const unlockApp = () => {
     setIsLocked(false);
     updateSettings({ lastUnlockedAt: new Date().toISOString() });
@@ -598,6 +656,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       addCategory, updateCategory, deactivateCategory, reactivateCategory,
       addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,
       addRecurringIncome, updateRecurringIncome, deactivateRecurringIncome, reactivateRecurringIncome, markIncomeAsReceived, skipExpectedIncome, ensureExpectedIncomesForMonth,
+      prepareMonthPlan, confirmMonthPlan, resetMonthPlanDraft, getMonthPlanByKey,
       isLocked, unlockApp, lockApp, isLoaded: true 
     }}>
       {children}

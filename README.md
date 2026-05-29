@@ -4,7 +4,7 @@
 
 Månadsro är en varm, lugn och modern hushållsekonomiapp för familjebudgetering. Appen är designad för att vara lokal-först – all data stannar på din enhet.
 
-![Build](https://img.shields.io/badge/Build-10-teal)
+![Build](https://img.shields.io/badge/Build-12-teal)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -53,14 +53,19 @@ npm run preview
 
 ---
 
-## 📋 Build 10 – Innehåll
+## 📋 Build 12 – Innehåll
 
-### ✅ Implementerat i Build 10
-- Fullständig kategorihantering (lägg till, redigera, inaktivera).
-- Val av ikon (emoji) och färg per kategori.
-- Koppling mellan kategori och budget.
-- Inaktiverade kategorier döljs från urval men bevarar historik.
-- Smidigt "Skapa budget från kategori"-flöde.
+### ✅ Implementerat i Build 12
+- Ny månad-vy för att skapa en lugn plan för månadens inkomster och räkningar.
+- Hantering av månad-nycklar (t.ex. "2026-05").
+- Skapar och spårar förväntade inkomster från återkommande inkomster automatiskt när en månad förbereds.
+- Visar återkommande räkningar som en plan för månaden utan att duplicera data.
+- Bekräftelse av månadsplan och inbyggt skydd mot dubbletter.
+- Bakåtkompatibilitet för localStorage och backups upprätthålls.
+
+### ✅ Implementerat i Build 11
+- Återkommande inkomster och förväntade inkomster.
+- Inkomstplanerings-sida.
 
 ### ❌ Aktuella begränsningar
 - Riktig databas (IndexedDB/SQLite kommer senare).
@@ -125,8 +130,8 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 11
-- Återkommande inkomster eller ny-månad-guide.
+### Build 13
+- Transaktionsfiltrering, sökning och saldojustering, eller insikter och rapporter beroende på nästa beslut.
 
 ### Framtid
 - Tauri-integration och SQLite-databas.

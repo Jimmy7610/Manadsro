@@ -1,5 +1,6 @@
 import Card from '../../shared/components/Card';
 import { getMonthName, getCurrentMonth } from '../../shared/utils/date';
+import { getCurrentMonthKey } from '../../shared/utils/month';
 import { getMonthlyStatus } from '../../shared/utils/monthlyStatus';
 import { useAppData } from '../../storage/services/AppDataContext';
 import './DashboardHero.css';
@@ -10,8 +11,10 @@ import './DashboardHero.css';
 export default function DashboardHero() {
   const { data } = useAppData();
   const currentMonth = getCurrentMonth();
+  const currentMonthKey = getCurrentMonthKey();
   const monthName = getMonthName(currentMonth);
   const status = getMonthlyStatus(data);
+  const plan = data.monthPlans?.find(p => p.monthKey === currentMonthKey);
 
   const monthCapitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
@@ -29,7 +32,9 @@ export default function DashboardHero() {
           <span className="dashboard-hero__month">{monthCapitalized} 2026</span>
           <h2 className="dashboard-hero__title">{status.message}</h2>
           <p className="dashboard-hero__subtitle">
-            {status.freeSpace >= 0 ? 'Ni har bra marginal efter räkningar och planerad budget.' : 'Försök hålla nere utgifterna resten av månaden.'}
+            {plan?.status === 'confirmed' 
+              ? 'Månadens plan är bekräftad.' 
+              : 'Den här månaden är inte bekräftad ännu. Gå igenom ny-månad-planen när du har tid.'}
           </p>
         </div>
       </div>

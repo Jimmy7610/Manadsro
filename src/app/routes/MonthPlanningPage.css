@@ -1,0 +1,152 @@
+.month-planning-page__header {
+  margin-bottom: 2rem;
+}
+
+.month-planning-page__controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.month-planning-page__btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  background: var(--surface-bg);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.month-planning-page__btn:hover {
+  background: var(--bg-color);
+}
+
+.month-planning-page__btn--primary {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+.month-planning-page__btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.month-planning-page__month-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.month-planning-page__status-card {
+  margin-bottom: 2rem;
+  text-align: center;
+  padding: 2rem;
+}
+
+.month-planning-page__status-text {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+  color: var(--text-secondary);
+}
+
+.month-planning-page__status-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.month-planning-page__section {
+  margin-bottom: 2.5rem;
+}
+
+.month-planning-page__section-title {
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.month-planning-page__list {
+  display: grid;
+  gap: 1rem;
+}
+
+.month-planning-page__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: var(--surface-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.month-planning-page__item-left {
+  display: flex;
+  flex-direction: column;
+}
+
+.month-planning-page__item-title {
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.month-planning-page__item-meta {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.month-planning-page__item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.month-planning-page__item-amount {
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.month-planning-page__badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.month-planning-page__badge--draft {
+  background: rgba(var(--warning-color-rgb), 0.1);
+  color: var(--warning-color);
+}
+
+.month-planning-page__badge--confirmed {
+  background: rgba(var(--success-color-rgb), 0.1);
+  color: var(--success-color);
+}
+
+.month-planning-page__badge--missing {
+  background: var(--bg-color);
+  color: var(--text-secondary);
+}
+
+.month-planning-page__empty {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+  background: var(--surface-bg);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-color);
+}
+
+.month-planning-page__actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}

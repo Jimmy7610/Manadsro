@@ -134,6 +134,21 @@ export interface ExpectedIncome {
   updatedAt?: string;
 }
 
+export interface MonthPlan {
+  id: string;
+  monthKey: string; // 'YYYY-MM'
+  status: 'draft' | 'confirmed';
+  preparedAt?: string;
+  confirmedAt?: string;
+  expectedIncomeIds?: string[];
+  plannedBillIds?: string[];
+  skippedRecurringIncomeIds?: string[];
+  skippedRecurringBillIds?: string[];
+  note?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface AppSettings {
   theme: ThemeMode;
   currency: string; // INSTÄLLNING - Standardvaluta
@@ -164,5 +179,6 @@ export interface AppData {
   budgets: Budget[];
   recurringIncomes?: RecurringIncome[];
   expectedIncomes?: ExpectedIncome[];
+  monthPlans?: MonthPlan[];
   settings: AppSettings;
 }

@@ -312,7 +312,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 11-uppdatering: Återkommande inkomster kan nu skapas. Förväntade inkomster kan markeras som mottagna. Faktiskt saldo påverkas först när inkomsten markeras som mottagen. Backup rekommenderas innan stora ändringar.
+          Build 12-uppdatering: Ny-månad-vy finns nu. Månadsplan kan förberedas och bekräftas. Dubbletter undviks för förväntade inkomster och räkningar. Backup rekommenderas innan större månadsändringar. (Inkluderar även Build 11:s inkomstplanering.)
         </p>
       </Card>
     </div>

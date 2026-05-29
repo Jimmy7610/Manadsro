@@ -12,6 +12,7 @@ import './Sidebar.css';
 const navItems = [
   { to: '/', label: 'Dashboard', emoji: '📊' },
   { to: '/transactions', label: 'Transaktioner', emoji: '💳' },
+  { to: '/month-planning', label: 'Ny månad', emoji: '📅' },
   { to: '/bills', label: 'Räkningar', emoji: '📄' },
   { to: '/incomes', label: 'Inkomster', emoji: '💰' },
   { to: '/budget', label: 'Budget', emoji: '📋' },
