@@ -10,6 +10,7 @@ import SettingsPage from './routes/SettingsPage';
 import CategoriesPage from './routes/CategoriesPage';
 import IncomesPage from './routes/IncomesPage';
 import MonthPlanningPage from './routes/MonthPlanningPage';
+import InsightsPage from './routes/InsightsPage';
 import { AppDataProvider, useAppData } from '../storage/services/AppDataContext';
 import OnboardingFlow from '../features/onboarding/OnboardingFlow';
 import LockScreen from '../features/security/LockScreen';
@@ -38,6 +39,7 @@ function AppInner() {
           <Route path="accounts" element={<AccountsPage />} />
           <Route path="incomes" element={<IncomesPage />} />
           <Route path="month-planning" element={<MonthPlanningPage />} />
+          <Route path="insights" element={<InsightsPage />} />
           <Route path="categories" element={<CategoriesPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>

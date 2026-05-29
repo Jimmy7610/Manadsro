@@ -4,7 +4,7 @@
 
 Månadsro är en varm, lugn och modern hushållsekonomiapp för familjebudgetering. Appen är designad för att vara lokal-först – all data stannar på din enhet.
 
-![Build](https://img.shields.io/badge/Build-13-teal)
+![Build](https://img.shields.io/badge/Build-14-teal)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -53,14 +53,21 @@ npm run preview
 
 ---
 
-## 📋 Build 13 – Innehåll
+## 📋 Build 14 – Innehåll
+
+### ✅ Implementerat i Build 14
+- Ny Insikter-sida med månadsväljare.
+- Visar en månadsöversikt (Inkomster, Utgifter, Räkningar, Netto).
+- Visar andel utgifter per kategori och listar de största transaktionerna.
+- Visar budgetvarningar om en kategori är nära eller över sin gräns.
+- Saldojusteringar påverkar inte inkomst/utgifts-staplarna utan noteras separat.
+- Bakåtkompatibilitet för localStorage och backups upprätthålls.
 
 ### ✅ Implementerat i Build 13
 - Transaktionscenter med detaljerad sökning (fritext, belopp m.m.).
 - Filtrering av transaktioner på datum, konto, kategori, profil och typ.
 - Funktion för manuell saldojustering från Transaktioner- och Konton-sidorna.
 - Saldojusteringar hanteras som separata transaktioner utan att ändra startsaldot.
-- Bakåtkompatibilitet för localStorage och backups upprätthålls.
 
 ### ✅ Implementerat i Build 12
 - Ny månad-vy för att skapa en lugn plan för månadens inkomster och räkningar.
@@ -136,8 +143,8 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 14
-- Insikter och rapporter (statistik och grafer).
+### Build 15
+- Import/export-förbättringar, avancerade rapporter eller djupare månadsplanering.
 
 ### Framtid
 - Tauri-integration och SQLite-databas.

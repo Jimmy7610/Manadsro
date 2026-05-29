@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card';
 import { getMonthName, getCurrentMonth } from '../../shared/utils/date';
 import { getCurrentMonthKey } from '../../shared/utils/month';
@@ -15,6 +16,7 @@ export default function DashboardHero() {
   const monthName = getMonthName(currentMonth);
   const status = getMonthlyStatus(data);
   const plan = data.monthPlans?.find(p => p.monthKey === currentMonthKey);
+  const navigate = useNavigate();
 
   const monthCapitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
@@ -36,6 +38,15 @@ export default function DashboardHero() {
               ? 'Månadens plan är bekräftad.' 
               : 'Den här månaden är inte bekräftad ännu. Gå igenom ny-månad-planen när du har tid.'}
           </p>
+          <div style={{ marginTop: '1rem' }}>
+            <button 
+              className="btn-save" 
+              style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
+              onClick={() => navigate('/insights')}
+            >
+              Visa insikter
+            </button>
+          </div>
         </div>
       </div>
       <div className="dashboard-hero__decoration" />

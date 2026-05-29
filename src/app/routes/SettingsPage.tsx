@@ -10,7 +10,7 @@ import { createPinSalt, hashPin } from '../../features/security/pinUtils';
 import './SettingsPage.css';
 
 /**
- * Månadsro – Inställningssida (Build 13)
+ * Månadsro – Inställningssida (Build 14)
  */
 export default function SettingsPage() {
   const { data, resetLocalData, exportBackup, importBackup, updateSettings, lockApp } = useAppData();
@@ -312,7 +312,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 13-uppdatering: Förbättrat transaktionscenter med sökning och detaljerade filter. Lagt till möjlighet att justera saldo manuellt (skapar en separat saldojusterings-transaktion utan att ändra startsaldot). (Inkluderar även Build 12:s månadsplanering.)
+          Build 14-uppdatering: Insikter-sidan finns nu. Månadsöversikt visar inkomster, utgifter och netto. Kategoriöversikt och budgetvarningar finns. Saldojusteringar räknas separat från vanliga inkomster/utgifter. (Inkluderar även Build 13:s transaktionscenter.)
         </p>
       </Card>
     </div>
