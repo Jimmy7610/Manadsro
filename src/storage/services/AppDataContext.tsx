@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { AppData, Transaction } from '../../types/models';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
+import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
 
 interface AppDataContextValue {
   data: AppData;
@@ -11,6 +12,8 @@ interface AppDataContextValue {
   restoreTransaction: (tx: Transaction) => void;
   payBill: (billId: string, paymentInput: { amount: number; accountId: string; date: string; categoryId: string; comment: string }) => void;
   resetLocalData: () => void;
+  exportBackup: () => void;
+  importBackup: (file: File) => Promise<void>;
   isLoaded: boolean;
 }
 
@@ -114,6 +117,25 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const exportBackup = () => {
+    if (!data) return;
+    const now = new Date().toISOString();
+    const newData = {
+      ...data,
+      settings: { ...data.settings, latestBackupAt: now }
+    };
+    setData(newData);
+    adapter.saveData(newData);
+    downloadBackup(newData);
+  };
+
+  const importBackup = async (file: File) => {
+    const payload = await parseBackupFile(file);
+    const newData = payload.data;
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const resetLocalData = () => {
     adapter.clearData();
     const defaultData = adapter.getDefaultData();
@@ -127,7 +149,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppDataContext.Provider value={{ 
-      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, isLoaded: true 
+      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, isLoaded: true 
     }}>
       {children}
     </AppDataContext.Provider>

@@ -53,20 +53,18 @@ npm run preview
 
 ---
 
-## 📋 Build 4 – Innehåll
+## 📋 Build 5 – Innehåll
 
 ### ✅ Implementerat
-- Redigera transaktioner.
-- Radera transaktioner (med möjlighet att ångra).
-- Betala räkningar (skapar transaktion och markerar som betald).
-- Lokal lagring via `localStorage` uppdateras i realtid.
-- Dashboard och kalkyler ignorerar korrekt redan betalda räkningar för "fritt utrymme".
-- Uppdaterad versionsbricka till Build 4.
+- Exportera lokal data som en JSON-backup.
+- Importera backupfil med validering och bekräftelse.
+- Förbättrad återställningsfunktion med extra bekräftelse.
+- Tydlig kommunikation om säkerhet & integritet.
+- Uppdaterad versionsbricka till Build 5.
 
-### ❌ Inte implementerat i Build 4
+### ❌ Inte implementerat i Build 5
 - Riktig databas (IndexedDB kommer senare)
 - Hantera konton/budget (redigera flöden)
-- Import/export av data
 - Bankkoppling
 
 ---
@@ -127,12 +125,12 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 5
-- Backup/export foundation (säkrare import/export).
-- Möjlig PIN-inloggning eller onboarding-planering.
+### Build 6
+- PIN-inloggning eller onboarding.
 - Riktig lokal datalagring (IndexedDB).
+- Hantera konton/budget.
 
-### Build 6+
+### Build 7+
 - Tauri-integration och SQLite-databas.
 - Statistik och grafer
 

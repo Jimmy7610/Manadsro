@@ -94,6 +94,8 @@ export interface AppSettings {
   activeProfileId: string;
   buildNumber: number; // INSTÄLLNING - Aktuellt buildnummer
   dataMode?: 'demo' | 'local'; // INSTÄLLNING - Datakälla
+  latestBackupAt?: string;
+  updatedAt?: string;
 }
 
 export interface AppData {

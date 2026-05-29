@@ -75,3 +75,115 @@
   flex-direction: column;
   gap: 4px;
 }
+
+.settings-page__btn-reset {
+  width: 100%;
+  padding: var(--space-md);
+  margin-top: var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  color: var(--text-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.settings-page__btn-reset.confirm {
+  background: var(--bg-secondary);
+  border-color: var(--text-primary);
+}
+
+.settings-page__btn-reset--danger {
+  background: #ffebee;
+  color: #c62828;
+  border-color: #ffcdd2;
+}
+
+.settings-page__warning-text {
+  font-size: var(--text-xs);
+  color: #c62828;
+  margin-top: var(--space-xs);
+  text-align: center;
+}
+
+.settings-page__btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.settings-page__btn:hover {
+  background: var(--border-medium);
+}
+
+.settings-page__btn--import {
+  background: transparent;
+}
+
+.settings-page__backup-actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.settings-page__backup-status {
+  background: var(--bg-secondary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-top: var(--space-sm);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-page__backup-status strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.settings-page__backup-stats {
+  margin-top: var(--space-xs);
+  padding-top: var(--space-xs);
+  border-top: 1px solid var(--border-light);
+  font-size: 0.8rem;
+}
+
+.settings-page__import-modal {
+  text-align: left;
+}
+
+.settings-page__import-info {
+  background: var(--bg-secondary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin: var(--space-md) 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-page__import-info strong {
+  color: var(--text-primary);
+}
+
+.settings-page__toast {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+  font-size: var(--text-sm);
+  text-align: center;
+  font-weight: 500;
+  animation: fadeIn 300ms ease;
+}
