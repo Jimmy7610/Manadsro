@@ -15,6 +15,7 @@ interface AppDataContextValue {
   exportBackup: () => void;
   importBackup: (file: File) => Promise<void>;
   updateSettings: (updates: Partial<AppData['settings']>) => void;
+  completeOnboarding: (setupData: any) => void;
   
   // Accounts
   addAccount: (account: Account) => void;
@@ -193,6 +194,66 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const completeOnboarding = (setupData: any) => {
+    if (!data) return;
+
+    if (setupData.dataMode === 'demo') {
+      const newData = {
+        ...data,
+        settings: {
+          ...data.settings,
+          onboardingCompleted: true,
+          dataMode: 'demo' as const,
+          pinEnabled: setupData.pinEnabled,
+          pinHash: setupData.pinHash || '',
+          pinSalt: setupData.pinSalt || '',
+          updatedAt: new Date().toISOString()
+        }
+      };
+      setData(newData);
+      adapter.saveData(newData);
+      return;
+    }
+
+    // Local mode setup
+    const newHousehold = { 
+      ...data.household, 
+      name: setupData.householdName || 'Mitt hushåll' 
+    };
+
+    const newProfiles = setupData.profiles?.length > 0 ? setupData.profiles : data.profiles;
+    const newAccounts = setupData.accounts?.length > 0 ? setupData.accounts : data.accounts;
+    const newBudgets = setupData.budgets?.length > 0 ? setupData.budgets : [];
+    const newBills = setupData.bills?.length > 0 ? setupData.bills : [];
+    
+    // Clear demo transactions when starting fresh local economy
+    const newTransactions: Transaction[] = [];
+
+    const newData = {
+      ...data,
+      household: newHousehold,
+      profiles: newProfiles,
+      accounts: newAccounts,
+      budgets: newBudgets,
+      bills: newBills,
+      transactions: newTransactions,
+      settings: {
+        ...data.settings,
+        onboardingCompleted: true,
+        dataMode: 'local' as const,
+        householdName: newHousehold.name,
+        pinEnabled: setupData.pinEnabled,
+        pinHash: setupData.pinHash || '',
+        pinSalt: setupData.pinSalt || '',
+        activeProfileId: newProfiles[newProfiles.length - 1]?.id || newProfiles[0]?.id, // Default to shared if possible
+        updatedAt: new Date().toISOString()
+      }
+    };
+
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const addAccount = (account: Account) => {
     if (!data) return;
     const newAccounts = [...data.accounts, account];
@@ -306,7 +367,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppDataContext.Provider value={{ 
-      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings,
+      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings, completeOnboarding,
       addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive,
       addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,
       isLocked, unlockApp, lockApp, isLoaded: true 

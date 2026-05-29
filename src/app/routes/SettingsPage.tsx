@@ -198,8 +198,8 @@ export default function SettingsPage() {
         </div>
         <p className="settings-page__text" style={{ marginTop: '0.5rem' }}>
           {data.settings.dataMode === 'demo' 
-            ? 'Du använder demoläge. Uppgifter kan testas utan att vara din riktiga ekonomi.' 
-            : 'Du använder lokal ekonomi. Datan sparas i den här webbläsaren.'}
+            ? 'Demoläget använder exempeldata så att du kan testa Månadsro utan riktig ekonomi.' 
+            : 'Lokal ekonomi sparas i den här webbläsaren och är avsedd för din egen hushållsdata.'}
         </p>
         <div className="settings-page__backup-actions">
           <button className="settings-page__btn" onClick={restartOnboarding}>
@@ -207,7 +207,7 @@ export default function SettingsPage() {
           </button>
         </div>
         <p className="settings-page__text settings-page__text--warning" style={{marginTop: '0.5rem', color: 'var(--text-secondary)'}}>
-          Detta raderar inte din data.
+          Du kan visa startguiden igen utan att radera din data.
         </p>
       </Card>
 
@@ -280,7 +280,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 8-uppdatering: Räkningar kan nu skapas, redigeras, markeras som återkommande och hoppas över för månaden. Dashboard uppdaterat med bättre månadsöversikt.
+          Build 9-uppdatering: Förbättrad startguide för att enklare sätta upp sin första lokala ekonomi med profiler, konton, budgetar och räkningar.
         </p>
       </Card>
     </div>
