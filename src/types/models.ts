@@ -49,6 +49,7 @@ export interface Transaction {
   comment?: string;
   createdAt?: string;
   updatedAt?: string;
+  billId?: string; // Koppling till räkning om typen är 'bill'
 }
 
 export interface Bill {
@@ -63,6 +64,7 @@ export interface Bill {
   status: BillStatus;
   isRecurring: boolean;
   recurrenceInterval?: 'monthly' | 'quarterly' | 'yearly';
+  paidAt?: string; // ISO date string när den betalades
 }
 
 export interface Category {

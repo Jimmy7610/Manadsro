@@ -116,3 +116,65 @@
 .transactions-page__amount--neutral {
   color: var(--text-tertiary);
 }
+
+.transactions-page__item-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+}
+
+.transactions-page__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+}
+
+.transactions-page__action-btn {
+  font-size: 0.7rem;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.transactions-page__action-btn:hover {
+  background: var(--border-medium);
+}
+
+.transactions-page__action-btn--danger:hover {
+  background: #ffebee;
+  color: #c62828;
+  border-color: #ffcdd2;
+}
+
+.transactions-page__undo-toast {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-xl);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--text-sm);
+}
+
+.transactions-page__undo-btn {
+  background: transparent;
+  border: 1px solid var(--bg-primary);
+  color: var(--bg-primary);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+
+.transactions-page__undo-btn:hover {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}

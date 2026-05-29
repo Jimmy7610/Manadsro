@@ -46,7 +46,7 @@ export default function RecentTransactionsCard() {
                     {tx.description}
                   </div>
                   <div className="recent-transactions__date">
-                    {getRelativeDateText(tx.date)}
+                    {getRelativeDateText(tx.date)} • {isTransfer ? 'Överföring' : (tx.type === 'bill' ? 'Räkning' : 'Köp')}
                   </div>
                 </div>
                 <div

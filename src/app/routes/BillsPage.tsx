@@ -5,6 +5,7 @@ import { formatCurrency } from '../../shared/utils/currency';
 import { formatDate, daysUntil } from '../../shared/utils/date';
 import type { Bill } from '../../types/models';
 import { useAppData } from '../../storage/services/AppDataContext';
+import PayBillModal from '../../features/bills/PayBillModal';
 import './BillsPage.css';
 
 /**
@@ -14,6 +15,7 @@ export default function BillsPage() {
   const { data } = useAppData();
   const bills = data.bills;
   const [activeTab, setActiveTab] = useState<'alla' | 'obetalda' | 'betalda'>('alla');
+  const [payingBill, setPayingBill] = useState<Bill | null>(null);
 
   // Gruppera räkningar
   const groupedBills = useMemo(() => {
@@ -71,13 +73,13 @@ export default function BillsPage() {
 
         {bill.status !== 'paid' && (
           <div className="bills-page__actions">
-            <button className="bills-page__btn bills-page__btn--primary" disabled title="Kommer i Build 3">
-              Markera betald
+            <button className="bills-page__btn bills-page__btn--primary" onClick={() => setPayingBill(bill)}>
+              Markera som betald
             </button>
-            <button className="bills-page__btn" disabled title="Kommer i Build 3">
+            <button className="bills-page__btn" disabled title="Kommer i framtiden">
               Ändra datum
             </button>
-            <button className="bills-page__btn bills-page__btn--danger" disabled title="Kommer i Build 3">
+            <button className="bills-page__btn bills-page__btn--danger" disabled title="Kommer i framtiden">
               Hoppa över
             </button>
           </div>
@@ -140,6 +142,13 @@ export default function BillsPage() {
         {renderGroup('📅 Planerade', groupedBills.planned, 'Inga planerade räkningar')}
         {renderGroup('✅ Betalda', groupedBills.paid, 'Inga betalda räkningar')}
       </div>
+
+      {payingBill && (
+        <PayBillModal 
+          bill={payingBill} 
+          onClose={() => setPayingBill(null)} 
+        />
+      )}
     </div>
   );
 }

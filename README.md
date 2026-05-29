@@ -53,21 +53,19 @@ npm run preview
 
 ---
 
-## 📋 Build 3 – Innehåll
+## 📋 Build 4 – Innehåll
 
 ### ✅ Implementerat
-- Lokal lagring via `localStorage` i webbläsaren.
-- Form för att lägga till köp/utgift.
-- Form för att lägga till inkomst.
-- Globalt state (`AppDataContext`) som uppdaterar alla vyer live.
-- Reset/återställningsfunktion för att rensa lokala ändringar.
-- Uppdaterad versionsbricka till Build 3.
+- Redigera transaktioner.
+- Radera transaktioner (med möjlighet att ångra).
+- Betala räkningar (skapar transaktion och markerar som betald).
+- Lokal lagring via `localStorage` uppdateras i realtid.
+- Dashboard och kalkyler ignorerar korrekt redan betalda räkningar för "fritt utrymme".
+- Uppdaterad versionsbricka till Build 4.
 
-### ❌ Inte implementerat i Build 3
-- Riktig databas (IndexedDB kommer i Build 4)
-- Redigera/ta bort transaktioner
-- Lägg till/betala räkning
-- Hantera konton/budget
+### ❌ Inte implementerat i Build 4
+- Riktig databas (IndexedDB kommer senare)
+- Hantera konton/budget (redigera flöden)
 - Import/export av data
 - Bankkoppling
 
@@ -129,18 +127,13 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 4
-- Lägg till, redigera och ta bort transaktioner (full CRUD).
-- Räkningsflöde (markera som betald m.m.).
-- Säkrare reset/backup-grund.
+### Build 5
+- Backup/export foundation (säkrare import/export).
+- Möjlig PIN-inloggning eller onboarding-planering.
 - Riktig lokal datalagring (IndexedDB).
 
-### Build 5
-- Tauri-integration och SQLite-databas.
-- PIN-inloggning.
-
 ### Build 6+
-- Import/export
+- Tauri-integration och SQLite-databas.
 - Statistik och grafer
 
 ---

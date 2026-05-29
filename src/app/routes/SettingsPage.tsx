@@ -5,7 +5,7 @@ import { useAppData } from '../../storage/services/AppDataContext';
 import './SettingsPage.css';
 
 /**
- * Månadsro – Inställningssida (Build 3)
+ * Månadsro – Inställningssida (Build 4)
  */
 export default function SettingsPage() {
   const { resetLocalData } = useAppData();
@@ -49,7 +49,7 @@ export default function SettingsPage() {
             <div className="settings-page__label">PIN-inloggning</div>
             <div className="settings-page__desc">Skydda appen med en kod</div>
           </div>
-          <span className="settings-page__badge">Build 4</span>
+          <span className="settings-page__badge">Build 5</span>
         </div>
       </Card>
 
@@ -70,17 +70,17 @@ export default function SettingsPage() {
       <Card className="settings-page__section settings-page__demo-card" style={{ animationDelay: '0.3s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">🧪</span>
-          <h3 className="settings-page__section-title">Lokal Lagring (Build 3)</h3>
+          <h3 className="settings-page__section-title">Lokal Lagring (Build 4)</h3>
         </div>
         <p className="settings-page__text">
-          Denna version (Build 3) använder lokal lagring (localStorage) i din webbläsare.
+          Denna version (Build 4) använder lokal lagring (localStorage) i din webbläsare.
           Din data stannar på denna enhet. Appen initialiseras med fiktiv demodata.
         </p>
         <ul className="settings-page__list">
           <li>Transaktioner sparas lokalt i webbläsaren.</li>
-          <li>Ingen inloggning krävs.</li>
+          <li>Räkningar kan nu betalas och transaktioner kan redigeras/raderas.</li>
           <li>Inga riktiga bankkopplingar finns (appen är lokal).</li>
-          <li>Riktig databas (IndexedDB) kommer i nästa build.</li>
+          <li>Backup/export är planerat för en senare build.</li>
         </ul>
         
         <div className="settings-page__reset-area">

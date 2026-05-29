@@ -1,0 +1,18 @@
+/* Månadsro – PayBillModal */
+
+/* Uses the same global modal styles but we might need specific tweaks if any */
+.pay-bill-meta {
+  background: var(--bg-secondary);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.pay-bill-meta strong {
+  color: var(--text-primary);
+  display: block;
+  font-size: var(--text-base);
+  margin-bottom: var(--space-xs);
+}

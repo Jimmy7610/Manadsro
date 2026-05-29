@@ -6,6 +6,10 @@ import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 interface AppDataContextValue {
   data: AppData;
   addTransaction: (tx: Transaction) => void;
+  updateTransaction: (transactionId: string, updates: Partial<Transaction>) => void;
+  deleteTransaction: (transactionId: string) => void;
+  restoreTransaction: (tx: Transaction) => void;
+  payBill: (billId: string, paymentInput: { amount: number; accountId: string; date: string; categoryId: string; comment: string }) => void;
   resetLocalData: () => void;
   isLoaded: boolean;
 }
@@ -50,6 +54,66 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const updateTransaction = (transactionId: string, updates: Partial<Transaction>) => {
+    if (!data) return;
+    const newTransactions = data.transactions.map(tx => 
+      tx.id === transactionId ? { ...tx, ...updates, updatedAt: new Date().toISOString() } : tx
+    );
+    const newData = { ...data, transactions: newTransactions };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const deleteTransaction = (transactionId: string) => {
+    if (!data) return;
+    const newTransactions = data.transactions.filter(tx => tx.id !== transactionId);
+    const newData = { ...data, transactions: newTransactions };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const restoreTransaction = (tx: Transaction) => {
+    if (!data) return;
+    // For simplicity, just append to the beginning and sort later if needed.
+    // Or we can just insert it. Let's prepend it for now.
+    const newTransactions = [tx, ...data.transactions];
+    const newData = { ...data, transactions: newTransactions };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const payBill = (billId: string, paymentInput: { amount: number; accountId: string; date: string; categoryId: string; comment: string }) => {
+    if (!data) return;
+    const bill = data.bills.find(b => b.id === billId);
+    if (!bill) return;
+
+    const newTx: Transaction = {
+      id: `tx-bill-${Date.now()}`,
+      householdId: data.household.id,
+      accountId: paymentInput.accountId,
+      profileId: bill.profileId || data.settings.activeProfileId,
+      type: 'bill',
+      categoryId: paymentInput.categoryId || bill.categoryId,
+      amount: -Math.abs(paymentInput.amount),
+      description: bill.name,
+      date: paymentInput.date,
+      isRecurring: false,
+      tags: [],
+      comment: paymentInput.comment,
+      createdAt: new Date().toISOString(),
+      billId: bill.id
+    };
+
+    const newTransactions = [newTx, ...data.transactions];
+    const newBills = data.bills.map(b => 
+      b.id === billId ? { ...b, status: 'paid' as const, paidAt: new Date().toISOString() } : b
+    );
+
+    const newData = { ...data, transactions: newTransactions, bills: newBills };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const resetLocalData = () => {
     adapter.clearData();
     const defaultData = adapter.getDefaultData();
@@ -62,7 +126,9 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AppDataContext.Provider value={{ data, addTransaction, resetLocalData, isLoaded: true }}>
+    <AppDataContext.Provider value={{ 
+      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, isLoaded: true 
+    }}>
       {children}
     </AppDataContext.Provider>
   );

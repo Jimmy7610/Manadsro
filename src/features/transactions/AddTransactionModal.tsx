@@ -2,27 +2,31 @@ import { useState } from 'react';
 import { useAppData } from '../../storage/services/AppDataContext';
 import './AddTransactionModal.css';
 
+import type { Transaction } from '../../types/models';
+
 interface AddTransactionModalProps {
-  type: 'expense' | 'income';
+  type: 'expense' | 'income' | 'bill';
+  initialData?: Transaction;
   onClose: () => void;
 }
 
-export default function AddTransactionModal({ type, onClose }: AddTransactionModalProps) {
-  const { data, addTransaction } = useAppData();
+export default function AddTransactionModal({ type, initialData, onClose }: AddTransactionModalProps) {
+  const { data, addTransaction, updateTransaction } = useAppData();
   
-  const [name, setName] = useState('');
-  const [amount, setAmount] = useState('');
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-  const [accountId, setAccountId] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [profileId, setProfileId] = useState('');
-  const [comment, setComment] = useState('');
+  const [name, setName] = useState(initialData?.description || '');
+  const [amount, setAmount] = useState(initialData ? String(Math.abs(initialData.amount)) : '');
+  const [date, setDate] = useState(initialData?.date.split('T')[0] || new Date().toISOString().split('T')[0]);
+  const [accountId, setAccountId] = useState(initialData?.accountId || '');
+  const [categoryId, setCategoryId] = useState(initialData?.categoryId || '');
+  const [profileId, setProfileId] = useState(initialData?.profileId || '');
+  const [comment, setComment] = useState(initialData?.comment || '');
   
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
-  const isExpense = type === 'expense';
-  const title = isExpense ? 'Lägg till köp' : 'Lägg till inkomst';
+  const isExpense = type === 'expense' || type === 'bill';
+  const isEdit = !!initialData;
+  const title = isEdit ? 'Redigera transaktion' : (isExpense ? 'Lägg till köp' : 'Lägg till inkomst');
 
   const handleSave = () => {
     setError('');
@@ -32,9 +36,7 @@ export default function AddTransactionModal({ type, onClose }: AddTransactionMod
     if (!accountId) return setError('Välj ett konto.');
     if (isExpense && !categoryId) return setError('Välj en kategori.');
 
-    const newTx = {
-      id: `tx-${Date.now()}`,
-      householdId: data.household.id,
+    const txData = {
       accountId,
       profileId: profileId || data.settings.activeProfileId,
       type: isExpense ? 'expense' : 'income',
@@ -42,14 +44,23 @@ export default function AddTransactionModal({ type, onClose }: AddTransactionMod
       amount: isExpense ? -Math.abs(Number(amount)) : Math.abs(Number(amount)),
       description: name.trim(),
       date,
-      isRecurring: false,
-      tags: [],
       comment: comment.trim(),
-      createdAt: new Date().toISOString()
-    } as any; // Using any to fit the type in case of missing fields
+    } as any;
 
-    addTransaction(newTx);
-    setSuccess('Transaktionen sparades.');
+    if (isEdit) {
+      updateTransaction(initialData.id, txData);
+      setSuccess('Transaktionen uppdaterades.');
+    } else {
+      addTransaction({
+        ...txData,
+        id: `tx-${Date.now()}`,
+        householdId: data.household.id,
+        isRecurring: false,
+        tags: [],
+        createdAt: new Date().toISOString()
+      });
+      setSuccess('Transaktionen sparades.');
+    }
     
     setTimeout(() => {
       onClose();
