@@ -26,7 +26,7 @@ export function calculateTotalBalance(
   transactions: Transaction[]
 ): number {
   return accounts
-    .filter(a => a.isActive)
+    .filter(a => a.isActive && !a.archived)
     .reduce((total, account) => {
       return total + calculateAccountBalance(account.id, accounts, transactions);
     }, 0);
@@ -50,7 +50,10 @@ export function calculateBudgetUsage(
   transactions: Transaction[]
 ): Array<{ budget: Budget; spent: number; percentage: number }> {
   return budgets.map(budget => {
-    // Filtrera transaktioner för aktuell kategori och månad
+    // Om budgeten är uttryckligen inaktiv (false), ignorera spenderat om vi vill, men
+    // för historikens skull kan vi visa spenderat, men limit räknas inte av.
+    // Eller enklare, i freeSpace filtrerar vi bort inaktiva.
+
     const spent = Math.abs(
       transactions
         .filter(tx => {
@@ -95,6 +98,7 @@ export function calculateFreeSpace(
   // Kvarvarande budgetutrymme (budget - redan spenderat)
   const budgetUsage = calculateBudgetUsage(budgets, transactions);
   const remainingBudget = budgetUsage.reduce((sum, { budget, spent }) => {
+    if (budget.active === false) return sum; // Ignorera inaktiva budgetar
     const remaining = Math.max(0, budget.monthlyLimit - spent);
     return sum + remaining;
   }, 0);

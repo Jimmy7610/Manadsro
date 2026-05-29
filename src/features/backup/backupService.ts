@@ -13,7 +13,7 @@ export const createBackupPayload = (appData: AppData): BackupPayload => {
     appName: 'Månadsro',
     backupVersion: 1,
     exportedAt: new Date().toISOString(),
-    appBuild: '5',
+    appBuild: '7',
     data: appData,
   };
 };

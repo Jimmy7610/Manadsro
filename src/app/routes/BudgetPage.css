@@ -1,5 +1,15 @@
 /* Månadsro – BudgetPage */
 
+.budget-page__toast {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+  text-align: center;
+  font-weight: 500;
+}
+
 .budget-page__info {
   display: flex;
   align-items: center;
@@ -25,6 +35,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
+}
+
+.budget-page__card--inactive {
+  opacity: 0.6;
 }
 
 .budget-page__card-header {
@@ -59,6 +73,11 @@
 .budget-page__status--positive {
   background: var(--bg-secondary);
   color: var(--color-positive);
+}
+
+.budget-page__status--inactive {
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
 }
 
 .budget-page__status--warning {
@@ -110,4 +129,30 @@
 
 .budget-page__remaining {
   color: var(--text-secondary);
+}
+
+.budget-page__actions {
+  display: flex;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--divider);
+}
+
+.budget-page__btn {
+  flex: 1;
+  padding: var(--space-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+  white-space: nowrap;
+}
+
+.budget-page__btn:hover {
+  background: var(--bg-secondary);
 }

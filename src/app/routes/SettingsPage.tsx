@@ -279,6 +279,9 @@ export default function SettingsPage() {
           Familjens ekonomi, lugnt och enkelt. 
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
+        <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
+          Build 7-uppdatering: Konton och budgetgränser kan nu ändras. Arkiverade konton behåller historik. Backup rekommenderas innan stora ändringar.
+        </p>
       </Card>
     </div>
   );

@@ -30,7 +30,11 @@ export interface Account {
   initialBalance: number; // INSTÄLLNING - Startsaldo vid skapande
   currency: string; // INSTÄLLNING - Valuta, standard 'SEK'
   sortOrder: number;
-  isActive: boolean;
+  isActive: boolean; // Om false kan det betyda deaktiverad, men archived är mer explicit för UI
+  archived?: boolean; // INSTÄLLNING - Dold från vanliga översikter
+  createdAt?: string;
+  updatedAt?: string;
+  note?: string; // INSTÄLLNING - Anteckning för kontot
 }
 
 export interface Transaction {
@@ -84,6 +88,9 @@ export interface Budget {
   profileId: string;
   monthlyLimit: number; // INSTÄLLNING - Budgetgräns per månad
   month: string; // Format: 'YYYY-MM'
+  active?: boolean; // INSTÄLLNING - Om budgeten är aktiv och räknas in
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface AppSettings {

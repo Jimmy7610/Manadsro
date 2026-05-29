@@ -1,0 +1,44 @@
+/* AccountModal.css */
+.account-modal {
+  max-width: 400px;
+}
+
+.account-modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-md);
+  text-align: left;
+}
+
+.account-modal__field label {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.account-modal__field input,
+.account-modal__field select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: var(--text-base);
+}
+
+.account-modal__helper {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.account-modal__error {
+  color: #c62828;
+  font-size: var(--text-sm);
+  background: #ffebee;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-md);
+}

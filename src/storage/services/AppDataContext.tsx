@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { AppData, Transaction } from '../../types/models';
+import type { AppData, Transaction, Account } from '../../types/models';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
 
@@ -15,6 +15,16 @@ interface AppDataContextValue {
   exportBackup: () => void;
   importBackup: (file: File) => Promise<void>;
   updateSettings: (updates: Partial<AppData['settings']>) => void;
+  
+  // Accounts
+  addAccount: (account: Account) => void;
+  updateAccount: (accountId: string, updates: Partial<Account>) => void;
+  archiveAccount: (accountId: string) => void;
+  
+  // Budgets
+  updateBudgetLimit: (budgetId: string, newLimit: number) => void;
+  toggleBudgetActive: (budgetId: string, active: boolean) => void;
+  
   isLocked: boolean;
   unlockApp: () => void;
   lockApp: () => void;
@@ -176,6 +186,54 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const addAccount = (account: Account) => {
+    if (!data) return;
+    const newAccounts = [...data.accounts, account];
+    const newData = { ...data, accounts: newAccounts };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const updateAccount = (accountId: string, updates: Partial<Account>) => {
+    if (!data) return;
+    const newAccounts = data.accounts.map(acc => 
+      acc.id === accountId ? { ...acc, ...updates, updatedAt: new Date().toISOString() } : acc
+    );
+    const newData = { ...data, accounts: newAccounts };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const archiveAccount = (accountId: string) => {
+    if (!data) return;
+    const newAccounts = data.accounts.map(acc => 
+      acc.id === accountId ? { ...acc, archived: true, updatedAt: new Date().toISOString() } : acc
+    );
+    const newData = { ...data, accounts: newAccounts };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const updateBudgetLimit = (budgetId: string, newLimit: number) => {
+    if (!data) return;
+    const newBudgets = data.budgets.map(b => 
+      b.id === budgetId ? { ...b, monthlyLimit: newLimit, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, budgets: newBudgets };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const toggleBudgetActive = (budgetId: string, active: boolean) => {
+    if (!data) return;
+    const newBudgets = data.budgets.map(b => 
+      b.id === budgetId ? { ...b, active, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, budgets: newBudgets };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const unlockApp = () => {
     setIsLocked(false);
     updateSettings({ lastUnlockedAt: new Date().toISOString() });
@@ -193,7 +251,9 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
 
   return (
     <AppDataContext.Provider value={{ 
-      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings, isLocked, unlockApp, lockApp, isLoaded: true 
+      data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings,
+      addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive,
+      isLocked, unlockApp, lockApp, isLoaded: true 
     }}>
       {children}
     </AppDataContext.Provider>
