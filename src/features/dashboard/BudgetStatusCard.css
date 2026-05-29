@@ -1,0 +1,107 @@
+/* Månadsro – BudgetStatusCard */
+
+.budget-status__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.budget-status__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.budget-status__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.budget-status__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.budget-status__item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.budget-status__category {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.budget-status__category-emoji {
+  font-size: var(--text-md);
+}
+
+.budget-status__amounts {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.budget-status__amounts span {
+  font-weight: 600;
+}
+
+.budget-status__bar-container {
+  width: 100%;
+  height: 8px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.budget-status__bar {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width var(--transition-slow), background-color var(--transition-base);
+  min-width: 2px;
+}
+
+.budget-status__bar--ok {
+  background: var(--color-positive);
+}
+
+.budget-status__bar--warning {
+  background: var(--color-warning);
+}
+
+.budget-status__bar--over {
+  background: var(--color-danger);
+}
+
+.budget-status__percentage {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-align: right;
+  margin-top: 2px;
+}
+
+.budget-status__percentage--ok {
+  color: var(--color-positive);
+}
+
+.budget-status__percentage--warning {
+  color: var(--color-warning);
+}
+
+.budget-status__percentage--over {
+  color: var(--color-danger);
+}
+
+.budget-status__empty {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}

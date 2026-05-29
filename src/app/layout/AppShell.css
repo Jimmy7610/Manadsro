@@ -1,0 +1,23 @@
+/* Månadsro – AppShell */
+
+.app-shell {
+  display: flex;
+  min-height: 100dvh;
+  width: 100%;
+}
+
+.app-shell__main {
+  flex: 1;
+  min-height: 100dvh;
+  /* Mobil: plats för bottenmeny */
+  padding-bottom: calc(var(--bottomnav-height) + env(safe-area-inset-bottom, 0px) + 16px);
+  transition: padding var(--transition-base);
+}
+
+/* INSTÄLLNING - Breakpoint för desktop-layout */
+@media (min-width: 769px) {
+  .app-shell__main {
+    margin-left: var(--sidebar-width);
+    padding-bottom: 0;
+  }
+}

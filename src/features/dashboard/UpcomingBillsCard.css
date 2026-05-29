@@ -1,0 +1,120 @@
+/* Månadsro – UpcomingBillsCard */
+
+.upcoming-bills__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.upcoming-bills__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.upcoming-bills__count {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  background: var(--bg-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+}
+
+.upcoming-bills__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.upcoming-bills__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--divider);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.upcoming-bills__item:hover {
+  background: var(--bg-secondary);
+}
+
+.upcoming-bills__item--urgent {
+  border-color: var(--color-warning);
+  background: var(--color-warning-bg);
+}
+
+.upcoming-bills__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.upcoming-bills__name {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.upcoming-bills__due {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: 2px;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+}
+
+.upcoming-bills__days {
+  font-weight: 600;
+}
+
+.upcoming-bills__days--urgent {
+  color: var(--color-warning);
+}
+
+.upcoming-bills__days--overdue {
+  color: var(--color-danger);
+}
+
+.upcoming-bills__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-xs);
+}
+
+.upcoming-bills__amount {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.upcoming-bills__badge {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  padding: 2px var(--space-sm);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.upcoming-bills__badge--planned {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.upcoming-bills__badge--unpaid {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.upcoming-bills__empty {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}

@@ -1,0 +1,53 @@
+/* Månadsro – Card komponent */
+
+.mr-card {
+  background: var(--bg-card);
+  border: var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--card-shadow);
+  transition:
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.mr-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* --- Varianter --- */
+
+.mr-card--hero {
+  background: var(--bg-hero);
+  border: none;
+  box-shadow: var(--shadow-md);
+  padding: var(--space-2xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.mr-card--hero::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  right: -10%;
+  width: 200px;
+  height: 200px;
+  background: var(--accent);
+  opacity: 0.04;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.mr-card--accent {
+  background: var(--accent);
+  color: var(--text-inverse);
+  border: none;
+  box-shadow: var(--shadow-glow);
+}
+
+.mr-card--accent:hover {
+  box-shadow: var(--shadow-glow), var(--shadow-md);
+}

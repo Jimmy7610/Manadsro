@@ -1,0 +1,24 @@
+{
+  "name": "manadsro",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Månadsro – Familjens ekonomi, lugnt och enkelt. En varm och modern hushållsekonomiapp.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-router-dom": "^7.16.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.12"
+  }
+}

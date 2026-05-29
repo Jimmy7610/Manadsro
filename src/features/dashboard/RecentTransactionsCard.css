@@ -1,0 +1,87 @@
+/* Månadsro – RecentTransactionsCard */
+
+.recent-transactions__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.recent-transactions__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.recent-transactions__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-transactions__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--divider);
+  transition: background-color var(--transition-fast);
+}
+
+.recent-transactions__item:last-child {
+  border-bottom: none;
+}
+
+.recent-transactions__emoji {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-md);
+  flex-shrink: 0;
+}
+
+.recent-transactions__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.recent-transactions__description {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recent-transactions__date {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.recent-transactions__amount {
+  font-size: var(--text-base);
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.recent-transactions__amount--positive {
+  color: var(--color-positive);
+}
+
+.recent-transactions__amount--negative {
+  color: var(--text-primary);
+}
+
+.recent-transactions__empty {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+}

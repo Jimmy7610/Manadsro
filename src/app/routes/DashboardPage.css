@@ -1,0 +1,51 @@
+/* Månadsro – DashboardPage */
+
+.dashboard-page {
+  padding: var(--space-xl) var(--space-base);
+  max-width: var(--max-content-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.dashboard-page__header {
+  margin-bottom: var(--space-xl);
+}
+
+.dashboard-page__greeting {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.dashboard-page__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+}
+
+/* Desktop: 2-kolumns layout, hero och pengakort spänner hela bredden */
+@media (min-width: 768px) {
+  .dashboard-page {
+    padding: var(--space-2xl);
+  }
+
+  .dashboard-page__grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+  }
+
+  .dashboard-page__grid--hero {
+    grid-column: 1 / -1;
+  }
+
+  .dashboard-page__grid--full {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Stor skärm – lite mer luft */
+@media (min-width: 1200px) {
+  .dashboard-page {
+    padding: var(--space-3xl) var(--space-2xl);
+  }
+}

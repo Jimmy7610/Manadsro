@@ -1,0 +1,70 @@
+/* Månadsro – MoneyLeftCard */
+
+.money-left {
+  text-align: center;
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.money-left__label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-md);
+}
+
+.money-left__amount {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: var(--space-md);
+  transition: color var(--transition-base);
+}
+
+.money-left__amount--positive {
+  color: var(--color-positive);
+}
+
+.money-left__amount--warning {
+  color: var(--color-warning);
+}
+
+.money-left__amount--danger {
+  color: var(--color-danger);
+}
+
+.money-left__description {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.money-left__indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: var(--space-base);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 500;
+}
+
+.money-left__indicator--positive {
+  background: var(--color-positive-bg);
+  color: var(--color-positive);
+}
+
+.money-left__indicator--warning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.money-left__indicator--danger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}

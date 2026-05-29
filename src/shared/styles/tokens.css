@@ -1,0 +1,157 @@
+/* ============================================
+   Månadsro – Design Tokens
+   ============================================
+   INSTÄLLNING - Alla färger och mått kan ändras här för att
+   anpassa hela appens utseende.
+   ============================================ */
+
+:root {
+  /* --- Typsnitt --- */
+  /* INSTÄLLNING - Primärt typsnitt (importeras i global.css) */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* --- Typsnittsstorlekar --- */
+  --text-xs: 0.75rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-md: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.3125rem;
+  --text-2xl: 1.625rem;
+  --text-3xl: 2rem;
+
+  /* --- Radavstånd --- */
+  --leading-tight: 1.2;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* --- Avstånd --- */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-base: 1rem;
+  --space-lg: 1.25rem;
+  --space-xl: 1.5rem;
+  --space-2xl: 2rem;
+  --space-3xl: 3rem;
+
+  /* --- Radie --- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* --- Skuggor --- */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px rgba(72, 145, 140, 0.15);
+
+  /* --- Animationer --- */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Layout --- */
+  /* INSTÄLLNING - Sidofältets bredd */
+  --sidebar-width: 260px;
+  /* INSTÄLLNING - Höjd på mobilmenyn */
+  --bottomnav-height: 64px;
+  --header-height: 56px;
+  --max-content-width: 1200px;
+}
+
+/* ============================================
+   LJUST TEMA
+   INSTÄLLNING - Ljust temas färger
+   ============================================ */
+[data-theme='light'], :root {
+  --bg-primary: #FAF8F5;
+  --bg-secondary: #F3EFE9;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FDFCFA;
+  --bg-elevated: #FFFFFF;
+  --bg-hero: linear-gradient(135deg, #E8F0EE 0%, #F5F0E8 50%, #EDE8F0 100%);
+  --bg-nav: rgba(255, 255, 255, 0.85);
+
+  --text-primary: #2C2C2C;
+  --text-secondary: #6B6560;
+  --text-tertiary: #9A958E;
+  --text-inverse: #FFFFFF;
+
+  /* INSTÄLLNING - Accentfärg (petrol/blågrön) */
+  --accent: #48918C;
+  --accent-light: #6AADA8;
+  --accent-lighter: #E0F0EE;
+  --accent-dark: #3A7571;
+
+  /* INSTÄLLNING - Statusfärger */
+  --color-positive: #5B9A6F;
+  --color-positive-bg: #EDF5EF;
+  --color-warning: #D4935A;
+  --color-warning-bg: #FBF0E5;
+  --color-danger: #C4685E;
+  --color-danger-bg: #FAEDEB;
+  --color-info: #5A8DB4;
+  --color-info-bg: #E8F0F7;
+
+  --border-light: #EDE9E3;
+  --border-medium: #DDD8D0;
+  --divider: #F0ECE6;
+
+  /* Kort */
+  --card-border: 1px solid var(--border-light);
+  --card-shadow: var(--shadow-sm);
+
+  /* Profiler */
+  --profile-jimmy: #4A7B9D;
+  --profile-malin: #9B6B8E;
+  --profile-shared: #5B8C6F;
+}
+
+/* ============================================
+   MÖRKT TEMA
+   INSTÄLLNING - Mörkt temas färger
+   ============================================ */
+[data-theme='dark'] {
+  --bg-primary: #1A1F2E;
+  --bg-secondary: #222839;
+  --bg-card: #2A3045;
+  --bg-card-hover: #313852;
+  --bg-elevated: #323A52;
+  --bg-hero: linear-gradient(135deg, #1E2A35 0%, #252035 50%, #2A2535 100%);
+  --bg-nav: rgba(26, 31, 46, 0.92);
+
+  --text-primary: #E8E4DF;
+  --text-secondary: #A09B94;
+  --text-tertiary: #6E6A63;
+  --text-inverse: #1A1F2E;
+
+  --accent: #5BC4BD;
+  --accent-light: #7DD5CF;
+  --accent-lighter: #1E3A38;
+  --accent-dark: #48918C;
+
+  --color-positive: #6DBF82;
+  --color-positive-bg: #1E2E22;
+  --color-warning: #E0A56A;
+  --color-warning-bg: #2E2518;
+  --color-danger: #D47A70;
+  --color-danger-bg: #2E1E1C;
+  --color-info: #6AA0C8;
+  --color-info-bg: #1C2530;
+
+  --border-light: #363D52;
+  --border-medium: #454D65;
+  --divider: #2F3648;
+
+  --card-border: 1px solid var(--border-light);
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(91, 196, 189, 0.15);
+}

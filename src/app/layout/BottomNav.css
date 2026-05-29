@@ -1,0 +1,188 @@
+/* Månadsro – BottomNav & FAB */
+
+/* --- Bottom Navigation --- */
+.bottom-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--bottomnav-height);
+  background: var(--bg-nav);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-light);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transition: background-color var(--transition-base);
+}
+
+/* INSTÄLLNING - Breakpoint för att dölja mobilmenyn */
+@media (min-width: 769px) {
+  .bottom-nav {
+    display: none;
+  }
+  .fab {
+    display: none !important;
+  }
+}
+
+.bottom-nav__link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  transition: color var(--transition-fast);
+  min-width: 52px;
+}
+
+.bottom-nav__link--active {
+  color: var(--accent);
+}
+
+.bottom-nav__emoji {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.bottom-nav__label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 64px;
+}
+
+/* --- Floating Action Button --- */
+.fab {
+  position: fixed;
+  bottom: calc(var(--bottomnav-height) + 16px + env(safe-area-inset-bottom, 0px));
+  right: 20px;
+  z-index: 110;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(72, 145, 140, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-base);
+}
+
+.fab:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 24px rgba(72, 145, 140, 0.45);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+.fab__icon {
+  font-size: 1.75rem;
+  line-height: 1;
+  font-weight: 300;
+}
+
+/* --- Quick Menu Overlay --- */
+.quick-menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fadeIn 200ms ease;
+}
+
+.quick-menu {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: var(--space-xl) var(--space-xl) var(--space-3xl);
+  width: 100%;
+  max-width: 420px;
+  animation: slideUp 300ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quick-menu__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.quick-menu__header h3 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.quick-menu__close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: var(--text-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+}
+
+.quick-menu__close:hover {
+  background: var(--border-medium);
+}
+
+.quick-menu__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.quick-menu__action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-radius: var(--radius-md);
+  border: var(--card-border);
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.quick-menu__action:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+}
+
+.quick-menu__action-emoji {
+  font-size: 1.5rem;
+}
+
+.quick-menu__action-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.quick-menu__note {
+  text-align: center;
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: var(--space-lg);
+}

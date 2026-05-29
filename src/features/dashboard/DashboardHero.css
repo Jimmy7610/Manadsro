@@ -1,0 +1,87 @@
+/* Månadsro – DashboardHero */
+
+.dashboard-hero {
+  position: relative;
+}
+
+.dashboard-hero__content {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-lg);
+}
+
+.dashboard-hero__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(72, 145, 140, 0.2);
+}
+
+.dashboard-hero__icon svg {
+  width: 26px;
+  height: 26px;
+  color: var(--text-inverse);
+}
+
+.dashboard-hero__text {
+  flex: 1;
+}
+
+.dashboard-hero__month {
+  display: inline-block;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: var(--space-xs);
+}
+
+.dashboard-hero__title {
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+  line-height: var(--leading-tight);
+}
+
+.dashboard-hero__subtitle {
+  font-size: var(--text-base);
+  color: var(--text-secondary);
+  line-height: var(--leading-relaxed);
+  max-width: 480px;
+}
+
+/* Dekorativ cirkel i bakgrunden */
+.dashboard-hero__decoration {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+@media (max-width: 600px) {
+  .dashboard-hero__title {
+    font-size: var(--text-xl);
+  }
+
+  .dashboard-hero__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .dashboard-hero__icon svg {
+    width: 22px;
+    height: 22px;
+  }
+}

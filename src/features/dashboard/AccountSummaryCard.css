@@ -1,0 +1,107 @@
+/* Månadsro – AccountSummaryCard */
+
+.account-summary__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.account-summary__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.account-summary__count {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  background: var(--bg-secondary);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-full);
+}
+
+.account-summary__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.account-summary__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.account-summary__item:hover {
+  background: var(--bg-secondary);
+}
+
+.account-summary__icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--accent-lighter);
+  font-size: var(--text-md);
+  flex-shrink: 0;
+}
+
+.account-summary__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.account-summary__name {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-summary__type {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  text-transform: capitalize;
+}
+
+.account-summary__balance {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.account-summary__divider {
+  height: 1px;
+  background: var(--divider);
+  margin: var(--space-md) 0;
+}
+
+.account-summary__total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-sm) 0;
+}
+
+.account-summary__total-label {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.account-summary__total-amount {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  color: var(--accent);
+}

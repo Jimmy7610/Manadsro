@@ -1,0 +1,23 @@
+/* Månadsro – LogoMark */
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo-mark__icon {
+  flex-shrink: 0;
+  transition: transform var(--transition-base);
+}
+
+.logo-mark:hover .logo-mark__icon {
+  transform: scale(1.08);
+}
+
+.logo-mark__text {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}

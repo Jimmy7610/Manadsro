@@ -1,0 +1,43 @@
+/* Månadsro – SettingsPage */
+
+/* Delar .page-container stilar via TransactionsPage.css */
+
+.settings-page__section {
+  margin-bottom: var(--space-xl);
+}
+
+.settings-page__section-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: var(--space-lg);
+}
+
+.settings-page__theme-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+.settings-page__theme-info {
+  flex: 1;
+}
+
+.settings-page__theme-label {
+  font-size: var(--text-base);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.settings-page__theme-description {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+}
+
+.settings-page__divider {
+  height: 1px;
+  background: var(--divider);
+  margin: var(--space-xl) 0;
+}

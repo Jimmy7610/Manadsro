@@ -1,0 +1,95 @@
+/* Månadsro – Sidebar */
+
+.sidebar {
+  display: none;
+  width: var(--sidebar-width);
+  height: 100dvh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: var(--bg-nav);
+  backdrop-filter: blur(12px);
+  border-right: 1px solid var(--border-light);
+  padding: var(--space-xl);
+  flex-direction: column;
+  overflow-y: auto;
+  transition: background-color var(--transition-base);
+}
+
+/* INSTÄLLNING - Breakpoint för desktop-layout */
+@media (min-width: 769px) {
+  .sidebar {
+    display: flex;
+  }
+}
+
+.sidebar__header {
+  margin-bottom: var(--space-2xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 1px solid var(--divider);
+}
+
+.sidebar__slogan {
+  font-size: var(--text-xs);
+  color: var(--text-tertiary);
+  margin-top: var(--space-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-base);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: var(--text-base);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+}
+
+.sidebar__link:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.sidebar__link--active {
+  background: var(--accent-lighter);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.sidebar__link--active:hover {
+  background: var(--accent-lighter);
+  color: var(--accent);
+}
+
+.sidebar__link-emoji {
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sidebar__link-label {
+  white-space: nowrap;
+}
+
+.sidebar__footer {
+  margin-top: auto;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
