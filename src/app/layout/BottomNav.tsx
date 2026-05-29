@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AddTransactionModal from '../../features/transactions/AddTransactionModal';
+import BillModal from '../../features/bills/BillModal';
 import './BottomNav.css';
 
 /**
@@ -20,13 +21,13 @@ const navItems = [
 const quickActions = [
   { id: 'expense', label: 'Lägg till köp', emoji: '🛒', disabled: false },
   { id: 'income', label: 'Lägg till inkomst', emoji: '💰', disabled: false },
-  { id: 'bill', label: 'Lägg till räkning', emoji: '📄', disabled: true },
+  { id: 'bill', label: 'Lägg till räkning', emoji: '📄', disabled: false },
   { id: 'adjust', label: 'Justera saldo', emoji: '⚖️', disabled: true },
 ];
 
 export default function BottomNav() {
   const [showQuickMenu, setShowQuickMenu] = useState(false);
-  const [modalType, setModalType] = useState<'expense' | 'income' | null>(null);
+  const [modalType, setModalType] = useState<'expense' | 'income' | 'bill' | null>(null);
 
   return (
     <>
@@ -53,6 +54,8 @@ export default function BottomNav() {
                     setShowQuickMenu(false);
                     if (action.id === 'expense' || action.id === 'income') {
                       setModalType(action.id as 'expense' | 'income');
+                    } else if (action.id === 'bill') {
+                      setModalType('bill');
                     }
                   }}
                 >
@@ -69,8 +72,12 @@ export default function BottomNav() {
         </div>
       )}
 
-      {modalType && (
+      {(modalType === 'expense' || modalType === 'income') && (
         <AddTransactionModal type={modalType} onClose={() => setModalType(null)} />
+      )}
+
+      {modalType === 'bill' && (
+        <BillModal onClose={() => setModalType(null)} />
       )}
 
       {/* Flytande plus-knapp */}

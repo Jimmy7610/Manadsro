@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
-import type { AppData, Transaction, Account } from '../../types/models';
+import type { AppData, Transaction, Account, Bill } from '../../types/models';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
 import { downloadBackup, parseBackupFile } from '../../features/backup/backupService';
 
@@ -24,6 +24,13 @@ interface AppDataContextValue {
   // Budgets
   updateBudgetLimit: (budgetId: string, newLimit: number) => void;
   toggleBudgetActive: (budgetId: string, active: boolean) => void;
+  
+  // Bills
+  addBill: (bill: Bill) => void;
+  updateBill: (billId: string, updates: Partial<Bill>) => void;
+  skipBill: (billId: string, monthKey: string) => void;
+  changeBillDueDate: (billId: string, newDueDate: string) => void;
+  restoreSkippedBill: (billId: string) => void;
   
   isLocked: boolean;
   unlockApp: () => void;
@@ -234,6 +241,54 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     adapter.saveData(newData);
   };
 
+  const addBill = (bill: Bill) => {
+    if (!data) return;
+    const newBills = [...data.bills, bill];
+    const newData = { ...data, bills: newBills };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const updateBill = (billId: string, updates: Partial<Bill>) => {
+    if (!data) return;
+    const newBills = data.bills.map(b => 
+      b.id === billId ? { ...b, ...updates, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, bills: newBills };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const skipBill = (billId: string, monthKey: string) => {
+    if (!data) return;
+    const newBills = data.bills.map(b => 
+      b.id === billId ? { ...b, status: 'skipped' as const, skippedForMonth: monthKey, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, bills: newBills };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const changeBillDueDate = (billId: string, newDueDate: string) => {
+    if (!data) return;
+    const newBills = data.bills.map(b => 
+      b.id === billId ? { ...b, dueDate: newDueDate, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, bills: newBills };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
+  const restoreSkippedBill = (billId: string) => {
+    if (!data) return;
+    const newBills = data.bills.map(b => 
+      b.id === billId ? { ...b, status: 'unpaid' as const, skippedForMonth: undefined, updatedAt: new Date().toISOString() } : b
+    );
+    const newData = { ...data, bills: newBills };
+    setData(newData);
+    adapter.saveData(newData);
+  };
+
   const unlockApp = () => {
     setIsLocked(false);
     updateSettings({ lastUnlockedAt: new Date().toISOString() });
@@ -253,6 +308,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     <AppDataContext.Provider value={{ 
       data, addTransaction, updateTransaction, deleteTransaction, restoreTransaction, payBill, resetLocalData, exportBackup, importBackup, updateSettings,
       addAccount, updateAccount, archiveAccount, updateBudgetLimit, toggleBudgetActive,
+      addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,
       isLocked, unlockApp, lockApp, isLoaded: true 
     }}>
       {children}

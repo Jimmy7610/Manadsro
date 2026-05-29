@@ -1,5 +1,6 @@
 import Card from '../../shared/components/Card';
-import { getUpcomingBills } from '../../features/bills/billService';
+import { useAppData } from '../../storage/services/AppDataContext';
+import { calculateUpcomingBills } from '../../shared/utils/calculations';
 import { formatCurrency } from '../../shared/utils/currency';
 import { formatDate, daysUntil } from '../../shared/utils/date';
 import './UpcomingBillsCard.css';
@@ -19,7 +20,9 @@ const statusLabels: Record<string, string> = {
 };
 
 export default function UpcomingBillsCard() {
-  const upcomingBills = getUpcomingBills();
+  const { data } = useAppData();
+  const currentMonthKey = new Date().toISOString().substring(0, 7);
+  const upcomingBills = calculateUpcomingBills(data.bills, currentMonthKey);
 
   const getDaysLabel = (days: number): string => {
     if (days < 0) return `${Math.abs(days)} dagar sedan`;
@@ -37,7 +40,7 @@ export default function UpcomingBillsCard() {
 
       {upcomingBills.length === 0 ? (
         <div className="upcoming-bills__empty">
-          🎉 Inga obetalda räkningar – lugn och ro!
+          🎉 Inga kommande räkningar just nu – lugn och ro!
         </div>
       ) : (
         <ul className="upcoming-bills__list">

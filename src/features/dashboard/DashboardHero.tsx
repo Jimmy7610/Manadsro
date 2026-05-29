@@ -1,17 +1,18 @@
 import Card from '../../shared/components/Card';
 import { getMonthName, getCurrentMonth } from '../../shared/utils/date';
+import { getMonthlyStatus } from '../../shared/utils/monthlyStatus';
+import { useAppData } from '../../storage/services/AppDataContext';
 import './DashboardHero.css';
 
 /**
  * Månadsro – Hero-kort som visar statusmeddelande för aktuell månad.
- *
- * INSTÄLLNING - Ändra statusmeddelandet baserat på beräknad ekonomisk hälsa
  */
 export default function DashboardHero() {
+  const { data } = useAppData();
   const currentMonth = getCurrentMonth();
   const monthName = getMonthName(currentMonth);
+  const status = getMonthlyStatus(data);
 
-  // INSTÄLLNING - Kapitalisera första bokstaven i månadsnamn
   const monthCapitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
   return (
@@ -26,9 +27,9 @@ export default function DashboardHero() {
         </div>
         <div className="dashboard-hero__text">
           <span className="dashboard-hero__month">{monthCapitalized} 2026</span>
-          <h2 className="dashboard-hero__title">{monthCapitalized} ser stabil ut</h2>
+          <h2 className="dashboard-hero__title">{status.message}</h2>
           <p className="dashboard-hero__subtitle">
-            Ni har bra marginal efter räkningar och planerad budget.
+            {status.freeSpace >= 0 ? 'Ni har bra marginal efter räkningar och planerad budget.' : 'Försök hålla nere utgifterna resten av månaden.'}
           </p>
         </div>
       </div>

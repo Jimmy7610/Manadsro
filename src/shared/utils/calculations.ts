@@ -35,9 +35,13 @@ export function calculateTotalBalance(
 /**
  * Hämta kommande obetalda/planerade räkningar.
  */
-export function calculateUpcomingBills(bills: Bill[]): Bill[] {
+export function calculateUpcomingBills(bills: Bill[], currentMonthKey?: string): Bill[] {
+  const month = currentMonthKey || new Date().toISOString().substring(0, 7);
   return bills
-    .filter(b => b.status === 'unpaid' || b.status === 'planned')
+    .filter(b => 
+      (b.status === 'unpaid' || b.status === 'planned') && 
+      b.skippedForMonth !== month
+    )
     .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
 }
 

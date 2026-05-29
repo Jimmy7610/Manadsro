@@ -59,16 +59,23 @@ export interface Transaction {
 export interface Bill {
   id: string;
   householdId: string;
-  accountId: string;
-  profileId: string;
   categoryId: string;
   name: string;
   amount: number;
   dueDate: string; // ISO date string
   status: BillStatus;
-  isRecurring: boolean;
-  recurrenceInterval?: 'monthly' | 'quarterly' | 'yearly';
+  accountId?: string;
+  profileId?: string;
+  isRecurring?: boolean; // legacy
+  recurring?: boolean;
+  recurrenceInterval?: 'monthly' | 'quarterly' | 'yearly'; // legacy
+  recurrence?: 'monthly' | 'quarterly' | 'yearly' | 'none';
+  recurringDay?: number;
+  skippedForMonth?: string;
   paidAt?: string; // ISO date string när den betalades
+  createdAt?: string;
+  updatedAt?: string;
+  note?: string;
 }
 
 export interface Category {

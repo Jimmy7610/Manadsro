@@ -280,7 +280,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 7-uppdatering: Konton och budgetgränser kan nu ändras. Arkiverade konton behåller historik. Backup rekommenderas innan stora ändringar.
+          Build 8-uppdatering: Räkningar kan nu skapas, redigeras, markeras som återkommande och hoppas över för månaden. Dashboard uppdaterat med bättre månadsöversikt.
         </p>
       </Card>
     </div>

@@ -4,7 +4,7 @@
 
 Månadsro är en varm, lugn och modern hushållsekonomiapp för familjebudgetering. Appen är designad för att vara lokal-först – all data stannar på din enhet.
 
-![Build](https://img.shields.io/badge/Build-1-teal)
+![Build](https://img.shields.io/badge/Build-8-teal)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -53,18 +53,18 @@ npm run preview
 
 ---
 
-## 📋 Build 6 – Innehåll
+## 📋 Build 8 – Innehåll
 
-### ✅ Implementerat
-- First-start onboarding med val mellan demo och lokal ekonomi.
-- Lokal PIN/låsskärm för att skydda appvyn lokalt i webbläsaren.
-- Ärlig säkerhetskommunikation angående lokal låsning.
-- Uppdaterad versionsbricka till Build 6.
+### ✅ Implementerat i Build 8
+- Hantering av räkningar (lägg till, redigera, hoppa över för aktuell månad).
+- Stöd för återkommande räkningar.
+- Förbättrad dashboard med månadens status för utgifter.
+- Fortsatt robust localStorage persistens och backupkompatibilitet.
 
-### ❌ Inte implementerat i Build 6
-- Riktig databas (IndexedDB kommer senare)
-- Hantera konton/budget (redigera flöden)
-- Bankkoppling eller riktig kryptering
+### ❌ Aktuella begränsningar
+- Riktig databas (IndexedDB/SQLite kommer senare).
+- Inget riktigt kvitto-uppladdningssystem eller bankkopplingar.
+- Kategorihantering kommer i framtida builds.
 
 ---
 
@@ -124,13 +124,13 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 7
-- Hantera konton och budget (redigerbara flöden).
-- Riktig lokal datalagring (IndexedDB).
+### Build 9
+- Förbättrad onboarding setup för första riktiga ekonomin, eller kategorihantering.
 
-### Build 8+
+### Framtid
 - Tauri-integration och SQLite-databas.
 - Statistik och grafer
+- Utökad hantering av återkommande data.
 
 ---
 
