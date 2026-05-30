@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card';
 import { useAppData } from '../../storage/services/AppDataContext';
 import { calculateUpcomingBills } from '../../shared/utils/calculations';
@@ -21,6 +22,7 @@ const statusLabels: Record<string, string> = {
 
 export default function UpcomingBillsCard() {
   const { data } = useAppData();
+  const navigate = useNavigate();
   const currentMonthKey = new Date().toISOString().substring(0, 7);
   const upcomingBills = calculateUpcomingBills(data.bills, currentMonthKey);
 
@@ -87,6 +89,16 @@ export default function UpcomingBillsCard() {
           })}
         </ul>
       )}
+      
+      <div style={{ marginTop: '1.5rem', textAlign: 'center' }}>
+        <button 
+          className="btn-outline" 
+          style={{ padding: '0.4rem 0.8rem', fontSize: '0.85rem', width: '100%' }}
+          onClick={() => navigate('/bills')}
+        >
+          Öppna räkningar
+        </button>
+      </div>
     </Card>
   );
 }

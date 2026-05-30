@@ -1,0 +1,39 @@
+.expected-income-card__status {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0.5rem 0 1rem 0;
+  color: var(--text-primary);
+}
+
+.expected-income-card__details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.expected-income-card__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.expected-income-card__row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.expected-income-card__label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.expected-income-card__value {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.expected-income-card__value.received {
+  color: var(--success);
+}

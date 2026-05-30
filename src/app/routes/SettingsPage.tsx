@@ -10,7 +10,7 @@ import { createPinSalt, hashPin } from '../../features/security/pinUtils';
 import './SettingsPage.css';
 
 /**
- * Månadsro – Inställningssida (Build 14)
+ * Månadsro – Inställningssida (Build 15)
  */
 export default function SettingsPage() {
   const { data, resetLocalData, exportBackup, importBackup, updateSettings, lockApp } = useAppData();
@@ -312,7 +312,7 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
-          Build 14-uppdatering: Insikter-sidan finns nu. Månadsöversikt visar inkomster, utgifter och netto. Kategoriöversikt och budgetvarningar finns. Saldojusteringar räknas separat från vanliga inkomster/utgifter. (Inkluderar även Build 13:s transaktionscenter.)
+          Build 15-uppdatering: Dashboarden har förbättrats. Viktiga insikter visas nu direkt på startsidan. Månadens netto, största kategori och budgetvarningar är lättare att se. Mobil layout har förbättrats. (Inkluderar även Build 14:s insikter, Build 13:s transaktionscenter, mm.)
         </p>
       </Card>
     </div>

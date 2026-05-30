@@ -21,6 +21,21 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.dashboard-page__section-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.dashboard-page__insight-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
 }
 
 /* Desktop: 2-kolumns layout, hero och pengakort spänner hela bredden */
@@ -40,6 +55,11 @@
 
   .dashboard-page__grid--full {
     grid-column: 1 / -1;
+  }
+  
+  .dashboard-page__insight-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
   }
 }
 

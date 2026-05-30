@@ -2,8 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import Card from '../../shared/components/Card';
 import { getMonthName, getCurrentMonth } from '../../shared/utils/date';
 import { getCurrentMonthKey } from '../../shared/utils/month';
-import { getMonthlyStatus } from '../../shared/utils/monthlyStatus';
 import { useAppData } from '../../storage/services/AppDataContext';
+import { getDashboardInsights } from './dashboardInsightsService';
 import './DashboardHero.css';
 
 /**
@@ -14,11 +14,26 @@ export default function DashboardHero() {
   const currentMonth = getCurrentMonth();
   const currentMonthKey = getCurrentMonthKey();
   const monthName = getMonthName(currentMonth);
-  const status = getMonthlyStatus(data);
-  const plan = data.monthPlans?.find(p => p.monthKey === currentMonthKey);
+  const insights = getDashboardInsights(data, currentMonthKey);
   const navigate = useNavigate();
 
   const monthCapitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1);
+
+  let titleMessage = 'Månaden är planerad och ser stabil ut.';
+  let subtitleMessage = 'Månadens plan är bekräftad.';
+
+  if (insights.planStatus !== 'confirmed') {
+    titleMessage = 'Månadsplanen är inte bekräftad ännu.';
+    subtitleMessage = 'Gå igenom ny-månad-planen när du har tid.';
+  } else if (insights.overdueBillsCount > 0) {
+    titleMessage = insights.overdueBillsCount === 1 ? 'En räkning är försenad.' : `${insights.overdueBillsCount} räkningar är försenade.`;
+  } else if (insights.expectedIncomeCount > 0) {
+    titleMessage = insights.expectedIncomeCount === 1 ? 'En förväntad inkomst saknas fortfarande.' : `${insights.expectedIncomeCount} förväntade inkomster saknas.`;
+  } else if (insights.netResult > 0) {
+    titleMessage = 'Månadens netto är positivt.';
+  } else if (insights.netResult < 0) {
+    titleMessage = 'Månadens netto är negativt.';
+  }
 
   return (
     <Card variant="hero" className="dashboard-hero">
@@ -32,19 +47,22 @@ export default function DashboardHero() {
         </div>
         <div className="dashboard-hero__text">
           <span className="dashboard-hero__month">{monthCapitalized} 2026</span>
-          <h2 className="dashboard-hero__title">{status.message}</h2>
-          <p className="dashboard-hero__subtitle">
-            {plan?.status === 'confirmed' 
-              ? 'Månadens plan är bekräftad.' 
-              : 'Den här månaden är inte bekräftad ännu. Gå igenom ny-månad-planen när du har tid.'}
-          </p>
-          <div style={{ marginTop: '1rem' }}>
+          <h2 className="dashboard-hero__title">{titleMessage}</h2>
+          <p className="dashboard-hero__subtitle">{subtitleMessage}</p>
+          <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <button 
               className="btn-save" 
               style={{ padding: '0.5rem 1rem', fontSize: '0.9rem' }}
               onClick={() => navigate('/insights')}
             >
               Visa insikter
+            </button>
+            <button 
+              className="btn-outline" 
+              style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', backgroundColor: 'transparent', borderColor: 'currentColor', color: 'inherit', opacity: 0.9 }}
+              onClick={() => navigate('/month-planning')}
+            >
+              Ny månad
             </button>
           </div>
         </div>

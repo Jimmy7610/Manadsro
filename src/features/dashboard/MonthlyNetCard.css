@@ -1,0 +1,55 @@
+.monthly-net-card__amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.monthly-net-card__amount.positive {
+  color: var(--success);
+}
+
+.monthly-net-card__amount.negative {
+  color: var(--danger);
+}
+
+.monthly-net-card__amount.neutral {
+  color: var(--text-primary);
+}
+
+.monthly-net-card__status {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.monthly-net-card__details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+.monthly-net-card__detail-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.monthly-net-card__detail-value {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.monthly-net-card__note {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--bg-color);
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
