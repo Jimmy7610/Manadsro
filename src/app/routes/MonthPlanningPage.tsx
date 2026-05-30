@@ -13,11 +13,12 @@ import {
   getOverdueBillsForMonth,
   getMonthDeviationSummary
 } from '../../features/monthPlanning/monthPlanningService';
+import { getArchiveReadiness } from '../../features/monthArchive/monthArchiveService';
 import Card from '../../shared/components/Card';
 import './MonthPlanningPage.css';
 
 export default function MonthPlanningPage() {
-  const { data, prepareMonthPlan, confirmMonthPlan, getMonthPlanByKey } = useAppData();
+  const { data, prepareMonthPlan, confirmMonthPlan, archiveMonth, isMonthArchived, getMonthPlanByKey } = useAppData();
   const navigate = useNavigate();
   const [selectedMonth, setSelectedMonth] = useState(getCurrentMonthKey());
 
@@ -31,6 +32,8 @@ export default function MonthPlanningPage() {
   const unpaidBills = getUnpaidBillsForMonth(data, selectedMonth);
   const overdueBills = getOverdueBillsForMonth(data, selectedMonth);
   const deviations = getMonthDeviationSummary(data, selectedMonth);
+  const archiveReadiness = getArchiveReadiness(data, selectedMonth);
+  const isArchived = isMonthArchived(selectedMonth);
 
   const handlePrepare = () => {
     prepareMonthPlan(selectedMonth);
@@ -38,6 +41,20 @@ export default function MonthPlanningPage() {
 
   const handleConfirm = () => {
     confirmMonthPlan(selectedMonth);
+  };
+
+  const handleArchive = async () => {
+    if (archiveReadiness.warnings.length > 0) {
+      if (!window.confirm(`Månaden har fortfarande avvikelser. Vill du arkivera ändå?\n\nEtt read-only månadsarkiv skapas. Transaktioner och historik ändras inte.`)) {
+        return;
+      }
+    } else {
+      if (!window.confirm(`Vill du arkivera den här månaden?\n\nEtt read-only månadsarkiv skapas. Transaktioner och historik ändras inte.`)) {
+        return;
+      }
+    }
+    
+    await archiveMonth(selectedMonth);
   };
 
   const getExpectedIncomeStatus = (recurringId: string) => {
@@ -291,10 +308,43 @@ export default function MonthPlanningPage() {
       </div>
 
       <div className="month-planning-page__section">
-        <Card className="month-planning-page__archive-prep">
-          <h3>Månadsarkiv kommer senare</h3>
-          <p>Build 17 förbereder status och avvikelser så att månadsarkiv kan byggas tryggt senare.</p>
-        </Card>
+        {isArchived ? (
+          <Card className="month-planning-page__archive-prep">
+            <h3>Månaden är arkiverad</h3>
+            <p>Den här månaden är avslutad och sparad som ett arkiv.</p>
+            <div className="month-planning-page__actions" style={{marginTop: '1rem'}}>
+              <button className="month-planning-page__btn month-planning-page__btn--primary" onClick={() => navigate('/month-archive')}>
+                Visa i månadsarkiv
+              </button>
+            </div>
+          </Card>
+        ) : (
+          <Card className="month-planning-page__archive-prep">
+            <h3>Avsluta månad</h3>
+            <p>Arkivera månaden när den är klar. Ett read-only arkiv skapas utan att störa din historik.</p>
+            
+            {!archiveReadiness.canArchive ? (
+              <div style={{marginTop: '1rem', color: 'var(--text-secondary)', fontSize: '0.9rem'}}>
+                <em>Kan inte arkiveras:</em> {archiveReadiness.blockers.join(' ')}
+              </div>
+            ) : (
+              <div className="month-planning-page__actions" style={{marginTop: '1rem'}}>
+                <button 
+                  className={`month-planning-page__btn ${archiveReadiness.warnings.length > 0 ? '' : 'month-planning-page__btn--primary'}`} 
+                  onClick={handleArchive}
+                >
+                  Arkivera månaden
+                </button>
+              </div>
+            )}
+            
+            {archiveReadiness.canArchive && archiveReadiness.warnings.length > 0 && (
+              <div style={{marginTop: '1rem', color: 'var(--color-warning-dark)', fontSize: '0.9rem'}}>
+                <em>Varningar:</em> {archiveReadiness.warnings.join(' ')}
+              </div>
+            )}
+          </Card>
+        )}
       </div>
 
       <div className="month-planning-page__actions" style={{ marginTop: '3rem', borderTop: '1px solid var(--border-color)', paddingTop: '2rem' }}>

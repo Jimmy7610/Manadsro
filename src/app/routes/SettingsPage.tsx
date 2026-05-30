@@ -353,6 +353,9 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
+          Build 18-uppdatering: Månader kan nu arkiveras. Arkivet sparar read-only sammanfattningar. Arkiverade sammanfattningar ändrar inte historiska transaktioner. Framtida jämförelser mellan månader förbereds.
+        </p>
+        <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
           Build 17-uppdatering: Månadsplaneringen har fördjupats. Planerat vs faktiskt visas nu tydligt. Saknade inkomster och obetalda/försenade räkningar lyfts fram för att skapa en trygg status (Planerad, Pågår, Avvikelse eller Klar). Struktur för ett framtida månadsarkiv har förberetts.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>

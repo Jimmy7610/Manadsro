@@ -153,6 +153,41 @@ export interface MonthPlan {
   updatedAt?: string;
 }
 
+export interface ArchivedMonthSummary {
+  totalIncome: number;
+  totalExpenses: number;
+  totalBills: number;
+  netResult: number;
+  transactionCount: number;
+  balanceAdjustmentsTotal: number;
+  balanceAdjustmentCount: number;
+  plannedIncome: number;
+  actualIncome: number;
+  missingIncome: number;
+  plannedBills: number;
+  paidBills: number;
+  unpaidBills: number;
+  overdueBills: number;
+  biggestCategoryName?: string;
+  biggestCategoryAmount?: number;
+  biggestExpenseName?: string;
+  biggestExpenseAmount?: number;
+  budgetWarningCount?: number;
+}
+
+export interface ArchivedMonth {
+  id: string;
+  monthKey: string;
+  monthLabel: string;
+  archivedAt: string;
+  sourceMonthPlanId?: string;
+  status: 'archived';
+  summary: ArchivedMonthSummary;
+  notes?: string[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface AppSettings {
   theme: ThemeMode;
   currency: string; // INSTÄLLNING - Standardvaluta
@@ -184,5 +219,6 @@ export interface AppData {
   recurringIncomes?: RecurringIncome[];
   expectedIncomes?: ExpectedIncome[];
   monthPlans?: MonthPlan[];
+  archivedMonths?: ArchivedMonth[];
   settings: AppSettings;
 }

@@ -4,6 +4,8 @@ import { getMonthName, getCurrentMonth } from '../../shared/utils/date';
 import { getCurrentMonthKey } from '../../shared/utils/month';
 import { useAppData } from '../../storage/services/AppDataContext';
 import { getMonthPlanStatus, getMonthDeviationSummary } from '../monthPlanning/monthPlanningService';
+import { getPreviousMonthKey } from '../../shared/utils/month';
+import { isMonthArchived as checkMonthArchived } from '../monthArchive/monthArchiveService';
 import { getDashboardInsights } from './dashboardInsightsService';
 import './DashboardHero.css';
 
@@ -45,6 +47,17 @@ export default function DashboardHero() {
     subtitleMessage = 'Bra jobbat! Inga obetalda räkningar kvar.';
   }
 
+  const prevMonthKey = getPreviousMonthKey(currentMonthKey);
+  const isCurrentArchived = checkMonthArchived(data, currentMonthKey);
+  const isPrevArchived = checkMonthArchived(data, prevMonthKey);
+
+  let archiveNote = 'Månadsarkivet är redo när månaden är klar.';
+  if (isCurrentArchived) {
+    archiveNote = 'Den här månaden är arkiverad.';
+  } else if (isPrevArchived) {
+    archiveNote = 'Föregående månad är arkiverad. Den här månaden är öppen.';
+  }
+
   return (
     <Card variant="hero" className="dashboard-hero">
       <div className="dashboard-hero__content">
@@ -59,6 +72,7 @@ export default function DashboardHero() {
           <span className="dashboard-hero__month">{monthCapitalized} 2026</span>
           <h2 className="dashboard-hero__title">{titleMessage}</h2>
           <p className="dashboard-hero__subtitle">{subtitleMessage}</p>
+          <p className="dashboard-hero__subtitle" style={{marginTop: '0.5rem', opacity: 0.8, fontSize: '0.85rem'}}>{archiveNote}</p>
           <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <button 
               className="btn-save" 

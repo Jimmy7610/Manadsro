@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { AppData, Transaction, Account, Bill, Category, Budget, RecurringIncome, ExpectedIncome, MonthPlan } from '../../types/models';
+import { buildArchivedMonthSnapshot, isMonthArchived as checkMonthArchived } from '../../features/monthArchive/monthArchiveService';
 import { calculateAccountBalance } from '../../shared/utils/calculations';
 import { createOrUpdateMonthPlan, confirmMonthPlan as confirmMonthPlanService, getMonthPlan as getMonthPlanService } from '../../features/monthPlanning/monthPlanningService';
 import { LocalStorageAdapter } from '../adapters/localStorageAdapter';
@@ -59,6 +60,10 @@ interface AppDataContextValue {
   resetMonthPlanDraft: (monthKey: string) => void;
   getMonthPlanByKey: (monthKey: string) => MonthPlan | undefined;
 
+  // Month Archives
+  archiveMonth: (monthKey: string) => Promise<boolean>;
+  isMonthArchived: (monthKey: string) => boolean;
+
   isLocked: boolean;
   unlockApp: () => void;
   lockApp: () => void;
@@ -99,6 +104,9 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       }
       if (!loadedData.monthPlans) {
         loadedData.monthPlans = [];
+      }
+      if (!loadedData.archivedMonths) {
+        loadedData.archivedMonths = [];
       }
 
       setData(loadedData);
@@ -676,6 +684,48 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const isMonthArchived = (monthKey: string) => {
+    if (!data) return false;
+    return checkMonthArchived(data, monthKey);
+  };
+
+  const archiveMonth = async (monthKey: string): Promise<boolean> => {
+    if (!data) return false;
+    if (isMonthArchived(monthKey)) {
+      return false; // Already archived
+    }
+
+    const snapshot = buildArchivedMonthSnapshot(data, monthKey);
+    
+    // Update month plan if it exists
+    const updatedPlans = (data.monthPlans || []).map(p => {
+      if (p.monthKey === monthKey) {
+        return {
+          ...p,
+          monthStatus: 'complete' as const,
+          completedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+      }
+      return p;
+    });
+
+    const archivedMonths = [...(data.archivedMonths || []), snapshot];
+
+    const newData: AppData = {
+      ...data,
+      monthPlans: updatedPlans,
+      archivedMonths,
+      settings: {
+        ...data.settings,
+        updatedAt: new Date().toISOString()
+      }
+    };
+    setData(newData);
+    adapter.saveData(newData);
+    return true;
+  };
+
   if (!data) {
     return <div>Laddar...</div>;
   }
@@ -688,6 +738,7 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
       addBill, updateBill, skipBill, changeBillDueDate, restoreSkippedBill,
       addRecurringIncome, updateRecurringIncome, deactivateRecurringIncome, reactivateRecurringIncome, markIncomeAsReceived, skipExpectedIncome, ensureExpectedIncomesForMonth,
       prepareMonthPlan, confirmMonthPlan, resetMonthPlanDraft, getMonthPlanByKey,
+      archiveMonth, isMonthArchived,
       isLocked, unlockApp, lockApp, isLoaded: true 
     }}>
       {children}

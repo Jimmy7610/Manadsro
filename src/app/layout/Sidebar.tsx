@@ -14,6 +14,7 @@ const navItems = [
   { to: '/transactions', label: 'Transaktioner', emoji: '💳' },
   { to: '/insights', label: 'Insikter', emoji: '💡' },
   { to: '/month-planning', label: 'Ny månad', emoji: '📅' },
+  { to: '/month-archive', label: 'Månadsarkiv', emoji: '📂' },
   { to: '/bills', label: 'Räkningar', emoji: '📄' },
   { to: '/incomes', label: 'Inkomster', emoji: '💰' },
   { to: '/budget', label: 'Budget', emoji: '📋' },

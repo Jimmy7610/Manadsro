@@ -408,7 +408,7 @@ export const demoSettings: AppSettings = {
   locale: 'sv-SE',
   householdId: 'hh-demo-001',
   activeProfileId: 'profile-shared',
-  buildNumber: 17,
+  buildNumber: 18,
 };
 
 // --- Month Plans ---
