@@ -138,8 +138,12 @@ export interface MonthPlan {
   id: string;
   monthKey: string; // 'YYYY-MM'
   status: 'draft' | 'confirmed';
+  monthStatus?: 'planned' | 'active' | 'deviation' | 'complete';
   preparedAt?: string;
   confirmedAt?: string;
+  reviewedAt?: string;
+  completedAt?: string;
+  deviationNotes?: string[];
   expectedIncomeIds?: string[];
   plannedBillIds?: string[];
   skippedRecurringIncomeIds?: string[];

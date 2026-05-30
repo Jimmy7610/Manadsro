@@ -3,6 +3,7 @@ import Card from '../../shared/components/Card';
 import { getMonthName, getCurrentMonth } from '../../shared/utils/date';
 import { getCurrentMonthKey } from '../../shared/utils/month';
 import { useAppData } from '../../storage/services/AppDataContext';
+import { getMonthPlanStatus, getMonthDeviationSummary } from '../monthPlanning/monthPlanningService';
 import { getDashboardInsights } from './dashboardInsightsService';
 import './DashboardHero.css';
 
@@ -19,20 +20,29 @@ export default function DashboardHero() {
 
   const monthCapitalized = monthName.charAt(0).toUpperCase() + monthName.slice(1);
 
+  const monthStatus = getMonthPlanStatus(data, currentMonthKey);
+  const deviations = getMonthDeviationSummary(data, currentMonthKey);
+
   let titleMessage = 'Månaden är planerad och ser stabil ut.';
   let subtitleMessage = 'Månadens plan är bekräftad.';
 
-  if (insights.planStatus !== 'confirmed') {
-    titleMessage = 'Månadsplanen är inte bekräftad ännu.';
-    subtitleMessage = 'Gå igenom ny-månad-planen när du har tid.';
-  } else if (insights.overdueBillsCount > 0) {
-    titleMessage = insights.overdueBillsCount === 1 ? 'En räkning är försenad.' : `${insights.overdueBillsCount} räkningar är försenade.`;
-  } else if (insights.expectedIncomeCount > 0) {
-    titleMessage = insights.expectedIncomeCount === 1 ? 'En förväntad inkomst saknas fortfarande.' : `${insights.expectedIncomeCount} förväntade inkomster saknas.`;
-  } else if (insights.netResult > 0) {
-    titleMessage = 'Månadens netto är positivt.';
-  } else if (insights.netResult < 0) {
-    titleMessage = 'Månadens netto är negativt.';
+  if (monthStatus === 'Planerad') {
+    if (insights.planStatus !== 'confirmed') {
+      titleMessage = 'Månadsplanen är inte bekräftad ännu.';
+      subtitleMessage = 'Gå igenom ny-månad-planen när du har tid.';
+    } else {
+      titleMessage = 'Månaden är planerad.';
+      subtitleMessage = 'Inga avvikelser hittills.';
+    }
+  } else if (monthStatus === 'Pågår') {
+    titleMessage = 'Månaden pågår och ser stabil ut.';
+    subtitleMessage = 'Fortsätt följa planen.';
+  } else if (monthStatus === 'Avvikelse') {
+    titleMessage = 'Det finns avvikelser att titta på.';
+    subtitleMessage = deviations.length > 0 ? deviations[0] : 'Öppna månadsplanen för detaljer.';
+  } else if (monthStatus === 'Klar') {
+    titleMessage = 'Månaden ser klar ut.';
+    subtitleMessage = 'Bra jobbat! Inga obetalda räkningar kvar.';
   }
 
   return (
@@ -62,7 +72,7 @@ export default function DashboardHero() {
               style={{ padding: '0.5rem 1rem', fontSize: '0.9rem', backgroundColor: 'transparent', borderColor: 'currentColor', color: 'inherit', opacity: 0.9 }}
               onClick={() => navigate('/month-planning')}
             >
-              Ny månad
+              Öppna månadsplan
             </button>
           </div>
         </div>

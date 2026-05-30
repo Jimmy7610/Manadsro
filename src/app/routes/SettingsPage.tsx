@@ -353,6 +353,9 @@ export default function SettingsPage() {
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
+          Build 17-uppdatering: Månadsplaneringen har fördjupats. Planerat vs faktiskt visas nu tydligt. Saknade inkomster och obetalda/försenade räkningar lyfts fram för att skapa en trygg status (Planerad, Pågår, Avvikelse eller Klar). Struktur för ett framtida månadsarkiv har förberetts.
+        </p>
+        <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
           Build 16-uppdatering: CSV-export finns nu. Filtrerade transaktioner kan exporteras. Månadsrapport kan exporteras från Insikter. JSON-backup och CSV-export är separata saker. All export sker lokalt i webbläsaren.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>

@@ -7,12 +7,12 @@ import './VersionBadge.css';
  * INSTÄLLNING - Appnamn och buildnummer visas här
  */
 const APP_NAME = 'Månadsro';
-const BUILD_NUMBER = 'Build 16';
+const BUILD_NUMBER = 'Build 17';
 
 export default function VersionBadge() {
   return (
-    <div className="version-badge" aria-label={`${APP_NAME} ${BUILD_NUMBER}`}>
-      {APP_NAME} • {BUILD_NUMBER}
+    <div className="version-badge">
+      <span className="version-badge__text">{APP_NAME} • {BUILD_NUMBER}</span>
     </div>
   );
 }

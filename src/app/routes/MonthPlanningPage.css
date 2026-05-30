@@ -150,3 +150,125 @@
   gap: 1rem;
   margin-top: 2rem;
 }
+
+.month-planning-page__status-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-sm);
+}
+
+.month-planning-page__status-badge {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.month-planning-page__status-badge--planerad {
+  background-color: var(--color-info-light, #e3f2fd);
+  color: var(--color-info-dark, #0d47a1);
+}
+
+.month-planning-page__status-badge--pagar {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.month-planning-page__status-badge--avvikelse {
+  background-color: #fff3e0;
+  color: #e65100;
+}
+
+.month-planning-page__status-badge--klar {
+  background-color: var(--color-positive-light, #e8f5e9);
+  color: var(--color-positive-dark, #1b5e20);
+}
+
+.month-planning-page__deviations {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-top: var(--space-sm);
+  align-items: center;
+  text-align: center;
+}
+
+.month-planning-page__deviation-item {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.month-planning-page__vs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-md);
+}
+
+.month-planning-page__vs-card {
+  padding: var(--space-md);
+}
+
+.month-planning-page__vs-card--full {
+  grid-column: 1 / -1;
+  text-align: center;
+  background-color: var(--bg-secondary);
+}
+
+.month-planning-page__vs-title {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0 0 var(--space-md) 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.month-planning-page__vs-row {
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-xs) 0;
+  font-size: var(--text-sm);
+}
+
+.month-planning-page__vs-row--actual {
+  font-weight: 600;
+  border-bottom: 1px dashed var(--border);
+  padding-bottom: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.month-planning-page__vs-row--missing {
+  color: var(--color-warning-dark, #f57c00);
+}
+
+.month-planning-page__item--warning {
+  border-left: 4px solid var(--color-warning, #ff9800);
+}
+
+.month-planning-page__item--danger {
+  border-left: 4px solid var(--color-danger, #f44336);
+}
+
+.month-planning-page__badge--danger {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.month-planning-page__archive-prep {
+  text-align: center;
+  background-color: var(--bg-secondary);
+  border: 1px dashed var(--border);
+  opacity: 0.8;
+}
+
+.month-planning-page__archive-prep h3 {
+  margin: 0 0 var(--space-xs) 0;
+  font-size: 1rem;
+}
+
+.month-planning-page__archive-prep p {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
