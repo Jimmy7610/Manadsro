@@ -7,6 +7,7 @@ import AddTransactionModal from '../../features/transactions/AddTransactionModal
 import BalanceAdjustmentModal from '../../features/transactions/BalanceAdjustmentModal';
 import { filterTransactions, sortTransactionsByDate, getTransactionDisplay } from '../../features/transactions/transactionService';
 import type { Transaction } from '../../types/models';
+import { transactionsToCsv, buildExportFilename, downloadTextFile } from '../../features/export/exportService';
 import './TransactionsPage.css';
 
 /**
@@ -75,6 +76,24 @@ export default function TransactionsPage() {
     setProfileId('');
   };
 
+  const handleExportFiltered = () => {
+    if (filteredTransactions.length === 0) return;
+    const csv = transactionsToCsv(filteredTransactions, data);
+    let monthPart = '';
+    if (dateFrom && dateTo && dateFrom.substring(0, 7) === dateTo.substring(0, 7)) {
+      monthPart = dateFrom.substring(0, 7);
+    }
+    const filename = buildExportFilename('manadsro-transaktioner-filtrerade', 'csv', monthPart || undefined);
+    downloadTextFile(filename, csv);
+  };
+
+  const handleExportAll = () => {
+    if (transactions.length === 0) return;
+    const csv = transactionsToCsv(transactions, data);
+    const filename = buildExportFilename('manadsro-transaktioner-alla', 'csv');
+    downloadTextFile(filename, csv);
+  };
+
   return (
     <div className="page-container animate-fade-in">
       <div className="transactions-page__header-actions">
@@ -135,7 +154,12 @@ export default function TransactionsPage() {
       </div>
 
       <div className="transactions-page__summary">
-        {filteredTransactions.length} transaktioner · {totalIn > 0 ? '+' : ''}{formatCurrency(totalIn)} in · {formatCurrency(totalOut)} ut · Netto {net > 0 ? '+' : ''}{formatCurrency(net)}
+        <div>{filteredTransactions.length} transaktioner · {totalIn > 0 ? '+' : ''}{formatCurrency(totalIn)} in · {formatCurrency(totalOut)} ut · Netto {net > 0 ? '+' : ''}{formatCurrency(net)}</div>
+        <div className="transactions-page__export-actions">
+          <button className="transactions-page__action-btn" onClick={handleExportFiltered} disabled={filteredTransactions.length === 0}>Exportera filtrerade</button>
+          <button className="transactions-page__action-btn" onClick={handleExportAll} disabled={transactions.length === 0}>Exportera alla</button>
+        </div>
+        <div style={{fontSize: '0.7rem', color: 'var(--text-tertiary)', marginTop: '4px'}}>CSV-filen skapas lokalt i webbläsaren.</div>
       </div>
 
       <div className="transactions-page__list">

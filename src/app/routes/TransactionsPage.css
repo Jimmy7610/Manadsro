@@ -220,3 +220,10 @@
   background: var(--bg-primary);
   color: var(--text-primary);
 }
+
+.transactions-page__export-actions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}

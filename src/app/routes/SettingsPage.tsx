@@ -7,6 +7,8 @@ import { formatDate } from '../../shared/utils/date';
 import type { BackupPayload } from '../../features/backup/backupService';
 import { parseBackupFile } from '../../features/backup/backupService';
 import { createPinSalt, hashPin } from '../../features/security/pinUtils';
+import { transactionsToCsv, buildExportFilename, downloadTextFile } from '../../features/export/exportService';
+import { getCurrentMonthKey } from '../../shared/utils/month';
 import './SettingsPage.css';
 
 /**
@@ -44,6 +46,27 @@ export default function SettingsPage() {
   const handleExport = () => {
     exportBackup();
     showMessage('Backupen exporterades.');
+  };
+
+  const handleExportAllCsv = () => {
+    if (data.transactions.length === 0) return;
+    const csv = transactionsToCsv(data.transactions, data);
+    const filename = buildExportFilename('manadsro-transaktioner-alla', 'csv');
+    downloadTextFile(filename, csv);
+    showMessage('CSV-export sparades.');
+  };
+
+  const handleExportCurrentMonthCsv = () => {
+    const monthKey = getCurrentMonthKey();
+    const monthTxs = data.transactions.filter(tx => tx.date.startsWith(monthKey));
+    if (monthTxs.length === 0) {
+      showMessage('Inga transaktioner att exportera för aktuell månad.');
+      return;
+    }
+    const csv = transactionsToCsv(monthTxs, data);
+    const filename = buildExportFilename('manadsro-transaktioner', 'csv', monthKey);
+    downloadTextFile(filename, csv);
+    showMessage('CSV-export sparades.');
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,35 +269,53 @@ export default function SettingsPage() {
       <Card className="settings-page__section" style={{ animationDelay: '0.2s' }}>
         <div className="settings-page__section-header">
           <span className="settings-page__icon">💾</span>
-          <h3 className="settings-page__section-title">Backupcenter</h3>
+          <h3 className="settings-page__section-title">Backup och export</h3>
         </div>
-        <p className="settings-page__text">
-          Din ekonomi sparas lokalt i den här webbläsaren. Exportera en backup regelbundet så att du kan återställa datan om något händer.
-        </p>
-        <div className="settings-page__backup-status">
-          <div><strong>Lokal lagring:</strong> Aktiv</div>
-          <div><strong>Lagringsnyckel:</strong> manadsro.appData.v1</div>
-          <div><strong>Senaste backup:</strong> {data.settings.latestBackupAt ? formatDate(data.settings.latestBackupAt.split('T')[0]) : 'Ingen backup exporterad ännu'}</div>
-          <div className="settings-page__backup-stats">
-            <span>{data.transactions.length} transaktioner</span> • <span>{data.accounts.length} konton</span> • <span>{data.bills.length} räkningar</span>
+        
+        <div style={{marginBottom: '1.5rem'}}>
+          <h4 style={{fontSize: '1rem', marginBottom: '0.5rem', fontWeight: 600}}>Säkerhetsbackup</h4>
+          <p className="settings-page__text">
+            Backup används för att kunna återställa Månadsro. Din ekonomi sparas lokalt i den här webbläsaren. Exportera en backup regelbundet så att du kan återställa datan om något händer.
+          </p>
+          <div className="settings-page__backup-status">
+            <div><strong>Lokal lagring:</strong> Aktiv</div>
+            <div><strong>Senaste backup:</strong> {data.settings.latestBackupAt ? formatDate(data.settings.latestBackupAt.split('T')[0]) : 'Ingen backup exporterad ännu'}</div>
+            <div className="settings-page__backup-stats">
+              <span>{data.transactions.length} transaktioner</span> • <span>{data.accounts.length} konton</span> • <span>{data.bills.length} räkningar</span>
+            </div>
+          </div>
+          <div className="settings-page__backup-actions">
+            <button className="settings-page__btn" onClick={handleExport}>Exportera backup</button>
+            <button className="settings-page__btn settings-page__btn--import" onClick={() => fileInputRef.current?.click()}>
+              Importera backup
+            </button>
+            <input 
+              type="file" 
+              ref={fileInputRef} 
+              style={{ display: 'none' }} 
+              accept=".json"
+              onChange={handleFileChange}
+            />
           </div>
         </div>
-        <div className="settings-page__backup-actions">
-          <button className="settings-page__btn" onClick={handleExport}>Exportera backup</button>
-          <button className="settings-page__btn settings-page__btn--import" onClick={() => fileInputRef.current?.click()}>
-            Importera backup
-          </button>
-          <input 
-            type="file" 
-            ref={fileInputRef} 
-            style={{ display: 'none' }} 
-            accept=".json"
-            onChange={handleFileChange}
-          />
+
+        <div style={{marginBottom: '1.5rem'}}>
+          <h4 style={{fontSize: '1rem', marginBottom: '0.5rem', fontWeight: 600}}>CSV-export</h4>
+          <p className="settings-page__text">
+            CSV är läsbart i Excel, Google Sheets och liknande program. Detta är endast för att läsa eller dela din data, det går inte att återställa appen från en CSV-fil.
+          </p>
+          <div className="settings-page__backup-actions">
+            <button className="settings-page__btn" onClick={handleExportAllCsv}>Exportera alla transaktioner</button>
+            <button className="settings-page__btn" onClick={handleExportCurrentMonthCsv}>Exportera aktuell månad</button>
+          </div>
         </div>
-        <p className="settings-page__text settings-page__text--warning" style={{marginTop: '1rem'}}>
-          Import ersätter nuvarande lokal data. Exportera gärna en backup innan du importerar.
-        </p>
+
+        <div>
+          <h4 style={{fontSize: '1rem', marginBottom: '0.5rem', fontWeight: 600}}>Kommande</h4>
+          <div className="settings-page__backup-actions">
+            <button className="settings-page__btn" disabled style={{opacity: 0.6, cursor: 'not-allowed'}}>PDF-rapport kommer senare</button>
+          </div>
+        </div>
       </Card>
 
       <Card className="settings-page__section settings-page__demo-card" style={{ animationDelay: '0.3s' }}>
@@ -310,6 +351,9 @@ export default function SettingsPage() {
         <p className="settings-page__text">
           Familjens ekonomi, lugnt och enkelt. 
           En modern app byggd för integritet, översikt och delad kontroll över hushållsekonomin.
+        </p>
+        <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
+          Build 16-uppdatering: CSV-export finns nu. Filtrerade transaktioner kan exporteras. Månadsrapport kan exporteras från Insikter. JSON-backup och CSV-export är separata saker. All export sker lokalt i webbläsaren.
         </p>
         <p className="settings-page__text" style={{marginTop: '0.5rem', fontStyle: 'italic', color: 'var(--text-secondary)'}}>
           Build 15-uppdatering: Dashboarden har förbättrats. Viktiga insikter visas nu direkt på startsidan. Månadens netto, största kategori och budgetvarningar är lättare att se. Mobil layout har förbättrats. (Inkluderar även Build 14:s insikter, Build 13:s transaktionscenter, mm.)

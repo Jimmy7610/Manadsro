@@ -4,7 +4,7 @@
 
 Månadsro är en varm, lugn och modern hushållsekonomiapp för familjebudgetering. Appen är designad för att vara lokal-först – all data stannar på din enhet.
 
-![Build](https://img.shields.io/badge/Build-15-teal)
+![Build](https://img.shields.io/badge/Build-16-teal)
 ![React](https://img.shields.io/badge/React-19-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-6-blue)
 ![Vite](https://img.shields.io/badge/Vite-8-purple)
@@ -53,7 +53,13 @@ npm run preview
 
 ---
 
-## 📋 Build 15 – Innehåll
+## 📋 Build 16 – Innehåll
+
+### ✅ Implementerat i Build 16
+- **CSV-export:** Exportera alla transaktioner, aktuell månad eller utifrån sök/filter.
+- **Månadsrapport:** Skapa en sammanfattande CSV-rapport direkt från Insikter-sidan.
+- Tydlig skillnad mellan **Säkerhetsbackup (JSON)** (för att återställa appen) och **Export (CSV)** (för Excel, Google Sheets, etc.).
+- All export genereras säkert lokalt i webbläsaren.
 
 ### ✅ Implementerat i Build 15
 - Omdesignad Dashboard med insiktskort direkt på startsidan.
@@ -153,8 +159,8 @@ INSTÄLLNING - [beskrivning]
 
 ## 🔮 Planerade builds
 
-### Build 16
-- Export/import-förbättringar, avancerade rapporter, eller UI-polering.
+### Build 17
+- Fördjupad månadsplanering, rapport-sida / PDF-förberedelse eller UI-polering.
 
 ### Framtid
 - Tauri-integration och SQLite-databas.

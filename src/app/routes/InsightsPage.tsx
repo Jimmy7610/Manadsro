@@ -11,6 +11,8 @@ import {
 } from '../../features/insights/insightsService';
 import { formatCurrency } from '../../shared/utils/currency';
 import { formatDate } from '../../shared/utils/date';
+import { buildMonthlyReport, monthlyReportToCsv } from '../../features/export/monthlyReportService';
+import { transactionsToCsv, buildExportFilename, downloadTextFile } from '../../features/export/exportService';
 import './InsightsPage.css';
 
 export default function InsightsPage() {
@@ -27,6 +29,21 @@ export default function InsightsPage() {
   const goPrev = () => setMonthKey(getPreviousMonthKey(monthKey));
   const goNext = () => setMonthKey(getNextMonthKey(monthKey));
   const goCurrent = () => setMonthKey(getCurrentMonthKey());
+
+  const handleExportReport = () => {
+    const report = buildMonthlyReport(data, monthKey);
+    const csv = monthlyReportToCsv(report);
+    const filename = buildExportFilename('manadsro-rapport', 'csv', monthKey);
+    downloadTextFile(filename, csv);
+  };
+
+  const handleExportTransactions = () => {
+    const monthTxs = data.transactions.filter(tx => tx.date.startsWith(monthKey));
+    if (monthTxs.length === 0) return;
+    const csv = transactionsToCsv(monthTxs, data);
+    const filename = buildExportFilename('manadsro-transaktioner', 'csv', monthKey);
+    downloadTextFile(filename, csv);
+  };
 
   const hasData = insight.transactionCount > 0;
   
@@ -207,6 +224,18 @@ export default function InsightsPage() {
           <span>Den här månaden innehåller saldojusteringar. De påverkar saldo men räknas inte som vanliga inkomster eller utgifter.</span>
         </div>
       )}
+
+      {/* Export */}
+      <Card style={{marginTop: '1.5rem'}}>
+        <h3 style={{marginTop: 0, marginBottom: '1rem'}}>Export</h3>
+        <p style={{fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1rem'}}>
+          Rapporten bygger på den data som redan finns i Månadsro.
+        </p>
+        <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap'}}>
+          <button className="btn-save" onClick={handleExportReport} disabled={!hasData} style={{flex: 1, minWidth: '200px'}}>Exportera månadsrapport</button>
+          <button className="btn-cancel" onClick={handleExportTransactions} disabled={!hasData} style={{flex: 1, minWidth: '200px'}}>Exportera månadens transaktioner</button>
+        </div>
+      </Card>
     </div>
   );
 }
